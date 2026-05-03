@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { SignatureLine } from "@/components/primitives/SignatureLine";
 import styles from "./Mentor.module.css";
@@ -16,6 +17,15 @@ export function Mentor() {
 
         <div className={styles.grid}>
           <ScrollReveal className={styles.photo}>
+            <Image
+              className={styles.photoImg}
+              src="/assets/foto-diego.jpg"
+              alt="Diego Knebel"
+              width={800}
+              height={1000}
+              sizes="(max-width: 900px) 100vw, 50vw"
+              priority={false}
+            />
             <div className={styles.strap}>
               <div className={styles.strapLabel}>▲ DIEGO KNEBEL</div>
               <div className={styles.strapQuote}>
