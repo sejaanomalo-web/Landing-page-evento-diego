@@ -1,28 +1,106 @@
-.hero {
-  min-height: auto;
-  padding: 60px 0 80px !important;
+/* Hero scroll-driven entrance.
+   Wrapper has extra height (200vh) to give scroll distance for the
+   intro animation. The sticky child takes 100vh — so the user has
+   100vh of scroll where the lockup transforms from a centered logo
+   into the final lockup with hero content below. */
+.heroWrapper {
+  position: relative;
+  height: 200vh;
+  padding: 0 !important;
+}
+
+.heroSticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  position: relative;
+  overflow: hidden;
+}
+
+.heroSticky > .container-lp,
+.heroSticky > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .stage {
   position: relative;
-  min-height: 420px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex: 1;
+  width: 100%;
 }
 
+/* Animated symbol — starts large + centered, ends small at top-left. */
+.symbolWrap {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  transform-origin: left center;
+  filter: drop-shadow(0 0 24px rgba(211, 69, 30, 0.25));
+  pointer-events: none;
+  will-change: transform, top, left, opacity;
+}
+.symbolImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Lockup text block — sits to the right of the (final) symbol. */
+.text {
+  position: absolute;
+  top: 14vh;
+  left: 180px;
+  /* lockup vertical center aligns with symbol vertical center.
+     symbol at top:14vh + height 280*0.55 = 154px → center at ~14vh + 77px.
+     Position the text using top:calc(14vh + 77px - half_text_height). */
+  transform: translateY(34px);
+}
+
+.name {
+  display: flex;
+  gap: 0;
+  font-family: var(--font-titillium), sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: white;
+}
+.word {
+  display: flex;
+  overflow: hidden;
+}
+.gap {
+  width: 20px;
+  display: inline-block;
+}
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+.subtle {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--beige);
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+
+/* Hero content (eyebrow, headline, sub, meta, CTA) — appears at end. */
 .content {
-  margin-top: 60px;
+  position: absolute;
+  top: calc(14vh + 200px);
+  left: 0;
+  right: 0;
   max-width: 880px;
+  will-change: transform, opacity;
 }
 
 .eyebrow {
-  opacity: 0;
-  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards;
+  /* no auto animation — driven by parent .content */
 }
 
 .headline {
@@ -30,31 +108,20 @@
   font-weight: 900;
   line-height: 0.94;
   letter-spacing: -0.02em;
-  margin-top: 24px;
-  overflow: hidden;
+  margin: 24px 0 0;
 }
-
 .line {
   display: block;
-  transform: translateY(110%);
-  opacity: 0;
-  animation: heroLineUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  overflow: hidden;
 }
-.line:nth-child(1) {
-  animation-delay: 2.7s;
+.lineInner {
+  display: block;
+  will-change: transform;
 }
 .lineAccent {
-  animation-delay: 2.85s;
   color: var(--orange);
   font-style: italic;
   font-weight: 700;
-}
-
-@keyframes heroLineUp {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 .sub {
@@ -64,8 +131,6 @@
   line-height: 1.55;
   color: var(--ink-soft);
   font-weight: 400;
-  opacity: 0;
-  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.1s forwards;
 }
 .sub strong {
   color: white;
@@ -73,18 +138,16 @@
 }
 
 .meta {
-  margin-top: 56px;
+  margin-top: 36px;
   display: grid;
   grid-template-columns: repeat(4, auto);
   gap: 0;
   align-items: stretch;
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
-  opacity: 0;
-  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.3s forwards;
 }
 .meta > div {
-  padding: 28px 56px 28px 0;
+  padding: 18px 40px 18px 0;
   border-right: 1px solid var(--hairline);
 }
 .meta > div:first-child {
@@ -93,10 +156,10 @@
 .meta > div:last-child {
   border-right: none;
   padding-right: 0;
-  padding-left: 56px;
+  padding-left: 40px;
 }
 .meta > div:not(:first-child):not(:last-child) {
-  padding-left: 56px;
+  padding-left: 40px;
 }
 .metaKey {
   font-size: 10px;
@@ -105,9 +168,9 @@
   text-transform: uppercase;
 }
 .metaValue {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 6px;
   color: white;
 }
 .metaAccent {
@@ -115,32 +178,36 @@
 }
 
 .ctaRow {
-  margin-top: 48px;
+  margin-top: 28px;
   display: flex;
   gap: 20px;
   align-items: center;
   flex-wrap: wrap;
-  opacity: 0;
-  animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.5s forwards;
-}
-
-@keyframes heroFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @media (max-width: 900px) {
+  .heroWrapper {
+    height: 220vh;
+  }
+  .symbolWrap {
+    width: 180px;
+    height: 180px;
+  }
+  .text {
+    top: 12vh;
+    left: 120px;
+  }
+  .name {
+    font-size: 36px;
+  }
+  .content {
+    top: calc(12vh + 130px);
+  }
   .meta {
     grid-template-columns: 1fr 1fr;
   }
   .meta > div {
-    padding: 16px 0 !important;
+    padding: 14px 0 !important;
     border-right: none !important;
     border-bottom: 1px solid var(--hairline);
   }
