@@ -1,0 +1,117 @@
+.lockup {
+  position: relative;
+  height: 180px;
+  margin-bottom: 56px;
+  display: block;
+}
+
+.symbol {
+  --size: 280px;
+  width: var(--size) !important;
+  height: var(--size) !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0;
+  object-fit: contain;
+  animation:
+    symbolEnter 1s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards,
+    symbolMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) 1.4s forwards;
+  transform-origin: left center;
+  filter: drop-shadow(0 0 24px rgba(211, 69, 30, 0.25));
+}
+
+@keyframes symbolEnter {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.6);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes symbolMove {
+  0% {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    left: 0%;
+    top: 50%;
+    transform: translate(0%, -50%) scale(0.55);
+  }
+}
+
+.text {
+  position: absolute;
+  left: 180px;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+}
+.name {
+  display: flex;
+  gap: 0;
+  font-family: var(--font-titillium), sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: white;
+}
+.char {
+  display: inline-block;
+  transform: translateY(60px);
+  opacity: 0;
+  animation: charIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes charIn {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.word {
+  display: flex;
+}
+.gap {
+  width: 20px;
+  display: inline-block;
+}
+.subtle {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--beige);
+  opacity: 0;
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 2.4s forwards;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .lockup {
+    height: 130px;
+    margin-bottom: 36px;
+  }
+  .symbol {
+    --size: 180px;
+  }
+  .text {
+    left: 120px;
+  }
+  .name {
+    font-size: 36px;
+  }
+}
