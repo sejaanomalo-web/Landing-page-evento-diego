@@ -1,25 +1,104 @@
+/* Base atmospheric stage — deep navy with multi-layered radial depth.
+   Inspired by the G4 Valley palette adapted to Diego Knebel brand
+   (#201747 dominante, #3A2F6B profundidade, #F1DAB2 halo, #D3451E acento). */
 .stage {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 40% at 50% 20%, rgba(58, 47, 107, 0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 50% 60%, rgba(58, 47, 107, 0.35) 0%, transparent 65%),
-    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(20, 16, 46, 0.9) 0%, transparent 70%),
+    radial-gradient(
+      ellipse 80% 55% at 50% 18%,
+      rgba(58, 47, 107, 0.72) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 90% 60% at 50% 60%,
+      rgba(58, 47, 107, 0.45) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 110% 80% at 50% 105%,
+      rgba(20, 16, 46, 0.95) 0%,
+      transparent 70%
+    ),
     linear-gradient(180deg, #14102e 0%, #1a1438 30%, #201747 60%, #14102e 100%);
 }
 
-.glow {
+/* Shared base for animated halo layers. */
+.layer {
+  position: fixed;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Halo 1 — bege dourado (warm accent of the G4 reference, adapted). */
+.haloBege {
+  background:
+    radial-gradient(
+      ellipse 35% 28% at 50% 22%,
+      rgba(241, 218, 178, 0.14) 0%,
+      transparent 60%
+    );
+  animation: drift-bege 64s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  mix-blend-mode: screen;
+}
+
+/* Halo 2 — laranja sinal, drifting through the lower right area. */
+.haloOrange {
+  background:
+    radial-gradient(
+      ellipse 30% 24% at 70% 75%,
+      rgba(211, 69, 30, 0.1) 0%,
+      transparent 60%
+    );
+  animation: drift-orange 88s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  mix-blend-mode: screen;
+}
+
+/* Halo 3 — primary-light púrpura, slow breathing pulse for depth. */
+.haloDeep {
+  background:
+    radial-gradient(
+      ellipse 40% 30% at 30% 55%,
+      rgba(74, 60, 130, 0.32) 0%,
+      transparent 65%
+    );
+  animation: breathe-deep 38s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+/* Vertical light beam slowly drifting horizontally — adds a subtle
+   "stage spotlight" cue without becoming theatrical. */
+.beam {
+  background:
+    radial-gradient(
+      ellipse 18% 90% at 50% 40%,
+      rgba(241, 218, 178, 0.045) 0%,
+      transparent 55%
+    );
+  animation: beam-pan 110s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  mix-blend-mode: screen;
+}
+
+/* Static vignette to anchor edges. */
+.vignette {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 30% 20% at 50% 25%, rgba(241, 218, 178, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 25% 15% at 50% 70%, rgba(211, 69, 30, 0.06) 0%, transparent 60%);
+    radial-gradient(
+      ellipse 95% 75% at 50% 50%,
+      transparent 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
 }
 
+/* Static fine grain over everything for the velvet/silk texture. */
 .noise {
   position: fixed;
   inset: 0;
@@ -29,4 +108,73 @@
   pointer-events: none;
   opacity: 0.5;
   mix-blend-mode: overlay;
+}
+
+@keyframes drift-bege {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(2%, 1%, 0) scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(4%, -1%, 0) scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+@keyframes drift-orange {
+  0% {
+    transform: translate3d(2%, 2%, 0) scale(1);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translate3d(-3%, -1%, 0) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-5%, 3%, 0) scale(1.02);
+    opacity: 0.8;
+  }
+}
+
+@keyframes breathe-deep {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(2%, -1%, 0) scale(1.07);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-1%, 1%, 0) scale(0.98);
+    opacity: 0.9;
+  }
+}
+
+@keyframes beam-pan {
+  0% {
+    transform: translate3d(-12%, 0, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(0%, 0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(12%, 0, 0);
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haloBege,
+  .haloOrange,
+  .haloDeep,
+  .beam {
+    animation: none;
+  }
 }

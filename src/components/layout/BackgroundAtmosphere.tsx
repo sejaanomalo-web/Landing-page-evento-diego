@@ -4,7 +4,11 @@ export function BackgroundAtmosphere() {
   return (
     <>
       <div aria-hidden className={styles.stage} />
-      <div aria-hidden className={styles.glow} />
+      <div aria-hidden className={`${styles.layer} ${styles.haloBege}`} />
+      <div aria-hidden className={`${styles.layer} ${styles.haloOrange}`} />
+      <div aria-hidden className={`${styles.layer} ${styles.haloDeep}`} />
+      <div aria-hidden className={`${styles.layer} ${styles.beam}`} />
+      <div aria-hidden className={styles.vignette} />
       <svg
         aria-hidden
         className={styles.noise}
