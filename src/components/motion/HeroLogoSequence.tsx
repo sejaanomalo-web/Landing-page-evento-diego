@@ -25,7 +25,7 @@ export function HeroLogoSequence() {
   return (
     <div className={styles.lockup}>
       <Image
-        src="/assets/logo/symbol.png"
+        src="/assets/logo-symbol.png"
         alt="Diego Knebel"
         width={280}
         height={280}

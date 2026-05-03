@@ -10,7 +10,7 @@ export function FinalCta() {
         <ScrollReveal>
           <Image
             className={styles.symbolLarge}
-            src="/assets/logo/symbol.png"
+            src="/assets/logo-symbol.png"
             alt="Diego Knebel"
             width={80}
             height={80}

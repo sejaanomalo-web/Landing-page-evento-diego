@@ -7,7 +7,7 @@ export function Footer() {
         <div className="footer-grid">
           <div className="footer-mark">
             <Image
-              src="/assets/logo/symbol.png"
+              src="/assets/logo-symbol.png"
               alt=""
               width={22}
               height={22}
