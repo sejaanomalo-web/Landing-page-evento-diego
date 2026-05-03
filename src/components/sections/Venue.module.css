@@ -1,14 +1,23 @@
 .section {
-  /* Padding-top reduzido para que o lock no bloco abaixo
-     engaje pouco depois do divider passar pelo topo. */
-  padding-top: 60px !important;
+  /* Padding-top zero para o stickyHeader engajar exatamente quando
+     a linha (divider) acima do título passa pelo topo do viewport. */
+  padding-top: 0 !important;
 }
 
-.header {
-  /* Título full-width como nas demais seções, com margem
-     inferior enxuta para o grid começar logo abaixo. */
-  margin-bottom: 40px;
-  max-width: 1100px;
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 calc(-1 * var(--container-pad, 48px));
+  padding: 56px 48px 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 16, 46, 0.95) 0%,
+    rgba(20, 16, 46, 0.88) 70%,
+    rgba(20, 16, 46, 0) 100%
+  );
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .title {
@@ -30,11 +39,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: start;
+  margin-top: 32px;
 }
 
 .stickyCol {
+  /* Logo abaixo do stickyHeader pinado: header (56 + ~80 + 28 ≈ 164)
+     + folga visual ~24px = 188px. */
   position: sticky;
-  top: 32px;
+  top: 188px;
   align-self: start;
 }
 
@@ -161,14 +173,22 @@
 
 @media (max-width: 900px) {
   .section {
-    padding-top: 90px !important;
+    padding-top: 0 !important;
   }
-  .header {
-    margin-bottom: 32px;
+  .stickyHeader {
+    position: static;
+    top: auto;
+    z-index: auto;
+    margin: 0;
+    padding: 60px 0 24px;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   .grid {
     grid-template-columns: 1fr;
     gap: 40px;
+    margin-top: 16px;
   }
   .stickyCol {
     position: static;
