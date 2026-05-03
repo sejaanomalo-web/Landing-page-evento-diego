@@ -8,16 +8,7 @@
   position: sticky;
   top: 0;
   z-index: 5;
-  margin: 0 calc(-1 * var(--container-pad, 48px));
-  padding: 56px 48px 28px;
-  background: linear-gradient(
-    180deg,
-    rgba(20, 16, 46, 0.95) 0%,
-    rgba(20, 16, 46, 0.88) 70%,
-    rgba(20, 16, 46, 0) 100%
-  );
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  padding: 56px 0 28px;
 }
 
 .title {
