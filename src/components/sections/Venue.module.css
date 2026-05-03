@@ -2,7 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
+  align-items: start;
 }
+
+.stickyCol {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+}
+
 .img {
   aspect-ratio: 16 / 10;
   background:
@@ -36,6 +44,7 @@
   font-size: 20px;
   color: white;
 }
+
 .info h3 {
   font-size: 48px;
   font-weight: 700;
@@ -46,8 +55,19 @@
   color: var(--orange);
   font-style: italic;
 }
+
+.subheader {
+  margin-top: 56px;
+  margin-bottom: 18px;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--beige);
+  line-height: 1 !important;
+}
+
 .details {
-  margin-top: 36px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
@@ -56,6 +76,13 @@
 .cell {
   padding: 22px 0;
   border-bottom: 1px solid var(--hairline);
+}
+.cell:nth-child(odd):not(.full) {
+  padding-right: 16px;
+}
+.cell:nth-child(even):not(.full) {
+  padding-left: 16px;
+  border-left: 1px solid var(--hairline);
 }
 .k {
   font-size: 10px;
@@ -68,14 +95,62 @@
   font-size: 16px;
   color: white;
   font-weight: 600;
+  line-height: 1.4;
 }
 .full {
   grid-column: span 2;
+}
+
+.includedList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+.includedList li {
+  padding: 20px 0 20px 32px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 16px;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  line-height: 1.5;
+}
+.includedList li::before {
+  content: "▲";
+  position: absolute;
+  left: 0;
+  top: 22px;
+  color: var(--orange);
+  font-size: 11px;
+}
+
+.dateBlock {
+  padding: 28px 32px;
+  border: 1px solid rgba(241, 218, 178, 0.28);
+  background:
+    linear-gradient(135deg, rgba(58, 47, 107, 0.45) 0%, rgba(32, 23, 71, 0.25) 100%);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--beige);
+  letter-spacing: 0.005em;
+  font-style: italic;
 }
 
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+  .stickyCol {
+    position: static;
+    top: auto;
+  }
+  .cell:nth-child(even):not(.full) {
+    padding-left: 0;
+    border-left: none;
+  }
+  .cell:nth-child(odd):not(.full) {
+    padding-right: 0;
   }
 }

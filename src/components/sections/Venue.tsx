@@ -1,6 +1,15 @@
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import styles from "./Venue.module.css";
 
+const includedItems = [
+  "Coffee break premium em todas as pausas",
+  "Material físico do método ao fim do primeiro dia",
+  "Kit sensorial de boas-vindas na chegada",
+  "Brindes sensoriais da imersão",
+  "Registro audiovisual completo para revisão posterior",
+  "Espaço dedicado a registro fotográfico individual e em grupo",
+];
+
 export function Venue() {
   return (
     <section id="local" data-screen-label="07 Local">
@@ -14,9 +23,13 @@ export function Venue() {
         </div>
 
         <div className={styles.grid}>
-          <ScrollReveal className={styles.img}>
-            <div className={styles.centerMark}>▲</div>
-          </ScrollReveal>
+          <div className={styles.stickyCol}>
+            <ScrollReveal>
+              <div className={styles.img}>
+                <div className={styles.centerMark}>▲</div>
+              </div>
+            </ScrollReveal>
+          </div>
 
           <ScrollReveal delay={0.1} className={styles.info}>
             <p className="body-text">
@@ -29,6 +42,27 @@ export function Venue() {
               Aeroporto Municipal e a 5 km do centro.
             </p>
 
+            <h3 className={styles.subheader}>Acessos</h3>
+            <div className={styles.details}>
+              <div className={styles.cell}>
+                <div className={styles.k}>Aeroporto</div>
+                <div className={styles.v}>
+                  13 km · Aeroporto Municipal de Cascavel
+                </div>
+              </div>
+              <div className={styles.cell}>
+                <div className={styles.k}>Centro</div>
+                <div className={styles.v}>5 km · Cascavel, PR</div>
+              </div>
+              <div className={`${styles.cell} ${styles.full}`}>
+                <div className={styles.k}>Estacionamento</div>
+                <div className={styles.v}>
+                  Próprio do Deville Express, na chegada
+                </div>
+              </div>
+            </div>
+
+            <h3 className={styles.subheader}>Estrutura do espaço</h3>
             <div className={styles.details}>
               <div className={styles.cell}>
                 <div className={styles.k}>Formato</div>
@@ -39,23 +73,30 @@ export function Venue() {
                 <div className={styles.v}>Fechado · até 50 pessoas</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Estrutura</div>
-                <div className={styles.v}>Som · luz cênica · captação</div>
+                <div className={styles.k}>Som</div>
+                <div className={styles.v}>Calibrado para sala fechada</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Datas</div>
-                <div className={styles.v} style={{ color: "var(--beige)" }}>
-                  04 e 05 de julho · 2026
-                </div>
+                <div className={styles.k}>Iluminação</div>
+                <div className={styles.v}>Cênica em todos os blocos</div>
               </div>
               <div className={`${styles.cell} ${styles.full}`}>
-                <div className={styles.k}>Inclui</div>
+                <div className={styles.k}>Captação</div>
                 <div className={styles.v}>
-                  Coffee break premium · material físico do método · brindes
-                  sensoriais · registro audiovisual
+                  Áudio, vídeo e fotografia profissionais
                 </div>
               </div>
             </div>
+
+            <h3 className={styles.subheader}>Incluído no plano</h3>
+            <ul className={styles.includedList}>
+              {includedItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+
+            <h3 className={styles.subheader}>Datas confirmadas</h3>
+            <div className={styles.dateBlock}>04 e 05 de julho · 2026</div>
           </ScrollReveal>
         </div>
       </div>
