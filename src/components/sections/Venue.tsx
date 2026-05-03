@@ -17,6 +17,7 @@ export function Venue() {
       className={styles.section}
       data-screen-label="07 Local"
     >
+      <div className={styles.fadeMask} aria-hidden />
       <div className="container-lp">
         <div className={styles.stickyHeader}>
           <h2 className={styles.title}>

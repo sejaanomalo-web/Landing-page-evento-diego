@@ -4,6 +4,27 @@
   padding-top: 0 !important;
 }
 
+/* Gradiente discreto sticky no topo, mesclado com a cor do background.
+   Mascara o conteúdo da coluna direita conforme ele sobe, evitando
+   que ele apareça atrás de "Deville Express Cascavel.". */
+.fadeMask {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  height: 200px;
+  width: 100%;
+  margin-bottom: -200px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--navy-deeper) 0%,
+    rgba(20, 16, 46, 0.96) 45%,
+    rgba(20, 16, 46, 0.78) 70%,
+    rgba(20, 16, 46, 0.35) 88%,
+    rgba(20, 16, 46, 0) 100%
+  );
+}
+
 .stickyHeader {
   position: sticky;
   top: 0;
@@ -165,6 +186,9 @@
 @media (max-width: 900px) {
   .section {
     padding-top: 0 !important;
+  }
+  .fadeMask {
+    display: none;
   }
   .stickyHeader {
     position: static;
