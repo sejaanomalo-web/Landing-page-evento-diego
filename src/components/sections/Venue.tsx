@@ -18,12 +18,17 @@ export function Venue() {
       data-screen-label="07 Local"
     >
       <div className="container-lp">
+        <div className={styles.header}>
+          <ScrollReveal>
+            <h2 className={styles.title}>
+              Deville Express <em>Cascavel.</em>
+            </h2>
+          </ScrollReveal>
+        </div>
+
         <div className={styles.grid}>
           <div className={styles.stickyCol}>
             <ScrollReveal>
-              <h2 className={styles.title}>
-                Deville Express <em>Cascavel.</em>
-              </h2>
               <div className={styles.img}>
                 <div className={styles.centerMark}>▲</div>
               </div>

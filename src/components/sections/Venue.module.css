@@ -1,7 +1,28 @@
 .section {
-  /* Override global section padding-top so the sticky lock engages
-     soon after the divider line above the title clears the viewport top. */
+  /* Padding-top reduzido para que o lock no bloco abaixo
+     engaje pouco depois do divider passar pelo topo. */
   padding-top: 60px !important;
+}
+
+.header {
+  /* Título full-width como nas demais seções, com margem
+     inferior enxuta para o grid começar logo abaixo. */
+  margin-bottom: 40px;
+  max-width: 1100px;
+}
+
+.title {
+  font-size: clamp(48px, 6.2vw, 80px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+  margin: 0;
+}
+.title em {
+  color: var(--orange);
+  font-style: italic;
+  font-weight: 700;
 }
 
 .grid {
@@ -15,20 +36,6 @@
   position: sticky;
   top: 32px;
   align-self: start;
-}
-
-.title {
-  font-size: clamp(40px, 5vw, 64px);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.015em;
-  margin: 0 0 36px;
-  max-width: 14ch;
-}
-.title em {
-  color: var(--orange);
-  font-style: italic;
-  font-weight: 700;
 }
 
 .img {
@@ -66,9 +73,9 @@
 }
 
 .info {
-  /* small top offset so the address paragraph aligns visually with
-     the title in the sticky column on first frame */
-  padding-top: 8px;
+  /* Sem padding-top: a primeira linha "Av. Aracy Tanaka..."
+     fica alinhada exatamente na linha do topo do player. */
+  padding-top: 0;
 }
 
 .subheader {
@@ -156,6 +163,9 @@
   .section {
     padding-top: 90px !important;
   }
+  .header {
+    margin-bottom: 32px;
+  }
   .grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -170,8 +180,5 @@
   }
   .cell:nth-child(odd):not(.full) {
     padding-right: 0;
-  }
-  .info {
-    padding-top: 0;
   }
 }
