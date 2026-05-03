@@ -1,0 +1,46 @@
+.cta {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 50%, rgba(211, 69, 30, 0.12) 0%, transparent 70%),
+    linear-gradient(180deg, transparent 0%, rgba(58, 47, 107, 0.25) 100%);
+  border-top: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--hairline-strong);
+  text-align: center;
+  padding: 160px 0 !important;
+}
+
+.symbolLarge {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 36px;
+  display: block;
+  object-fit: contain;
+}
+
+.headline {
+  font-size: clamp(48px, 6vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  max-width: 18ch;
+  margin: 0 auto;
+}
+.headline em {
+  color: var(--orange);
+  font-style: italic;
+}
+.body {
+  margin-top: 36px;
+  font-size: 19px;
+  color: var(--ink-soft);
+  max-width: 56ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.55;
+}
+.row {
+  margin-top: 56px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
