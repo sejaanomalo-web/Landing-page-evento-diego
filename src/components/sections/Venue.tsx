@@ -12,19 +12,18 @@ const includedItems = [
 
 export function Venue() {
   return (
-    <section id="local" data-screen-label="07 Local">
+    <section
+      id="local"
+      className={styles.section}
+      data-screen-label="07 Local"
+    >
       <div className="container-lp">
-        <div className="section-header">
-          <ScrollReveal>
-            <h2>
-              Deville Express <em>Cascavel.</em>
-            </h2>
-          </ScrollReveal>
-        </div>
-
         <div className={styles.grid}>
           <div className={styles.stickyCol}>
             <ScrollReveal>
+              <h2 className={styles.title}>
+                Deville Express <em>Cascavel.</em>
+              </h2>
               <div className={styles.img}>
                 <div className={styles.centerMark}>▲</div>
               </div>

@@ -1,3 +1,9 @@
+.section {
+  /* Override global section padding-top so the sticky lock engages
+     soon after the divider line above the title clears the viewport top. */
+  padding-top: 60px !important;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -7,8 +13,22 @@
 
 .stickyCol {
   position: sticky;
-  top: 100px;
+  top: 32px;
   align-self: start;
+}
+
+.title {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin: 0 0 36px;
+  max-width: 14ch;
+}
+.title em {
+  color: var(--orange);
+  font-style: italic;
+  font-weight: 700;
 }
 
 .img {
@@ -45,15 +65,10 @@
   color: white;
 }
 
-.info h3 {
-  font-size: 48px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.05;
-}
-.info h3 em {
-  color: var(--orange);
-  font-style: italic;
+.info {
+  /* small top offset so the address paragraph aligns visually with
+     the title in the sticky column on first frame */
+  padding-top: 8px;
 }
 
 .subheader {
@@ -138,6 +153,9 @@
 }
 
 @media (max-width: 900px) {
+  .section {
+    padding-top: 90px !important;
+  }
   .grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -152,5 +170,8 @@
   }
   .cell:nth-child(odd):not(.full) {
     padding-right: 0;
+  }
+  .info {
+    padding-top: 0;
   }
 }
