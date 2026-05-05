@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import {
+  cubicBezier,
   motion,
   useMotionValueEvent,
   useScroll,
@@ -10,6 +11,13 @@ import {
   type MotionValue,
 } from "framer-motion";
 import styles from "./Experience.module.css";
+
+/* Ease aplicado em cada segmento do progress->x. Nos dwells o output
+   é constante (mesma posição), então o ease não tem efeito visual.
+   Nas transições entre cards, suaviza a entrada/saída do movimento
+   horizontal. cubic-bezier(0.4, 0, 0.2, 1) é um ease in-out clássico,
+   mais lento nas pontas e cruzeiro no meio. */
+const dwellEase = cubicBezier(0.4, 0, 0.2, 1);
 
 /* Geometria dos cards (precisa bater com Experience.module.css). */
 const CARD_WIDTH = 480;
@@ -154,14 +162,23 @@ export function Experience() {
     offset: ["start start", "end end"],
   });
 
-  /* Spring-smoothed progress: inércia premium pra o lock e a entrada/saída
-     ficarem orgânicas. Configuração mais "pesada" (stiffness baixa, mass
-     alta) pra o scroll horizontal entre cards deslizar com mais
-     suavidade, like premium glide. */
+  /* Progress separado mapeando posição da seção dentro do viewport
+     (não só o range pinado). Vai de 0 (topo do wrapper toca o rodapé
+     da viewport, seção começa a aparecer) a 1 (fim do wrapper passa
+     pelo topo da viewport). Usado pra suavizar entry/exit do lock. */
+  const { scrollYProgress: viewProgress } = useScroll({
+    target: wrapperRef,
+    offset: ["start end", "end start"],
+  });
+
+  /* Spring-smoothed progress: inércia premium pra o lock, a saída e o
+     scroll entre cards. Configuração mais "pesada" (stiffness baixa,
+     mass alta) que adiciona um pequeno lag entre o scroll do usuário
+     e o movimento horizontal dos cards, como uma câmera flutuando. */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 30,
-    mass: 0.85,
+    stiffness: 48,
+    damping: 26,
+    mass: 1.0,
   });
 
   /* Mapeamento progress -> x com dwells: cada card tem 2 keyframes
@@ -177,7 +194,9 @@ export function Experience() {
     progressKeyframes.push(dwellStart, dwellEnd);
     xKeyframes.push(cardX, cardX);
   }
-  const x = useTransform(smoothProgress, progressKeyframes, xKeyframes);
+  const x = useTransform(smoothProgress, progressKeyframes, xKeyframes, {
+    ease: dwellEase,
+  });
 
   /* Snap points alinhados ao centro do dwell de cada card. */
   const snapPositions = cards.map((_, i) => {
@@ -185,6 +204,13 @@ export function Experience() {
     const focusCenter = dwellStart + DWELL_SPAN / 2;
     return focusCenter * SCROLL_RANGE_VH;
   });
+
+  /* Entry/exit smoothing: scale sutil dá a sensação de "pousar" no
+     lock quando a seção entra na viewport e "soltar" quando sai. */
+  const stageScale = useSpring(
+    useTransform(viewProgress, [0, 0.18, 0.82, 1], [0.95, 1, 1, 0.95]),
+    { stiffness: 80, damping: 26, mass: 0.8 }
+  );
 
   return (
     <section
@@ -219,7 +245,10 @@ export function Experience() {
           ▼
         </div>
 
-        <div className={styles.trackContainer}>
+        <motion.div
+          className={styles.trackContainer}
+          style={{ scale: stageScale }}
+        >
           <motion.div className={styles.track} style={{ x }}>
             <div className={styles.ghostCard} aria-hidden>
               <div className={styles.ghostInner}>
@@ -253,7 +282,7 @@ export function Experience() {
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
