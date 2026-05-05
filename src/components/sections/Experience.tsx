@@ -160,10 +160,13 @@ function ExperienceMobile() {
             <motion.div
               key={card.n}
               className={styles.card}
-              initial={{ opacity: 0, y: 36 }}
+              initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, margin: "0px 0px -8% 0px" }}
-              transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+              /* once: true evita re-trigger toda vez que o card volta
+                 ao viewport, eliminando os repaints que pesavam o
+                 scroll mobile durante o stack contínuo de cards. */
+              viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+              transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
             >
               <div className={styles.num}>{card.n}</div>
               <h4>{card.title}</h4>

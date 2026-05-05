@@ -189,23 +189,54 @@
   }
 }
 
-/* Mobile: mantém os halos visíveis mas com animações mais lentas pra
-   reduzir o custo GPU. O parallax scroll-driven (na motion.div pai)
-   continua aplicando, então mesmo idle o usuário percebe o background
-   responder ao scroll. Noise SVG segue oculto em mobile (filter +
-   mix-blend-mode é o mais caro). */
+/* Mobile: animações mais lentas + sem mix-blend-mode (mix-blend
+   força o navegador a recompor a stacking layer inteira a cada
+   frame — caríssimo em GPU mobile). Sem ele os halos compõem
+   normalmente sobre o stage; reduzimos as opacidades dos gradients
+   pra evitar que fiquem "pesados demais" sem o blending. Noise
+   SVG segue oculto. */
 @media (max-width: 900px) {
+  .haloBege,
+  .haloOrange,
+  .haloDeep,
+  .beam {
+    mix-blend-mode: normal;
+  }
   .haloBege {
     animation-duration: 96s;
+    background:
+      radial-gradient(
+        ellipse 35% 28% at 50% 22%,
+        rgba(241, 218, 178, 0.08) 0%,
+        transparent 60%
+      );
   }
   .haloOrange {
     animation-duration: 132s;
+    background:
+      radial-gradient(
+        ellipse 30% 24% at 70% 75%,
+        rgba(211, 69, 30, 0.06) 0%,
+        transparent 60%
+      );
   }
   .haloDeep {
     animation-duration: 60s;
+    background:
+      radial-gradient(
+        ellipse 40% 30% at 30% 55%,
+        rgba(74, 60, 130, 0.18) 0%,
+        transparent 65%
+      );
   }
   .beam {
     animation-duration: 160s;
+    background:
+      radial-gradient(
+        ellipse 18% 90% at 50% 40%,
+        rgba(241, 218, 178, 0.025) 0%,
+        transparent 55%
+      );
   }
   .noise {
     display: none;

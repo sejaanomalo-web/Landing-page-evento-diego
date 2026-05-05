@@ -6,16 +6,13 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import { useIsMobile } from "@/lib/use-is-mobile";
 import styles from "./BackgroundAtmosphere.module.css";
 
-export function BackgroundAtmosphere() {
-  /* Parallax sincronizado com scroll do usuário: cada camada anda
-     em velocidade diferente, criando profundidade visual. Spring
-     suave evita jitter durante scroll rápido. As camadas internas
-     (.haloBege/Orange/Deep/beam) mantêm suas próprias animações
-     CSS contínuas (drift) — a translateY do parallax aqui é
-     adicional, sobre wrappers fixed que não competem com o
-     transform das keyframes. */
+/* Desktop: parallax scroll-driven (motion.div + useScroll + useSpring)
+   somado às keyframes CSS contínuas dos halos. Cria a sensação de
+   profundidade e sincronia com o scroll do usuário. */
+function BackgroundAtmosphereDesktop() {
   const { scrollY } = useScroll();
   const smooth = useSpring(scrollY, {
     stiffness: 80,
@@ -31,7 +28,6 @@ export function BackgroundAtmosphere() {
   return (
     <>
       <div aria-hidden className={styles.stage} />
-
       <motion.div
         aria-hidden
         className={styles.parallaxLayer}
@@ -60,7 +56,6 @@ export function BackgroundAtmosphere() {
       >
         <div className={styles.beam} />
       </motion.div>
-
       <div aria-hidden className={styles.vignette} />
       <svg
         aria-hidden
@@ -79,5 +74,38 @@ export function BackgroundAtmosphere() {
         <rect width="100%" height="100%" filter="url(#atm-noise)" />
       </svg>
     </>
+  );
+}
+
+/* Mobile: zero JS por scroll. Apenas CSS animations (mais lentas) +
+   stage estático + vinheta. Sem useScroll, sem useSpring, sem
+   useTransform — evita o cascade de cálculos que travava o scroll. */
+function BackgroundAtmosphereMobile() {
+  return (
+    <>
+      <div aria-hidden className={styles.stage} />
+      <div aria-hidden className={styles.parallaxLayer}>
+        <div className={styles.haloBege} />
+      </div>
+      <div aria-hidden className={styles.parallaxLayer}>
+        <div className={styles.haloOrange} />
+      </div>
+      <div aria-hidden className={styles.parallaxLayer}>
+        <div className={styles.haloDeep} />
+      </div>
+      <div aria-hidden className={styles.parallaxLayer}>
+        <div className={styles.beam} />
+      </div>
+      <div aria-hidden className={styles.vignette} />
+    </>
+  );
+}
+
+export function BackgroundAtmosphere() {
+  const isMobile = useIsMobile();
+  return isMobile ? (
+    <BackgroundAtmosphereMobile />
+  ) : (
+    <BackgroundAtmosphereDesktop />
   );
 }
