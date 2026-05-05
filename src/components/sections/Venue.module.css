@@ -6,7 +6,7 @@
 
 /* Gradiente discreto sticky no topo, mesclado com a cor do background.
    Mascara o conteúdo da coluna direita conforme ele sobe, evitando
-   que ele apareça atrás de "Deville Express Cascavel.". */
+   que ele apareça atrás do título "Hotel Deville Cascavel.". */
 .fadeMask {
   position: sticky;
   top: 0;
@@ -71,7 +71,7 @@
   border: 1px solid var(--hairline);
 }
 .img::after {
-  content: "AMBIENTE · DEVILLE EXPRESS · 16:9";
+  content: "AMBIENTE · HOTEL DEVILLE · 16:9";
   position: absolute;
   top: 20px;
   left: 20px;

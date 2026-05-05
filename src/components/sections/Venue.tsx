@@ -21,7 +21,7 @@ export function Venue() {
       <div className="container-lp">
         <div className={styles.stickyHeader}>
           <h2 className={styles.title}>
-            Deville Express <em>Cascavel.</em>
+            Hotel Deville <em>Cascavel.</em>
           </h2>
         </div>
 
@@ -35,33 +35,34 @@ export function Venue() {
           </div>
 
           <ScrollReveal delay={0.1} className={styles.info}>
+            {/* VALIDAR COM DIEGO/BRUNO antes de publicar.
+                Confirmar endereço exato (qual unidade Deville em Cascavel),
+                bem como as distâncias até aeroporto e centro. */}
             <p className="body-text">
-              Av. Aracy Tanaka Biazetto, 6128. Região do Lago, Cascavel, Paraná.
+              Cascavel, Paraná.
             </p>
             <p className="body-text" style={{ marginTop: 16 }}>
               Estrutura completa para imersão de alto padrão, com infraestrutura
               audiovisual, sala de evento dedicada e gastronomia incluída no
-              plano da imersão. Localização estratégica em Cascavel, a 13 km do
-              Aeroporto Municipal e a 5 km do centro.
+              plano da imersão.
             </p>
 
+            {/* VALIDAR COM DIEGO/BRUNO antes de publicar.
+                Confirmar endereço exato, distâncias e condições de
+                estacionamento da unidade Deville em Cascavel. */}
             <h3 className={styles.subheader}>Acessos</h3>
             <div className={styles.details}>
               <div className={styles.cell}>
-                <div className={styles.k}>Aeroporto</div>
-                <div className={styles.v}>
-                  13 km · Aeroporto Municipal de Cascavel
-                </div>
+                <div className={styles.k}>Cidade</div>
+                <div className={styles.v}>Cascavel, PR</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Centro</div>
-                <div className={styles.v}>5 km · Cascavel, PR</div>
+                <div className={styles.k}>Local</div>
+                <div className={styles.v}>Hotel Deville Cascavel</div>
               </div>
               <div className={`${styles.cell} ${styles.full}`}>
                 <div className={styles.k}>Estacionamento</div>
-                <div className={styles.v}>
-                  Próprio do Deville Express, na chegada
-                </div>
+                <div className={styles.v}>Disponível na chegada</div>
               </div>
             </div>
 
