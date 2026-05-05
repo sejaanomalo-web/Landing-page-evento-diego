@@ -6,7 +6,7 @@
    pelo topo do viewport. */
 .scrollWrapper {
   position: relative;
-  height: 220vh;
+  height: 240vh;
   padding: 0 !important;
 }
 
@@ -51,7 +51,8 @@
   align-items: center;
   overflow: hidden;
   padding-left: 48px;
-  padding-bottom: 32px;
+  padding-bottom: 88px;
+  will-change: opacity;
 }
 
 .track {
@@ -60,10 +61,19 @@
   will-change: transform;
 }
 
-.card {
+/* CardWrap recebe os transforms da motion (scale, opacity, blur).
+   O .card interno fica livre pro hover translateY do CSS sem conflito. */
+.cardWrap {
   flex: 0 0 360px;
   width: 360px;
   height: clamp(340px, 50vh, 420px);
+  will-change: transform, opacity, filter;
+  transform-origin: center center;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
   background: rgba(58, 47, 107, 0.32);
   border: 1px solid rgba(211, 69, 30, 0.25);
   padding: 36px 32px;
@@ -118,9 +128,37 @@
   line-height: 1.55;
 }
 
+/* Spot marker ▼ centralizado abaixo da esteira, ancorando o ponto
+   de foco. ~5x maior que o ▲ dos cards (.num font-size 11px). */
+.spotMarker {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 56px;
+  line-height: 1;
+  color: var(--orange);
+  pointer-events: none;
+  filter: drop-shadow(0 0 14px rgba(211, 69, 30, 0.45));
+  animation: spotBreath 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  z-index: 3;
+}
+
+@keyframes spotBreath {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+    opacity: 1;
+  }
+}
+
 /* Mobile: scroll-driven horizontal não funciona bem em touch, então
    caímos para um stack vertical natural. A inline transform da motion
-   fica neutralizada por !important. */
+   fica neutralizada por !important, e o spot marker some. */
 @media (max-width: 900px) {
   .scrollWrapper {
     height: auto;
@@ -137,15 +175,26 @@
     flex-direction: column;
     overflow: visible;
     padding: 0 0 60px;
+    opacity: 1 !important;
   }
   .track {
     flex-direction: column;
     gap: 16px;
     transform: none !important;
   }
-  .card {
+  .cardWrap {
     flex: 0 0 auto;
     width: 100%;
     height: auto;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .card {
+    width: 100%;
+    height: auto;
+  }
+  .spotMarker {
+    display: none;
   }
 }

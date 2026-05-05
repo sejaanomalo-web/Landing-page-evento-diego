@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import styles from "./Experience.module.css";
 
 const cards = [
@@ -42,13 +48,61 @@ const cards = [
   },
 ];
 
-function Card({ n, title, body }: (typeof cards)[number]) {
+interface FocusCardProps {
+  card: (typeof cards)[number];
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+}
+
+function FocusCard({ card, index, total, progress }: FocusCardProps) {
+  /* Distribui o "momento de foco" de cada card uniformemente em
+     [0.06, 0.94], deixando uma margem de respiro nas pontas. */
+  const startBuf = 0.06;
+  const endBuf = 0.94;
+  const focusCenter =
+    startBuf + (index / (total - 1)) * (endBuf - startBuf);
+  const focusHalf = ((endBuf - startBuf) / (total - 1)) * 1.1;
+
+  const opacity = useTransform(
+    progress,
+    [
+      focusCenter - focusHalf * 2,
+      focusCenter,
+      focusCenter + focusHalf * 2,
+    ],
+    [0.28, 1, 0.28]
+  );
+  const scale = useTransform(
+    progress,
+    [
+      focusCenter - focusHalf * 2,
+      focusCenter,
+      focusCenter + focusHalf * 2,
+    ],
+    [0.9, 1, 0.9]
+  );
+  const blur = useTransform(
+    progress,
+    [
+      focusCenter - focusHalf * 2,
+      focusCenter,
+      focusCenter + focusHalf * 2,
+    ],
+    ["blur(3px)", "blur(0px)", "blur(3px)"]
+  );
+
   return (
-    <div className={styles.card}>
-      <div className={styles.num}>{n}</div>
-      <h4>{title}</h4>
-      <p>{body}</p>
-    </div>
+    <motion.div
+      className={styles.cardWrap}
+      style={{ opacity, scale, filter: blur }}
+    >
+      <div className={styles.card}>
+        <div className={styles.num}>{card.n}</div>
+        <h4>{card.title}</h4>
+        <p>{card.body}</p>
+      </div>
+    </motion.div>
   );
 }
 
@@ -63,8 +117,6 @@ export function Experience() {
       if (!trackEl) return;
       const trackWidth = trackEl.scrollWidth;
       const viewport = window.innerWidth;
-      // Translate enough that the right edge of the last card reaches the
-      // right edge of the viewport, with a small breathing margin.
       const max = Math.max(0, trackWidth - viewport + 48);
       setTranslateMax(-max);
     };
@@ -83,7 +135,30 @@ export function Experience() {
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, translateMax]);
+  /* Spring-smoothed progress: inércia premium pra o lock e a entrada/saída
+     ficarem orgânicas, sem corte seco. */
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 28,
+    mass: 0.5,
+  });
+
+  /* Hold periods nas pontas: 0-0.06 e 0.94-1 segura os cards parados,
+     dando sensação de "pousar" antes de começar a esteira e "soltar" no
+     final, em vez de cortar bruscamente. */
+  const x = useTransform(
+    smoothProgress,
+    [0, 0.06, 0.94, 1],
+    [0, 0, translateMax, translateMax]
+  );
+
+  /* Fade-in/out sutil do conjunto pra entrada e saída se diluírem com
+     a atmosfera de fundo. */
+  const stageOpacity = useTransform(
+    smoothProgress,
+    [0, 0.04, 0.96, 1],
+    [0, 1, 1, 0]
+  );
 
   return (
     <section
@@ -105,16 +180,29 @@ export function Experience() {
           </div>
         </div>
 
-        <div className={styles.trackContainer}>
+        <motion.div
+          className={styles.trackContainer}
+          style={{ opacity: stageOpacity }}
+        >
           <motion.div
             ref={trackRef}
             className={styles.track}
             style={{ x }}
           >
-            {cards.map((card) => (
-              <Card key={card.n} {...card} />
+            {cards.map((card, i) => (
+              <FocusCard
+                key={card.n}
+                card={card}
+                index={i}
+                total={cards.length}
+                progress={smoothProgress}
+              />
             ))}
           </motion.div>
+        </motion.div>
+
+        <div className={styles.spotMarker} aria-hidden>
+          ▼
         </div>
       </div>
     </section>
