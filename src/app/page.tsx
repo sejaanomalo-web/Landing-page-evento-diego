@@ -27,7 +27,6 @@ export default function Home() {
         <Mentor />
         <div className="section-divider" />
         <SocialProof />
-        <div className="section-divider" />
         <Venue />
         <FinalCta />
         <Footer />
