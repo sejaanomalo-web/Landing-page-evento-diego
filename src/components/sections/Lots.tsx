@@ -17,16 +17,15 @@ type LotStatus = "aberto" | "proximo" | "ultimo";
 
 interface LotData {
   number: number;
-  vagas: number;
   price: number;
   status: LotStatus;
   fillPct?: number;
 }
 
 const lots: LotData[] = [
-  { number: 1, vagas: 35, price: 4000, status: "aberto", fillPct: 90 },
-  { number: 2, vagas: 10, price: 4800, status: "proximo" },
-  { number: 3, vagas: 5, price: 5200, status: "ultimo" },
+  { number: 1, price: 4000, status: "aberto", fillPct: 90 },
+  { number: 2, price: 4800, status: "proximo" },
+  { number: 3, price: 5200, status: "ultimo" },
 ];
 
 const statusLabels: Record<LotStatus, string> = {
@@ -63,13 +62,6 @@ function Lot({ data, index }: LotProps) {
         <div className={styles.lotBadge}>{statusLabels[data.status]}</div>
       </div>
 
-      <div className={styles.lotVagas}>
-        <span className={styles.lotVagasNum}>{data.vagas}</span>
-        <span className={styles.lotVagasLabel}>
-          {data.vagas === 1 ? "vaga" : "vagas"}
-        </span>
-      </div>
-
       {isActive && data.fillPct !== undefined && (
         <div className={styles.lotProgress}>
           <div className={styles.lotProgressBar}>
@@ -80,14 +72,14 @@ function Lot({ data, index }: LotProps) {
               viewport={{ once: true, margin: "0px 0px -15% 0px" }}
               transition={{
                 duration: 1.6,
-                delay: 0.6,
+                delay: 0.4,
                 ease: [0.32, 0.72, 0, 1],
               }}
             />
           </div>
           <div className={styles.lotProgressLabel}>
             <span>{data.fillPct}% preenchido</span>
-            <span>{Math.round(data.vagas * (1 - data.fillPct / 100))} restam</span>
+            <span>fechando</span>
           </div>
         </div>
       )}
@@ -125,8 +117,9 @@ export function Lots() {
       <div className="container-lp">
         <div className="section-header">
           <ScrollReveal>
-            <h2>
-              Três lotes. <em>Um já está em aberto.</em>
+            <h2 className={styles.title}>
+              <span>Três lotes.</span>
+              <em>Um já está em aberto.</em>
             </h2>
             <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
               A imersão é dividida em três lotes. À medida que o primeiro se
