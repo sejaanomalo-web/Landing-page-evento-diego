@@ -65,9 +65,17 @@
 .img {
   aspect-ratio: 16 / 9;
   position: relative;
-  border: 1px solid var(--hairline);
+  border: 1px solid rgba(211, 69, 30, 0.28);
   overflow: hidden;
   background: rgba(20, 16, 46, 0.6);
+  border-radius: 6px;
+  /* Brightness laranja suave em três camadas: ring fino externo,
+     halo próximo e halo difuso. Casa com o tratamento aplicado na
+     foto do Diego pra manter coerência visual. */
+  box-shadow:
+    0 0 0 1px rgba(211, 69, 30, 0.18),
+    0 0 50px -8px rgba(211, 69, 30, 0.42),
+    0 0 110px -28px rgba(211, 69, 30, 0.32);
 }
 .imgPhoto {
   position: absolute;
@@ -76,6 +84,23 @@
   height: 100%;
   object-fit: cover;
   object-position: center center;
+}
+
+/* Grid 2-col abaixo da foto principal: restaurante + quarto lado a
+   lado, com separação sutil. */
+.imgGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+.imgPair {
+  /* Halo um pouco mais discreto pras secundárias não competirem com
+     a principal. Ring externo, halo próximo e difuso reduzidos. */
+  box-shadow:
+    0 0 0 1px rgba(211, 69, 30, 0.16),
+    0 0 36px -10px rgba(211, 69, 30, 0.32),
+    0 0 80px -32px rgba(211, 69, 30, 0.24);
 }
 
 .info {
@@ -190,6 +215,17 @@
   .stickyCol {
     position: static;
     top: auto;
+  }
+  .imgGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .img {
+    /* Halo reduzido em mobile pra não pesar a GPU. */
+    box-shadow:
+      0 0 0 1px rgba(211, 69, 30, 0.18),
+      0 0 24px -8px rgba(211, 69, 30, 0.3);
   }
   .cell:nth-child(even):not(.full) {
     padding-left: 0;

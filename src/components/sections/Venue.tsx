@@ -29,14 +29,36 @@ export function Venue() {
         <div className={styles.grid}>
           <div className={styles.stickyCol}>
             <ScrollReveal>
-              <div className={styles.img}>
+              <div className={`${styles.img} ${styles.imgMain}`}>
                 <Image
                   className={styles.imgPhoto}
                   src="/assets/hotel-deville.jpg"
-                  alt="Hotel Deville Cascavel"
+                  alt="Hotel Deville Cascavel, fachada"
                   width={1672}
                   height={941}
                   sizes="(max-width: 900px) 100vw, 50vw"
+                />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.08} className={styles.imgGrid}>
+              <div className={`${styles.img} ${styles.imgPair}`}>
+                <Image
+                  className={styles.imgPhoto}
+                  src="/assets/hotel-restaurante.jpg"
+                  alt="Hotel Deville, restaurante"
+                  width={1672}
+                  height={941}
+                  sizes="(max-width: 900px) 100vw, 25vw"
+                />
+              </div>
+              <div className={`${styles.img} ${styles.imgPair}`}>
+                <Image
+                  className={styles.imgPhoto}
+                  src="/assets/hotel-quarto.jpg"
+                  alt="Hotel Deville, quarto"
+                  width={1672}
+                  height={941}
+                  sizes="(max-width: 900px) 100vw, 25vw"
                 />
               </div>
             </ScrollReveal>
