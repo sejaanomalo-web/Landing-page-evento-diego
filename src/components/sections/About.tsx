@@ -17,9 +17,10 @@ export function About() {
         <div className={styles.grid}>
           <ScrollReveal>
             <p className="body-text">
-              Liderança costuma falhar onde a técnica ainda funciona. Falha
-              quando a mensagem chega torta, quando a postura entrega o oposto
-              da palavra, quando o time sente, mas não escuta.
+              Tem um momento onde a liderança começa a falhar mesmo com a
+              técnica intacta. É quando a mensagem chega de um jeito, a
+              postura comunica de outro, e o time entende uma terceira
+              maneira. Três versões da mesma fala, nenhuma realmente alinhada.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
