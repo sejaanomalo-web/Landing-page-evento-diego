@@ -60,6 +60,14 @@
   color: var(--orange);
   font-style: italic;
 }
+.strapCaption {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: white;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
 .content h3 {
   font-size: 56px;

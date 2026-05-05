@@ -27,9 +27,9 @@ export function Mentor() {
               priority={false}
             />
             <div className={styles.strap}>
-              <div className={styles.strapLabel}>▲ DIEGO KNEBEL</div>
-              <div className={styles.strapQuote}>
-                &ldquo;Presença não precisa de <em>barulho</em>.&rdquo;
+              <div className={styles.strapLabel}>RETRATO EDITORIAL</div>
+              <div className={styles.strapCaption}>
+                AUTORIDADE TRANQUILA. CLAREZA ESTRATÉGICA.
               </div>
             </div>
           </ScrollReveal>
