@@ -63,37 +63,19 @@
 }
 
 .img {
-  aspect-ratio: 16 / 10;
-  background:
-    linear-gradient(135deg, rgba(58, 47, 107, 0.45), rgba(32, 23, 71, 0.55)),
-    repeating-linear-gradient(45deg, #251a4d 0 16px, #1f1640 16px 17px);
+  aspect-ratio: 16 / 9;
   position: relative;
   border: 1px solid var(--hairline);
+  overflow: hidden;
+  background: rgba(20, 16, 46, 0.6);
 }
-.img::after {
-  content: "AMBIENTE · HOTEL DEVILLE · 16:9";
+.imgPhoto {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--ink-mute);
-}
-.centerMark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  background: var(--orange);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 20px;
-  color: white;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .info {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import styles from "./Venue.module.css";
 
@@ -29,7 +30,14 @@ export function Venue() {
           <div className={styles.stickyCol}>
             <ScrollReveal>
               <div className={styles.img}>
-                <div className={styles.centerMark}>▲</div>
+                <Image
+                  className={styles.imgPhoto}
+                  src="/assets/hotel-deville.jpg"
+                  alt="Hotel Deville Cascavel"
+                  width={1672}
+                  height={941}
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                />
               </div>
             </ScrollReveal>
           </div>

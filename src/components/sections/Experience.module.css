@@ -91,7 +91,6 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-left: 48px;
   padding-bottom: 56px;
 }
 
@@ -99,6 +98,26 @@
   display: flex;
   gap: 28px;
   will-change: transform;
+}
+
+/* Ghost card: filler à esquerda pra empurrar o card 0 pro centro
+   exato do viewport quando x=0. Largura responsiva via calc:
+   50vw (centro do viewport) - 240px (metade do card) = quanto o
+   primeiro card precisa estar deslocado da esquerda. Em viewports
+   muito pequenos, a largura colapsa a 0. Permanente em blur + dim
+   pra não competir com os 7 cards reais. */
+.ghostCard {
+  flex: 0 0 max(0px, calc(50vw - 240px));
+  width: max(0px, calc(50vw - 240px));
+  min-width: 0;
+  height: clamp(280px, 38vh, 340px);
+  background:
+    linear-gradient(135deg, rgba(58, 47, 107, 0.35), rgba(32, 23, 71, 0.25));
+  border: 1px solid rgba(241, 218, 178, 0.1);
+  border-right-color: rgba(241, 218, 178, 0.18);
+  filter: blur(4px);
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* CardWrap recebe os transforms da motion (scale, opacity, blur).
@@ -199,6 +218,9 @@
     flex-direction: column;
     gap: 16px;
     transform: none !important;
+  }
+  .ghostCard {
+    display: none;
   }
   .cardWrap {
     flex: 0 0 auto;

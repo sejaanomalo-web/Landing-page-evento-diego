@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import {
   motion,
   useScroll,
@@ -9,6 +9,10 @@ import {
   type MotionValue,
 } from "framer-motion";
 import styles from "./Experience.module.css";
+
+/* Geometria dos cards (precisa bater com Experience.module.css). */
+const CARD_WIDTH = 480;
+const CARD_GAP = 28;
 
 const cards = [
   {
@@ -110,27 +114,12 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
 
 export function Experience() {
   const wrapperRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [translateMax, setTranslateMax] = useState(0);
 
-  useEffect(() => {
-    const compute = () => {
-      const trackEl = trackRef.current;
-      if (!trackEl) return;
-      const trackWidth = trackEl.scrollWidth;
-      const viewport = window.innerWidth;
-      const max = Math.max(0, trackWidth - viewport + 48);
-      setTranslateMax(-max);
-    };
-    compute();
-    const ro = new ResizeObserver(compute);
-    if (trackRef.current) ro.observe(trackRef.current);
-    window.addEventListener("resize", compute);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", compute);
-    };
-  }, []);
+  /* Translação total = distância entre o centro do card 0 e o centro
+     do card 6. Constante (não depende de viewport) porque o ghost
+     card à esquerda já garante que card 0 começa centralizado e
+     o offset entre cards é fixo. */
+  const translateMax = -(cards.length - 1) * (CARD_WIDTH + CARD_GAP);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -201,11 +190,8 @@ export function Experience() {
         </div>
 
         <div className={styles.trackContainer}>
-          <motion.div
-            ref={trackRef}
-            className={styles.track}
-            style={{ x }}
-          >
+          <motion.div className={styles.track} style={{ x }}>
+            <div className={styles.ghostCard} aria-hidden />
             {cards.map((card, i) => (
               <FocusCard
                 key={card.n}
