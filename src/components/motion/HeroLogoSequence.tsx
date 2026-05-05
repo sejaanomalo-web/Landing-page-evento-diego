@@ -29,9 +29,8 @@ export function HeroLogoSequence() {
       <img
         src="/assets/logo-symbol.png"
         alt="Diego Knebel"
-        width={280}
-        height={280}
         className={styles.symbol}
+        style={{ width: "280px", height: "280px" }}
       />
       <div className={styles.text}>
         <div className={styles.name} aria-label="Diego Knebel">
