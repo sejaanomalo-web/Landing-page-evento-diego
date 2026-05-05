@@ -6,7 +6,10 @@
    pelo topo do viewport. */
 .scrollWrapper {
   position: relative;
-  height: 240vh;
+  /* 360vh: 100vh sticky + 260vh de scroll que distribuímos como
+     7 dwells + 6 transições. Cada dwell ~24vh segura o card
+     centralizado, cada transição ~13vh desliza pro próximo. */
+  height: 360vh;
   padding: 0 !important;
 }
 

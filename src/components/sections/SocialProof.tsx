@@ -6,7 +6,7 @@ const logoNumbers = Array.from({ length: LOGO_COUNT }, (_, i) => i + 1);
 
 export function SocialProof() {
   return (
-    <section data-screen-label="06 Prova Social">
+    <section className={styles.section} data-screen-label="06 Prova Social">
       <div className="container-lp">
         <div className="section-header">
           <ScrollReveal>
