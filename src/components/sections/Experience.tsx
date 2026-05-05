@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import {
-  cubicBezier,
   motion,
   useMotionValueEvent,
   useScroll,
@@ -12,29 +11,13 @@ import {
 } from "framer-motion";
 import styles from "./Experience.module.css";
 
-/* Ease nas transições entre dwells. Apple-style smooth curve
-   (out-quint similar): segue o scroll do usuário com leve
-   suavização, sem dar a sensação de "lag". */
-const dwellEase = cubicBezier(0.32, 0.72, 0, 1);
-
 /* Geometria dos cards (precisa bater com Experience.module.css). */
 const CARD_WIDTH = 480;
 const CARD_GAP = 28;
 
-/* Timeline de scroll dentro da seção:
-   cada card tem um "dwell" (pausa centralizado) + uma "transition"
-   (deslocamento até o próximo). Ratio dwell:trans = 65:35 para os
-   cards passarem mais tempo parados no centro do que em movimento.
-   A altura do wrapper (em CSS) controla quantos vh cada um ocupa. */
-const DWELL_RATIO = 0.65;
-const TRANS_RATIO = 0.35;
-const N_CARDS = 7;
-const TOTAL_WEIGHT =
-  N_CARDS * DWELL_RATIO + (N_CARDS - 1) * TRANS_RATIO;
-const DWELL_SPAN = DWELL_RATIO / TOTAL_WEIGHT;
-const TRANS_SPAN = TRANS_RATIO / TOTAL_WEIGHT;
 /* Range de scroll dentro do wrapper sticky: wrapper 360vh - 100vh
-   sticky = 260vh de scroll vertical mapeado em [0, 1]. */
+   sticky = 260vh de scroll vertical mapeado em [0, 1]. Usado pra
+   posicionar os snap points em vh. */
 const SCROLL_RANGE_VH = 260;
 
 const cards = [
@@ -81,56 +64,60 @@ interface FocusCardProps {
   progress: MotionValue<number>;
 }
 
-function FocusCard({ card, index, progress }: FocusCardProps) {
-  /* Cada card tem um dwell (pausa centralizado) + transition antes
-     do próximo. Card i:
-     - dwell:    [i*(D+T),         i*(D+T) + D]
-     - transition após o dwell: [i*(D+T) + D, (i+1)*(D+T)]
-     Onde D = DWELL_SPAN, T = TRANS_SPAN. */
-  const dwellStart = index * (DWELL_SPAN + TRANS_SPAN);
-  const dwellEnd = dwellStart + DWELL_SPAN;
-  /* Janela em que opacity/scale/blur fazem fade out (transition). */
-  const fadeMargin = TRANS_SPAN * 0.6;
+interface FocusCardPropsWithTotal extends FocusCardProps {
+  total: number;
+}
 
-  /* Auto-hover ativo enquanto o card está no dwell (e mais um pouco). */
-  const [focused, setFocused] = useState(false);
-  useMotionValueEvent(progress, "change", (latest) => {
-    const inDwell = latest >= dwellStart && latest <= dwellEnd;
-    setFocused(inDwell);
-  });
+function FocusCard({
+  card,
+  index,
+  total,
+  progress,
+}: FocusCardPropsWithTotal) {
+  /* Mapeamento linear: card i fica centralizado quando progress =
+     i / (total - 1). Sem dwells: o movimento horizontal segue o
+     scroll do usuário 1:1, sem zonas paradas. */
+  const focusCenter = index / (total - 1);
+  const halfStep = 1 / (total - 1) / 2; // metade do espaçamento entre cards
 
-  /* Cards nunca somem (opacity mínima 0.55), com blur quando estão
-     fora do dwell. Durante todo o dwell ficam em foco máximo. */
+  /* Janela de fade: cada card volta a opacity/scale/blur cheios em
+     focusCenter, e suaviza até halfStep antes/depois. */
   const opacity = useTransform(
     progress,
     [
-      dwellStart - fadeMargin,
-      dwellStart,
-      dwellEnd,
-      dwellEnd + fadeMargin,
+      focusCenter - halfStep,
+      focusCenter,
+      focusCenter + halfStep,
     ],
-    [0.55, 1, 1, 0.55]
+    [0.55, 1, 0.55]
   );
   const scale = useTransform(
     progress,
     [
-      dwellStart - fadeMargin,
-      dwellStart,
-      dwellEnd,
-      dwellEnd + fadeMargin,
+      focusCenter - halfStep,
+      focusCenter,
+      focusCenter + halfStep,
     ],
-    [0.94, 1, 1, 0.94]
+    [0.94, 1, 0.94]
   );
   const blur = useTransform(
     progress,
     [
-      dwellStart - fadeMargin,
-      dwellStart,
-      dwellEnd,
-      dwellEnd + fadeMargin,
+      focusCenter - halfStep,
+      focusCenter,
+      focusCenter + halfStep,
     ],
-    ["blur(2.5px)", "blur(0px)", "blur(0px)", "blur(2.5px)"]
+    ["blur(2.5px)", "blur(0px)", "blur(2.5px)"]
   );
+
+  /* Auto-hover quando o card está dentro de 25% do halfStep do
+     centro (zona quente apertada pra evitar 2 cards "focused"
+     simultaneamente). */
+  const [focused, setFocused] = useState(false);
+  useMotionValueEvent(progress, "change", (latest) => {
+    const inHotZone = Math.abs(latest - focusCenter) < halfStep * 0.25;
+    setFocused(inHotZone);
+  });
 
   return (
     <motion.div
@@ -169,39 +156,27 @@ export function Experience() {
     offset: ["start end", "end start"],
   });
 
-  /* Spring de tracking apertado: stiffness alta + mass baixa fazem
-     os cards seguirem o scroll do usuário quase em tempo real
-     (~30ms de tempo característico). Damping bem acima do crítico
-     elimina oscilação. Smooth + sync, sem lag perceptível. */
+  /* Spring de tracking ultra-apertado: stiffness 400, mass 0.3
+     dá tempo característico ~15ms — efetivamente sincronizado com
+     o scroll do usuário, mas com smoothing suficiente pra absorver
+     jitter do wheel/touch e produzir movimento fluido. */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 260,
-    damping: 35,
-    mass: 0.5,
+    stiffness: 400,
+    damping: 42,
+    mass: 0.3,
   });
 
-  /* Mapeamento progress -> x com dwells: cada card tem 2 keyframes
-     (start e end do dwell) onde x permanece constante, separados
-     por uma transição linear até o próximo card. Isso faz o card
-     "ficar parado no centro" durante todo o dwell. */
-  const progressKeyframes: number[] = [];
-  const xKeyframes: number[] = [];
-  for (let i = 0; i < cards.length; i++) {
-    const cardX = -i * (CARD_WIDTH + CARD_GAP);
-    const dwellStart = i * (DWELL_SPAN + TRANS_SPAN);
-    const dwellEnd = dwellStart + DWELL_SPAN;
-    progressKeyframes.push(dwellStart, dwellEnd);
-    xKeyframes.push(cardX, cardX);
-  }
-  const x = useTransform(smoothProgress, progressKeyframes, xKeyframes, {
-    ease: dwellEase,
-  });
+  /* Mapeamento linear puro: progress 0 -> x 0 (card 0 centralizado),
+     progress 1 -> x translateMax (card 6 centralizado). Sem dwells,
+     o movimento horizontal acompanha o scroll do usuário em todo
+     o range, sem zonas paradas. */
+  const x = useTransform(smoothProgress, [0, 1], [0, translateMax]);
 
-  /* Snap points alinhados ao centro do dwell de cada card. */
-  const snapPositions = cards.map((_, i) => {
-    const dwellStart = i * (DWELL_SPAN + TRANS_SPAN);
-    const focusCenter = dwellStart + DWELL_SPAN / 2;
-    return focusCenter * SCROLL_RANGE_VH;
-  });
+  /* Snap points distribuídos linearmente: card i centralizado em
+     progress = i / (N - 1). */
+  const snapPositions = cards.map(
+    (_, i) => (i / (cards.length - 1)) * SCROLL_RANGE_VH
+  );
 
   /* Entry/exit smoothing: scale sutil dá a sensação de "pousar" no
      lock e "soltar" quando sai, agora também synced com a posição
@@ -264,6 +239,7 @@ export function Experience() {
                 key={card.n}
                 card={card}
                 index={i}
+                total={cards.length}
                 progress={smoothProgress}
               />
             ))}
