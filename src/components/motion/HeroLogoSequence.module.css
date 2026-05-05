@@ -106,20 +106,39 @@
 
 @media (max-width: 768px) {
   .lockup {
-    height: 130px;
-    margin-bottom: 36px;
+    height: clamp(96px, 26vw, 130px);
+    margin-bottom: clamp(24px, 6vw, 36px);
+    /* puxa o lockup pra 8px além da borda esquerda do container,
+       deixando logo + nome mais "encostados" na lateral em mobile. */
+    margin-left: -8px;
   }
   .symbol {
-    --size: 180px;
+    --size: clamp(108px, 30vw, 160px);
     width: var(--size) !important;
     height: var(--size) !important;
     min-width: var(--size);
     min-height: var(--size);
   }
   .text {
-    left: 120px;
+    left: clamp(70px, 19vw, 100px);
+    /* o texto pode usar a largura disponível (até a borda direita
+       do lockup, considerando o margin-left negativo). */
+    right: 0;
   }
   .name {
-    font-size: 40px;
+    font-size: clamp(22px, 6.4vw, 32px);
+    letter-spacing: 0.02em;
+  }
+  .gap {
+    width: clamp(8px, 2.5vw, 16px);
+  }
+  .subtle {
+    font-size: clamp(8.5px, 2.4vw, 11px);
+    letter-spacing: 0.18em;
+    /* Permite quebra de linha pra "MENTOR DE COMUNICAÇÃO &
+       LIDERANÇA" caber em viewports estreitos. */
+    white-space: normal;
+    line-height: 1.4;
+    max-width: 100%;
   }
 }

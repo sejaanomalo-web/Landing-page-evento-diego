@@ -135,10 +135,9 @@ function FocusCard({
   );
 }
 
-/* Mobile: render simples (stack vertical) sem framer-motion, sem
-   useScroll, sem useSpring. Evita travamento causado pelo cascade
-   de re-cálculos por scroll event num dispositivo de menor poder
-   de processamento. */
+/* Mobile: render simples (stack vertical) sem useScroll/useSpring/
+   useTransform. Cada card usa apenas whileInView (IntersectionObserver
+   barato) pra fazer entrada e saída suaves de tela. */
 function ExperienceMobile() {
   return (
     <section
@@ -158,11 +157,18 @@ function ExperienceMobile() {
         </div>
         <div className={styles.mobileStack}>
           {cards.map((card) => (
-            <div key={card.n} className={styles.card}>
+            <motion.div
+              key={card.n}
+              className={styles.card}
+              initial={{ opacity: 0, y: 36 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "0px 0px -8% 0px" }}
+              transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+            >
               <div className={styles.num}>{card.n}</div>
               <h4>{card.title}</h4>
               <p>{card.body}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
