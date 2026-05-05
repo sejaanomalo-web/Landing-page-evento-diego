@@ -45,48 +45,43 @@ export function Mentor() {
               sabem com mais clareza, presença e impacto.
             </p>
             <p className="body-text" style={{ marginTop: 18 }}>
-              A abordagem do Diego costuma combinar{" "}
+              O que o Diego entrega tem base em{" "}
               <strong style={{ color: "white" }}>
-                neurociência aplicada, observação prática e estudo continuado
+                neurociência aplicada, em mais de mil palestras pelo Brasil e
+                em anos conduzindo mentorias individuais e treinamentos in
+                company
               </strong>
-              , sem cair em fórmula motivacional. O que ele entrega tem
-              fundamento, não slogan.
+              . Não é fórmula. É método construído onde a teoria precisou
+              virar prática.
             </p>
 
-            {/* VALIDAR COM DIEGO antes de publicar. Confirmar +12 anos,
-                +200 líderes formados, +40 empresas atendidas, 01 primeira
-                edição. Se algum não puder ser confirmado, remover. */}
             <div className={styles.credentials}>
-              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
-                <div className={styles.num}>
-                  +12<span className={styles.ac}>a</span>
-                </div>
+                <div className={styles.num}>+17 anos</div>
                 <div className={styles.desc}>
-                  Anos conduzindo treinamentos in company e mentorias
-                  individuais.
+                  De atuação em palco, treinamentos e mentorias com líderes de
+                  empresas e cooperativas.
                 </div>
               </div>
-              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
-                <div className={styles.num}>+200</div>
+                <div className={styles.num}>+1.000 palestras</div>
                 <div className={styles.desc}>
-                  Líderes formados em programas privados de comunicação e
-                  liderança.
+                  Realizadas pelo Brasil, em diferentes setores, formatos e
+                  escalas de público.
                 </div>
               </div>
-              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
-                <div className={styles.num}>+40</div>
+                <div className={styles.num}>+40 empresas</div>
                 <div className={styles.desc}>
-                  Empresas e cooperativas atendidas em projetos premium.
+                  Cooperativas, indústrias e instituições atendidas em
+                  projetos privados.
                 </div>
               </div>
-              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
-                <div className={styles.num}>01</div>
+                <div className={styles.num}>Imersão inaugural</div>
                 <div className={styles.desc}>
-                  Primeira edição do método no formato presencial coletivo.
+                  Primeira vez que o método é trabalhado em dois dias completos
+                  de imersão presencial.
                 </div>
               </div>
             </div>

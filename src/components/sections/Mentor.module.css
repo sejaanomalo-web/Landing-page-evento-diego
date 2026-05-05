@@ -94,21 +94,18 @@
   padding-left: 0;
 }
 .num {
-  font-size: 36px;
+  font-size: clamp(22px, 2.4vw, 28px);
   font-weight: 900;
   color: var(--orange);
   font-style: italic;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-.ac {
-  /* small accent inside number */
+  letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 .desc {
   font-size: 13px;
   color: var(--ink-soft);
-  margin-top: 10px;
-  line-height: 1.4;
+  margin-top: 12px;
+  line-height: 1.45;
 }
 
 @media (max-width: 900px) {
