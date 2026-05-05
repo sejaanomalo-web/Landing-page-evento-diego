@@ -15,7 +15,14 @@ function renderChars(word: string, startDelay: number) {
     <span
       key={`${c}-${i}`}
       className={styles.char}
-      style={{ animationDelay: `${startDelay + i * CHAR_STAGGER}s` }}
+      /* CSS custom property em vez de animation-delay inline.
+         Permite que o @media mobile sobrescreva a animação inteira
+         sem competir com inline style. */
+      style={
+        {
+          "--char-delay": `${startDelay + i * CHAR_STAGGER}s`,
+        } as React.CSSProperties
+      }
     >
       {c}
     </span>

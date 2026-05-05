@@ -149,7 +149,8 @@
     padding: 36px 0 18px;
   }
   .title {
-    font-size: clamp(26px, 6vw, 44px);
+    /* +20% sobre o clamp anterior (26-6vw-44 -> 31-7.2vw-53). */
+    font-size: clamp(31px, 7.2vw, 53px);
     max-width: 22ch;
   }
   .intro {

@@ -70,7 +70,11 @@
   display: inline-block;
   transform: translateY(60px);
   opacity: 0;
-  animation: charIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  /* O delay vem da custom property --char-delay, setada inline por
+     char no JSX (em vez de animation-delay inline, que dificulta
+     overrides em @media). */
+  animation: charIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--char-delay, 0s)
+    forwards;
 }
 @keyframes charIn {
   to {
@@ -142,14 +146,17 @@
     max-width: 100%;
   }
 
-  /* Mobile: substitui as animações lentas (chars com delays de
-     1.55s a 2.30s e subtle a 2.4s) por entradas rápidas pra
-     garantir que o texto apareça já nos primeiros segundos da
-     landing page. !important sobrescreve os animation-delay inline
-     setados em cada char no JSX. */
+  /* Mobile: animação rápida e simples pra o texto aparecer logo.
+     Como o delay desktop vem da custom property --char-delay (e não
+     mais de animation-delay inline), a animação mobile abaixo
+     sobrescreve sem conflito. Definimos animation-delay explícito
+     pra ignorar a custom property (que setaria 1.55-2.30s). */
   .char {
-    animation: charInMobile 0.45s cubic-bezier(0.22, 1, 0.36, 1)
-      0.25s both !important;
+    animation-name: charInMobile;
+    animation-duration: 0.45s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-delay: 0.25s;
+    animation-fill-mode: both;
   }
   @keyframes charInMobile {
     from {
@@ -162,6 +169,10 @@
     }
   }
   .subtle {
-    animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both !important;
+    animation-name: fadeUp;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-delay: 0.7s;
+    animation-fill-mode: both;
   }
 }
