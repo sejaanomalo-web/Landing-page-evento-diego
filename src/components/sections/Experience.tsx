@@ -154,12 +154,34 @@ export function Experience() {
     [0, 0, translateMax, translateMax]
   );
 
+  /* Snap points absolutos alinhados aos focus centers de cada card.
+     Como o wrapper é 240vh com sticky 100vh dentro, o range de scroll
+     é 140vh; multiplicamos o focus center por 140 pra cair no
+     scrollY exato em que cada card está em foco. */
+  const snapStartBuf = 0.06;
+  const snapEndBuf = 0.94;
+  const snapPositions = cards.map((_, i) => {
+    const focusCenter =
+      snapStartBuf +
+      (i / (cards.length - 1)) * (snapEndBuf - snapStartBuf);
+    return focusCenter * 140; // em vh, relativo ao topo do wrapper
+  });
+
   return (
     <section
       ref={wrapperRef}
       className={styles.scrollWrapper}
       data-screen-label="03 Experiencia"
     >
+      {snapPositions.map((topVh, i) => (
+        <div
+          key={`snap-${i}`}
+          className={styles.snapPoint}
+          style={{ top: `${topVh}vh` }}
+          aria-hidden
+        />
+      ))}
+
       <div className={styles.sticky}>
         <div className="container-lp">
           <div className={styles.header}>

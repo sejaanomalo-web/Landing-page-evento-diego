@@ -46,6 +46,17 @@ body {
 
 html {
   background: var(--navy-deeper);
+  /* Scroll-snap proximity: a página rola normalmente, mas
+     elementos com scroll-snap-align (snap points da seção
+     Experience) atraem o scroll quando estão por perto.
+     Desativado no mobile via media query no Experience. */
+  scroll-snap-type: y proximity;
+}
+
+@media (max-width: 900px) {
+  html {
+    scroll-snap-type: none;
+  }
 }
 
 body {
