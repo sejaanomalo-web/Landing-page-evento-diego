@@ -1,4 +1,7 @@
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import styles from "./Experience.module.css";
 
 const cards = [
@@ -41,7 +44,7 @@ const cards = [
 
 function Card({ n, title, body }: (typeof cards)[number]) {
   return (
-    <div className={styles.card} aria-hidden={false}>
+    <div className={styles.card}>
       <div className={styles.num}>{n}</div>
       <h4>{title}</h4>
       <p>{body}</p>
@@ -50,35 +53,70 @@ function Card({ n, title, body }: (typeof cards)[number]) {
 }
 
 export function Experience() {
+  const wrapperRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [translateMax, setTranslateMax] = useState(0);
+
+  useEffect(() => {
+    const compute = () => {
+      const trackEl = trackRef.current;
+      if (!trackEl) return;
+      const trackWidth = trackEl.scrollWidth;
+      const viewport = window.innerWidth;
+      // Translate enough that the right edge of the last card reaches the
+      // right edge of the viewport, with a small breathing margin.
+      const max = Math.max(0, trackWidth - viewport + 48);
+      setTranslateMax(-max);
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    if (trackRef.current) ro.observe(trackRef.current);
+    window.addEventListener("resize", compute);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+    };
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: wrapperRef,
+    offset: ["start start", "end end"],
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, translateMax]);
+
   return (
-    <section data-screen-label="03 Experiencia">
-      <div className="container-lp">
-        <div className="section-header">
-          <ScrollReveal>
+    <section
+      ref={wrapperRef}
+      className={styles.scrollWrapper}
+      data-screen-label="03 Experiencia"
+    >
+      <div className={styles.sticky}>
+        <div className="container-lp">
+          <div className={styles.header}>
             <h2>
-              Cada detalhe pensado para que você <em>saia diferente</em> de como
-              entrou.
+              Cada detalhe pensado para que você <em>saia diferente</em> de
+              como entrou.
             </h2>
-            <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
+            <p className="body-text">
               A imersão é técnica, mas também é sensorial. O ambiente, o ritmo,
               a luz, o som e o cuidado com cada pausa fazem parte do método.
             </p>
-          </ScrollReveal>
+          </div>
+        </div>
+
+        <div className={styles.trackContainer}>
+          <motion.div
+            ref={trackRef}
+            className={styles.track}
+            style={{ x }}
+          >
+            {cards.map((card) => (
+              <Card key={card.n} {...card} />
+            ))}
+          </motion.div>
         </div>
       </div>
-
-      <ScrollReveal className={styles.marquee} aria-label="Detalhes da experiência">
-        <div className={styles.track}>
-          {cards.map((card) => (
-            <Card key={`a-${card.n}`} {...card} />
-          ))}
-          {cards.map((card) => (
-            <Card key={`b-${card.n}`} {...card} />
-          ))}
-        </div>
-        <div className={styles.fadeLeft} aria-hidden />
-        <div className={styles.fadeRight} aria-hidden />
-      </ScrollReveal>
     </section>
   );
 }
