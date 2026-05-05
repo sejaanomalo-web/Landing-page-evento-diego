@@ -2,15 +2,6 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import styles from "./Venue.module.css";
 
-const includedItems = [
-  "Coffee break premium em todas as pausas",
-  "Material físico do método ao fim do primeiro dia",
-  "Kit sensorial de boas-vindas na chegada",
-  "Brindes sensoriais da imersão",
-  "Registro audiovisual completo para revisão posterior",
-  "Espaço dedicado a registro fotográfico individual e em grupo",
-];
-
 export function Venue() {
   return (
     <section
@@ -97,37 +88,45 @@ export function Venue() {
             </div>
 
             <h3 className={styles.subheader}>Estrutura do espaço</h3>
-            <div className={styles.details}>
+            <div className={`${styles.details} ${styles.detailsAccent}`}>
               <div className={styles.cell}>
-                <div className={styles.k}>Formato</div>
+                <div className={styles.k}>
+                  <span className={styles.bullet} aria-hidden>▲</span>
+                  Formato
+                </div>
                 <div className={styles.v}>2 dias presenciais inteiros</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Grupo</div>
+                <div className={styles.k}>
+                  <span className={styles.bullet} aria-hidden>▲</span>
+                  Grupo
+                </div>
                 <div className={styles.v}>Fechado · até 50 pessoas</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Som</div>
+                <div className={styles.k}>
+                  <span className={styles.bullet} aria-hidden>▲</span>
+                  Som
+                </div>
                 <div className={styles.v}>Calibrado para sala fechada</div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.k}>Iluminação</div>
+                <div className={styles.k}>
+                  <span className={styles.bullet} aria-hidden>▲</span>
+                  Iluminação
+                </div>
                 <div className={styles.v}>Cênica em todos os blocos</div>
               </div>
               <div className={`${styles.cell} ${styles.full}`}>
-                <div className={styles.k}>Captação</div>
+                <div className={styles.k}>
+                  <span className={styles.bullet} aria-hidden>▲</span>
+                  Captação
+                </div>
                 <div className={styles.v}>
                   Áudio, vídeo e fotografia profissionais
                 </div>
               </div>
             </div>
-
-            <h3 className={styles.subheader}>Incluído no plano</h3>
-            <ul className={styles.includedList}>
-              {includedItems.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
 
             <h3 className={styles.subheader}>Datas confirmadas</h3>
             <div className={styles.dateBlock}>04 e 05 de julho · 2026</div>

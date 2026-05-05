@@ -5,13 +5,15 @@
   border-top: 1px solid var(--hairline-strong);
   border-bottom: 1px solid var(--hairline-strong);
   text-align: center;
-  padding: 160px 0 !important;
+  /* Padding-top mais enxuto pra a logo encostar mais perto da linha
+     superior da seção. */
+  padding: 64px 0 140px !important;
 }
 
 .symbolLarge {
   width: 80px;
   height: 80px;
-  margin: 0 auto 36px;
+  margin: 0 auto 24px;
   display: block;
   object-fit: contain;
 }

@@ -1,33 +1,12 @@
-/* Section padding-top zero pra o stickyHeader engajar exatamente
-   quando o divider acima do título passa pelo topo do viewport. */
-.section {
-  padding-top: 0 !important;
-}
-
-/* Gradient sticky atrás do título, mascarando conteúdo que sobe. */
+/* Desktop: layout normal, sem sticky e sem shadow.
+   fadeMask fica oculto, .stickyHeader vira header em fluxo natural.
+   Sticky + shadow só voltam no mobile (@media abaixo). */
 .fadeMask {
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  height: 200px;
-  width: 100%;
-  margin-bottom: -200px;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--navy-deeper) 0%,
-    rgba(20, 16, 46, 0.96) 45%,
-    rgba(20, 16, 46, 0.78) 70%,
-    rgba(20, 16, 46, 0.35) 88%,
-    rgba(20, 16, 46, 0) 100%
-  );
+  display: none;
 }
 
 .stickyHeader {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  padding: 56px 0 24px;
+  padding: 0 0 24px;
 }
 
 .title {
@@ -138,19 +117,45 @@
 }
 
 @media (max-width: 900px) {
-  /* Mobile: stacking-cards. Cada card vira sticky no topo do viewport
-     com z-index ascendente, então quando o usuário rola, o card 02
-     entra cobrindo o 01, o 03 cobre o 02, e assim por diante. */
+  /* Mobile: traz de volta o sticky lock + fadeMask (só no mobile,
+     desktop fica em fluxo natural). */
+  .section {
+    padding-top: 0 !important;
+  }
+  .fadeMask {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    height: 200px;
+    width: 100%;
+    margin-bottom: -200px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      var(--navy-deeper) 0%,
+      rgba(20, 16, 46, 0.96) 45%,
+      rgba(20, 16, 46, 0.78) 70%,
+      rgba(20, 16, 46, 0.35) 88%,
+      rgba(20, 16, 46, 0) 100%
+    );
+  }
+  .stickyHeader {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding: 36px 0 18px;
+  }
+  /* Stacking-cards: cada card vira sticky no topo do viewport com
+     z-index ascendente, então quando o usuário rola, o card 02 cobre
+     o 01, o 03 cobre o 02, e assim por diante. */
   .list {
     display: block;
     border-top: none;
   }
-  .stickyHeader {
-    padding: 36px 0 18px;
-  }
   .title {
-    /* +20% sobre o clamp anterior (26-6vw-44 -> 31-7.2vw-53). */
-    font-size: clamp(31px, 7.2vw, 53px);
+    /* +10% sobre o clamp anterior (31-7.2vw-53 -> 34-7.92vw-58). */
+    font-size: clamp(34px, 7.92vw, 58px);
     max-width: 22ch;
   }
   .intro {

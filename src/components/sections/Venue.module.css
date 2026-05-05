@@ -144,6 +144,16 @@
   text-transform: uppercase;
   margin-bottom: 8px;
 }
+
+/* Bullet ▲ laranja na frente dos labels da seção "Estrutura do
+   espaço" (modificador .detailsAccent no container). */
+.bullet {
+  display: inline-block;
+  color: var(--orange);
+  font-size: 9px;
+  margin-right: 8px;
+  vertical-align: 1px;
+}
 .v {
   font-size: 16px;
   color: white;

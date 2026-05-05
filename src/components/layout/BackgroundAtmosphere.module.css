@@ -25,26 +25,40 @@
     linear-gradient(180deg, #14102e 0%, #1a1438 30%, #201747 60%, #14102e 100%);
 }
 
-/* Shared base for animated halo layers. */
-.layer {
+/* Wrapper fixed onde a motion aplica translateY do parallax (scroll-
+   driven). O halo interior tem sua própria CSS animation contínua,
+   transformando o conjunto em "drift constante + parallax sincronizado
+   com o scroll do usuário". Os transforms são em elementos diferentes,
+   então não competem entre si. */
+.parallaxLayer {
   position: fixed;
-  inset: -10%;
+  inset: -15%;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
+}
+
+.haloBege,
+.haloOrange,
+.haloDeep,
+.beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
-/* Halo 1, bege dourado (warm accent of the G4 reference, adapted). */
+/* Halo 1, bege dourado (warm accent). */
 .haloBege {
   background:
     radial-gradient(
       ellipse 35% 28% at 50% 22%,
-      rgba(241, 218, 178, 0.14) 0%,
+      rgba(241, 218, 178, 0.16) 0%,
       transparent 60%
     );
   animation: drift-bege 64s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
-  mix-blend-mode: screen;
 }
 
 /* Halo 2, laranja sinal, drifting through the lower right area. */
@@ -52,11 +66,10 @@
   background:
     radial-gradient(
       ellipse 30% 24% at 70% 75%,
-      rgba(211, 69, 30, 0.1) 0%,
+      rgba(211, 69, 30, 0.12) 0%,
       transparent 60%
     );
   animation: drift-orange 88s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
-  mix-blend-mode: screen;
 }
 
 /* Halo 3, primary-light púrpura, slow breathing pulse for depth. */
@@ -64,24 +77,21 @@
   background:
     radial-gradient(
       ellipse 40% 30% at 30% 55%,
-      rgba(74, 60, 130, 0.32) 0%,
+      rgba(74, 60, 130, 0.36) 0%,
       transparent 65%
     );
   animation: breathe-deep 38s ease-in-out infinite alternate;
-  mix-blend-mode: screen;
 }
 
-/* Vertical light beam slowly drifting horizontally. Adds a subtle
-   "stage spotlight" cue without becoming theatrical. */
+/* Vertical light beam slowly drifting horizontally. */
 .beam {
   background:
     radial-gradient(
       ellipse 18% 90% at 50% 40%,
-      rgba(241, 218, 178, 0.045) 0%,
+      rgba(241, 218, 178, 0.05) 0%,
       transparent 55%
     );
   animation: beam-pan 110s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
-  mix-blend-mode: screen;
 }
 
 /* Static vignette to anchor edges. */
@@ -179,16 +189,23 @@
   }
 }
 
-/* Mobile: desliga as 4 camadas animadas e o noise SVG. mix-blend-mode
-   + animações contínuas + filter de noise são as combinações mais
-   custosas pra GPU mobile. Mantemos só o stage estático e a vinheta. */
+/* Mobile: mantém os halos visíveis mas com animações mais lentas pra
+   reduzir o custo GPU. O parallax scroll-driven (na motion.div pai)
+   continua aplicando, então mesmo idle o usuário percebe o background
+   responder ao scroll. Noise SVG segue oculto em mobile (filter +
+   mix-blend-mode é o mais caro). */
 @media (max-width: 900px) {
-  .haloBege,
-  .haloOrange,
-  .haloDeep,
+  .haloBege {
+    animation-duration: 96s;
+  }
+  .haloOrange {
+    animation-duration: 132s;
+  }
+  .haloDeep {
+    animation-duration: 60s;
+  }
   .beam {
-    animation: none;
-    display: none;
+    animation-duration: 160s;
   }
   .noise {
     display: none;
