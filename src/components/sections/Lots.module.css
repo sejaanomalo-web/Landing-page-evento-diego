@@ -1,0 +1,249 @@
+.section {
+  /* mantém o padding global de section { 140px 0 } */
+}
+
+.lotsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Cada lote em formato de "ticket": card com chanfro de canto, brilho
+   suave laranja e gradiente sutil. Os locked ficam ofuscados pra
+   reforçar a escassez visualmente. */
+.lot {
+  position: relative;
+  padding: 36px 32px 32px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(63, 51, 114, 0.42) 0%,
+      rgba(32, 23, 71, 0.28) 100%
+    );
+  border: 1px solid rgba(211, 69, 30, 0.22);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  overflow: hidden;
+  transition:
+    transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    background 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Stub: pequeno detalhe de "canhoto" no topo do ticket, com tracejado
+   discreto que sugere a perfuração de um ingresso. */
+.stub {
+  position: absolute;
+  top: 0;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background-image: linear-gradient(
+    90deg,
+    rgba(241, 218, 178, 0) 0%,
+    rgba(241, 218, 178, 0.18) 12%,
+    rgba(241, 218, 178, 0.18) 88%,
+    rgba(241, 218, 178, 0) 100%
+  );
+}
+
+/* Lote ativo: brilho laranja em três camadas + borda mais saturada */
+.active {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(63, 51, 114, 0.55) 0%,
+      rgba(32, 23, 71, 0.42) 100%
+    );
+  border-color: rgba(211, 69, 30, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(211, 69, 30, 0.22),
+    0 0 50px -8px rgba(211, 69, 30, 0.42),
+    0 0 110px -28px rgba(211, 69, 30, 0.32);
+}
+
+/* Lotes locked: opacity reduzida + leve dessaturação. Interativamente
+   inertes — só leitura. */
+.locked {
+  opacity: 0.42;
+  filter: saturate(0.7);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .active:hover {
+    transform: translateY(-3px);
+    border-color: rgba(211, 69, 30, 0.78);
+    box-shadow:
+      0 0 0 1px rgba(211, 69, 30, 0.28),
+      0 0 70px -8px rgba(211, 69, 30, 0.55),
+      0 0 140px -28px rgba(211, 69, 30, 0.42);
+  }
+}
+
+.lotHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.lotNumber {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--beige);
+}
+
+.lotBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.active .lotBadge {
+  background: var(--orange);
+  color: white;
+  box-shadow: 0 0 16px -2px rgba(211, 69, 30, 0.5);
+}
+
+.locked .lotBadge {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-mute);
+  border: 1px solid rgba(241, 218, 178, 0.2);
+}
+
+.lotVagas {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.lotVagasNum {
+  font-size: clamp(56px, 5.4vw, 76px);
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.active .lotVagasNum {
+  color: var(--orange);
+}
+
+.lotVagasLabel {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.lotProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lotProgressBar {
+  position: relative;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.lotProgressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  background:
+    linear-gradient(90deg, var(--orange) 0%, var(--orange-warm) 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(211, 69, 30, 0.55);
+  will-change: width;
+}
+
+.lotProgressLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.lotPrice {
+  border-top: 1px solid rgba(241, 218, 178, 0.16);
+  padding-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lotPriceLabel {
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.lotPriceValue {
+  font-size: clamp(32px, 3vw, 38px);
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.locked .lotPriceValue {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.lotPriceNote {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.45;
+  max-width: 36ch;
+}
+
+.lotCta {
+  margin-top: 4px;
+  display: flex;
+}
+.lotCta > a {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .lotsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .lot {
+    padding: 28px 22px 26px;
+    gap: 22px;
+  }
+  .active {
+    box-shadow:
+      0 0 0 1px rgba(211, 69, 30, 0.22),
+      0 0 28px -8px rgba(211, 69, 30, 0.36);
+  }
+  .locked {
+    opacity: 0.55;
+    filter: none;
+  }
+  .lotVagasNum {
+    font-size: 56px;
+  }
+}

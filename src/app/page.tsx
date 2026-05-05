@@ -6,6 +6,7 @@ import { Program } from "@/components/sections/Program";
 import { Mentor } from "@/components/sections/Mentor";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { Venue } from "@/components/sections/Venue";
+import { Lots } from "@/components/sections/Lots";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppFloating } from "@/components/primitives/WhatsAppButton";
@@ -28,6 +29,7 @@ export default function Home() {
         <div className="section-divider" />
         <SocialProof />
         <Venue />
+        <Lots />
         <FinalCta />
         <Footer />
       </main>

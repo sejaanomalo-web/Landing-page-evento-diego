@@ -16,10 +16,11 @@ import styles from "./Experience.module.css";
 const CARD_WIDTH = 480;
 const CARD_GAP = 28;
 
-/* Range de scroll dentro do wrapper sticky: wrapper 360vh - 100vh
-   sticky = 260vh de scroll vertical mapeado em [0, 1]. Usado pra
-   posicionar os snap points em vh. */
-const SCROLL_RANGE_VH = 260;
+/* Range de scroll dentro do wrapper sticky: wrapper 460vh - 100vh
+   sticky = 360vh de scroll vertical mapeado em [0, 1]. Mais altura
+   do wrapper => mais scroll do usuário pra mesma distância
+   horizontal => cards se movem mais devagar por unidade de scroll. */
+const SCROLL_RANGE_VH = 360;
 
 const cards = [
   {
