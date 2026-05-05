@@ -11,7 +11,7 @@ export function SocialProof() {
         <div className="section-header">
           <ScrollReveal>
             <h2>
-              Quem já passou <em>pelo método.</em>
+              Onde o método foi <em>construído.</em>
             </h2>
             <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
               Mentorias individuais e treinamentos in company conduzidos com

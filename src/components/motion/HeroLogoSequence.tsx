@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import styles from "./HeroLogoSequence.module.css";
 
 const FIRST_NAME = "DIEGO";
@@ -26,12 +25,12 @@ function renderChars(word: string, startDelay: number) {
 export function HeroLogoSequence() {
   return (
     <div className={styles.lockup}>
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src="/assets/logo-symbol.png"
         alt="Diego Knebel"
         width={280}
         height={280}
-        priority
         className={styles.symbol}
       />
       <div className={styles.text}>
