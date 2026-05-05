@@ -100,24 +100,63 @@
   will-change: transform;
 }
 
-/* Ghost card: filler à esquerda pra empurrar o card 0 pro centro
-   exato do viewport quando x=0. Largura responsiva via calc:
-   50vw (centro do viewport) - 240px (metade do card) = quanto o
-   primeiro card precisa estar deslocado da esquerda. Em viewports
-   muito pequenos, a largura colapsa a 0. Permanente em blur + dim
-   pra não competir com os 7 cards reais. */
+/* Ghost cards: fillers nas laterais que empurram os cards reais pra
+   centralizar (esquerda quando x=0, direita quando x=translateMax).
+   Largura responsiva = 50vw - 240px (centro do viewport - metade do
+   card). Levam conteúdo fictício em blur reforçado pra dar contexto
+   visual sem competir com os 7 cards reais. */
 .ghostCard {
   flex: 0 0 max(0px, calc(50vw - 240px));
   width: max(0px, calc(50vw - 240px));
   min-width: 0;
   height: clamp(280px, 38vh, 340px);
-  background:
-    linear-gradient(135deg, rgba(58, 47, 107, 0.35), rgba(32, 23, 71, 0.25));
-  border: 1px solid rgba(241, 218, 178, 0.1);
-  border-right-color: rgba(241, 218, 178, 0.18);
-  filter: blur(4px);
-  opacity: 0.4;
+  background: rgba(58, 47, 107, 0.32);
+  border: 1px solid rgba(211, 69, 30, 0.18);
+  filter: blur(7px);
+  opacity: 0.42;
   pointer-events: none;
+  overflow: hidden;
+  position: relative;
+}
+.ghostInner {
+  width: 100%;
+  height: 100%;
+  padding: 40px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  /* Encaixa o conteúdo no lado interno do ghost (perto dos cards
+     reais). Lado esquerdo: alinhado à direita; direito: à esquerda. */
+}
+.ghostCard:not(.ghostRight) .ghostInner {
+  align-items: flex-end;
+  text-align: right;
+}
+.ghostCard.ghostRight .ghostInner {
+  align-items: flex-start;
+  text-align: left;
+}
+.ghostInner h4 {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: white;
+  margin: 0 0 16px;
+  max-width: 22ch;
+}
+.ghostInner p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 28ch;
+}
+.ghostInner .num,
+.ghostCard .num {
+  font-size: 12px;
+  color: var(--orange);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  margin-bottom: 22px;
 }
 
 /* CardWrap recebe os transforms da motion (scale, opacity, blur).
@@ -156,6 +195,14 @@
     box-shadow: 0 0 28px 0 rgba(211, 69, 30, 0.22);
   }
 }
+/* Auto-hover: quando o cardWrap entra na zona central do foco, o
+   .card recebe o mesmo visual do hover, sem depender de cursor. */
+.focused .card {
+  transform: translateY(-4px);
+  border-color: rgba(211, 69, 30, 0.75);
+  background: rgba(63, 51, 114, 0.55);
+  box-shadow: 0 0 28px 0 rgba(211, 69, 30, 0.22);
+}
 .card::before {
   content: "";
   position: absolute;
@@ -166,7 +213,8 @@
   background: var(--orange);
   transition: width 0.5s ease-out;
 }
-.card:hover::before {
+.card:hover::before,
+.focused .card::before {
   width: 100%;
 }
 .num {

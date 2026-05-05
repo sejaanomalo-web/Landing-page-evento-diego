@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
+  useMotionValueEvent,
   useScroll,
   useSpring,
   useTransform,
@@ -68,6 +69,16 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
     startBuf + (index / (total - 1)) * (endBuf - startBuf);
   const focusHalf = ((endBuf - startBuf) / (total - 1)) * 1.1;
 
+  /* Quando o card entra na zona central da sua janela de foco
+     (~50% da janela total), aplica a classe .focused que ativa
+     o mesmo visual do hover (lift, borda laranja, glow). */
+  const [focused, setFocused] = useState(false);
+  useMotionValueEvent(progress, "change", (latest) => {
+    const inHotZone =
+      Math.abs(latest - focusCenter) < focusHalf * 0.5;
+    setFocused(inHotZone);
+  });
+
   /* Cards nunca somem: opacity mínima 0.55, com blur quando estão
      fora da janela de foco. */
   const opacity = useTransform(
@@ -100,7 +111,7 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
 
   return (
     <motion.div
-      className={styles.cardWrap}
+      className={`${styles.cardWrap} ${focused ? styles.focused : ""}`}
       style={{ opacity, scale, filter: blur }}
     >
       <div className={styles.card}>
@@ -127,11 +138,13 @@ export function Experience() {
   });
 
   /* Spring-smoothed progress: inércia premium pra o lock e a entrada/saída
-     ficarem orgânicas, sem corte seco. */
+     ficarem orgânicas. Configuração mais "pesada" (stiffness baixa, mass
+     alta) pra o scroll horizontal entre cards deslizar com mais
+     suavidade, like premium glide. */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 28,
-    mass: 0.5,
+    stiffness: 60,
+    damping: 30,
+    mass: 0.85,
   });
 
   /* Hold periods nas pontas: 0-0.06 e 0.94-1 segura os cards parados,
@@ -191,7 +204,16 @@ export function Experience() {
 
         <div className={styles.trackContainer}>
           <motion.div className={styles.track} style={{ x }}>
-            <div className={styles.ghostCard} aria-hidden />
+            <div className={styles.ghostCard} aria-hidden>
+              <div className={styles.ghostInner}>
+                <div className={styles.num}>▲ 00</div>
+                <h4>Pré-experiência da imersão</h4>
+                <p>
+                  Conexão começa antes da chegada. O cuidado da imersão
+                  começa pelo convite e por como você se prepara.
+                </p>
+              </div>
+            </div>
             {cards.map((card, i) => (
               <FocusCard
                 key={card.n}
@@ -201,6 +223,19 @@ export function Experience() {
                 progress={smoothProgress}
               />
             ))}
+            <div
+              className={`${styles.ghostCard} ${styles.ghostRight}`}
+              aria-hidden
+            >
+              <div className={styles.ghostInner}>
+                <div className={styles.num}>▲ 08</div>
+                <h4>Continuidade depois do encontro</h4>
+                <p>
+                  O método se sustenta na rotina. O que começa nos dois dias
+                  segue rendendo nas semanas seguintes.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>

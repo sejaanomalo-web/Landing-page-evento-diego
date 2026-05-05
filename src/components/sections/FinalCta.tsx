@@ -23,9 +23,8 @@ export function FinalCta() {
           </h2>
           <p className={styles.body}>
             Decisões dessa magnitude talvez peçam uma conversa. Clique no
-            botão do WhatsApp abaixo para conversar com o meu time e entender
-            se a imersão se encaixa para o que você está vivendo neste
-            momento.
+            botão abaixo para conversar com o meu time e entender se a
+            imersão se encaixa para o que você está vivendo agora.
           </p>
           <div className={styles.row}>
             <WhatsAppButton
