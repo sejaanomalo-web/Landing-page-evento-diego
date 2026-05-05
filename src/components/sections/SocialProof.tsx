@@ -1,19 +1,4 @@
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
-import styles from "./SocialProof.module.css";
-
-/* Números institucionais. VALIDAR COM DIEGO antes de publicar.
-   Caso algum não possa ser confirmado até o lançamento, remover do array. */
-const stats = [
-  // VALIDAR COM DIEGO antes de publicar
-  { v: "+200", body: "Líderes formados em programas privados." },
-  // VALIDAR COM DIEGO antes de publicar
-  { v: "+40", body: "Empresas, cooperativas e times atendidos." },
-  // VALIDAR COM DIEGO antes de publicar
-  { v: "+12", suffix: "a", body: "Anos de método aplicado em campo." },
-  // VALIDAR COM DIEGO antes de publicar
-  { v: "01", body: "Primeira edição presencial coletiva." },
-];
 
 export function SocialProof() {
   return (
@@ -32,21 +17,6 @@ export function SocialProof() {
             </p>
           </ScrollReveal>
         </div>
-
-        {/* VALIDAR COM DIEGO antes de publicar. Confirmar +200 líderes,
-            +40 empresas, +12 anos, 01 primeira edição. Se algum não puder
-            ser confirmado, remover do array `stats` acima. */}
-        <StaggerGrid className={styles.stats} staggerDelay={0.1}>
-          {stats.map((s, i) => (
-            <StaggerItem key={i} className={styles.statsCell}>
-              <div className={styles.statsValue}>
-                {s.v}
-                <span className={styles.ac}>{s.suffix ?? "."}</span>
-              </div>
-              <div className={styles.statsKey}>{s.body}</div>
-            </StaggerItem>
-          ))}
-        </StaggerGrid>
       </div>
     </section>
   );
