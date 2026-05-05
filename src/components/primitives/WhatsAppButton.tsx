@@ -26,24 +26,23 @@ export function WhatsAppButton({
   className,
   message,
 }: WhatsAppButtonProps) {
-  const numero = process.env.NEXT_PUBLIC_WHATSAPP_TIME;
-  const href = buildWhatsAppHref(numero, message);
+  const href = buildWhatsAppHref(
+    process.env.NEXT_PUBLIC_WHATSAPP_TIME,
+    message,
+  );
 
   const handleClick = () => {
     if (typeof window !== "undefined") {
       const w = window as unknown as { fbq?: (event: string, name: string) => void };
       w.fbq?.("track", "Contact");
-      if (!numero) {
-        console.warn("NEXT_PUBLIC_WHATSAPP_TIME não configurado.");
-      }
     }
   };
 
   return (
     <a
       href={href}
-      target={numero ? "_blank" : undefined}
-      rel={numero ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
       data-wa
       className={cn("btn", variant === "primary" ? "btn-primary" : "btn-ghost", className)}
@@ -56,8 +55,10 @@ export function WhatsAppButton({
 }
 
 export function WhatsAppFloating({ message }: { message?: string }) {
-  const numero = process.env.NEXT_PUBLIC_WHATSAPP_TIME;
-  const href = buildWhatsAppHref(numero, message);
+  const href = buildWhatsAppHref(
+    process.env.NEXT_PUBLIC_WHATSAPP_TIME,
+    message,
+  );
 
   const handleClick = () => {
     if (typeof window !== "undefined") {
@@ -69,8 +70,8 @@ export function WhatsAppFloating({ message }: { message?: string }) {
   return (
     <a
       href={href}
-      target={numero ? "_blank" : undefined}
-      rel={numero ? "noopener noreferrer" : undefined}
+      target="_blank"
+      rel="noopener noreferrer"
       onClick={handleClick}
       className="wa-float"
       aria-label="Falar com o time no WhatsApp"
