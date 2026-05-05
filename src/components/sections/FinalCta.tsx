@@ -19,12 +19,13 @@ export function FinalCta() {
             PRÓXIMO PASSO
           </div>
           <h2 className={styles.headline}>
-            Faz sentido pra você <em>nesse momento?</em>
+            Esse é o seu <em>próximo movimento?</em>
           </h2>
           <p className={styles.body}>
-            Antes de qualquer decisão, vale uma conversa. O time do Diego
-            responde por WhatsApp e ajuda a entender se essa imersão é o próximo
-            passo certo pra você.
+            Decisões dessa magnitude talvez peçam uma conversa. Clique no
+            botão do WhatsApp abaixo para conversar com o meu time e entender
+            se a imersão se encaixa para o que você está vivendo neste
+            momento.
           </p>
           <div className={styles.row}>
             <WhatsAppButton
