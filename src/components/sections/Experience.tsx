@@ -64,6 +64,8 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
     startBuf + (index / (total - 1)) * (endBuf - startBuf);
   const focusHalf = ((endBuf - startBuf) / (total - 1)) * 1.1;
 
+  /* Cards nunca somem: opacity mínima 0.55, com blur quando estão
+     fora da janela de foco. */
   const opacity = useTransform(
     progress,
     [
@@ -71,7 +73,7 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
       focusCenter,
       focusCenter + focusHalf * 2,
     ],
-    [0.28, 1, 0.28]
+    [0.55, 1, 0.55]
   );
   const scale = useTransform(
     progress,
@@ -80,7 +82,7 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
       focusCenter,
       focusCenter + focusHalf * 2,
     ],
-    [0.9, 1, 0.9]
+    [0.94, 1, 0.94]
   );
   const blur = useTransform(
     progress,
@@ -89,7 +91,7 @@ function FocusCard({ card, index, total, progress }: FocusCardProps) {
       focusCenter,
       focusCenter + focusHalf * 2,
     ],
-    ["blur(3px)", "blur(0px)", "blur(3px)"]
+    ["blur(2.5px)", "blur(0px)", "blur(2.5px)"]
   );
 
   return (
@@ -152,14 +154,6 @@ export function Experience() {
     [0, 0, translateMax, translateMax]
   );
 
-  /* Fade-in/out sutil do conjunto pra entrada e saída se diluírem com
-     a atmosfera de fundo. */
-  const stageOpacity = useTransform(
-    smoothProgress,
-    [0, 0.04, 0.96, 1],
-    [0, 1, 1, 0]
-  );
-
   return (
     <section
       ref={wrapperRef}
@@ -180,10 +174,11 @@ export function Experience() {
           </div>
         </div>
 
-        <motion.div
-          className={styles.trackContainer}
-          style={{ opacity: stageOpacity }}
-        >
+        <div className={styles.spotMarker} aria-hidden>
+          ▼
+        </div>
+
+        <div className={styles.trackContainer}>
           <motion.div
             ref={trackRef}
             className={styles.track}
@@ -199,10 +194,6 @@ export function Experience() {
               />
             ))}
           </motion.div>
-        </motion.div>
-
-        <div className={styles.spotMarker} aria-hidden>
-          ▼
         </div>
       </div>
     </section>
