@@ -136,15 +136,45 @@
 .lotProgress {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
+.lotProgressTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Número grande do percentual em destaque, como a estatística
+   principal do card. */
+.lotProgressNumber {
+  font-size: clamp(44px, 4.4vw, 60px);
+  font-weight: 900;
+  font-style: italic;
+  color: var(--orange);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-shadow: 0 0 24px rgba(211, 69, 30, 0.55);
+}
+
+.lotProgressLabel {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+/* Barra mais robusta + glow + shimmer rolando continuamente.
+   A largura ainda é animada via motion (0% -> 90% em 2s). */
 .lotProgressBar {
   position: relative;
-  height: 6px;
+  height: 12px;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .lotProgressFill {
@@ -152,19 +182,47 @@
   inset: 0 auto 0 0;
   height: 100%;
   background:
-    linear-gradient(90deg, var(--orange) 0%, var(--orange-warm) 100%);
+    linear-gradient(90deg, #ff6a3a 0%, var(--orange) 50%, var(--orange-warm) 100%);
   border-radius: 999px;
-  box-shadow: 0 0 14px rgba(211, 69, 30, 0.55);
+  box-shadow:
+    0 0 18px rgba(211, 69, 30, 0.7),
+    0 0 36px rgba(211, 69, 30, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   will-change: width;
+  overflow: hidden;
 }
 
-.lotProgressLabel {
-  display: flex;
-  justify-content: space-between;
+/* Shimmer infinito rolando dentro da barra, dá ritmo visual
+   permanente mesmo após o fill terminar. */
+.lotProgressFill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  animation: lotShimmer 2.4s linear infinite;
+}
+
+@keyframes lotShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.lotProgressFooter {
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-mute);
+  font-weight: 600;
+  text-align: right;
 }
 
 .lotPrice {

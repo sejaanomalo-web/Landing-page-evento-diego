@@ -44,3 +44,10 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
+@media (max-width: 900px) {
+  /* Headline +10% em mobile (clamp 48-88 -> clamp 53-97). */
+  .headline {
+    font-size: clamp(53px, 6.6vw, 97px);
+  }
+}

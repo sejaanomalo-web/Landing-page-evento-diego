@@ -1,3 +1,55 @@
+/* Section padding-top zero pra o stickyHeader engajar exatamente
+   quando o divider acima do título passa pelo topo do viewport. */
+.section {
+  padding-top: 0 !important;
+}
+
+/* Gradient sticky atrás do título, mascarando conteúdo que sobe. */
+.fadeMask {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  height: 200px;
+  width: 100%;
+  margin-bottom: -200px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--navy-deeper) 0%,
+    rgba(20, 16, 46, 0.96) 45%,
+    rgba(20, 16, 46, 0.78) 70%,
+    rgba(20, 16, 46, 0.35) 88%,
+    rgba(20, 16, 46, 0) 100%
+  );
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 56px 0 24px;
+}
+
+.title {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 22ch;
+  margin: 0;
+}
+.title em {
+  color: var(--orange);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.intro {
+  margin-top: 4px;
+  margin-bottom: 56px;
+  max-width: 62ch;
+}
+
 .list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -93,6 +145,16 @@
     display: block;
     border-top: none;
   }
+  .stickyHeader {
+    padding: 36px 0 18px;
+  }
+  .title {
+    font-size: clamp(26px, 6vw, 44px);
+    max-width: 22ch;
+  }
+  .intro {
+    margin-bottom: 24px;
+  }
   .item {
     grid-column: auto;
     border: 1px solid rgba(241, 218, 178, 0.16);
@@ -106,7 +168,10 @@
       0 -2px 24px -8px rgba(0, 0, 0, 0.45),
       0 12px 32px -16px rgba(0, 0, 0, 0.55);
     position: sticky;
-    top: 24px;
+    /* Logo abaixo do stickyHeader: 36 padding-top + ~64 altura do
+       título wrapado + 18 padding-bottom = ~118; reservamos 130px
+       de respiro pro card encaixar abaixo do header pinado. */
+    top: 130px;
   }
   /* z-index ascendente: card N cobre card N-1 quando ambos stickam. */
   .item:nth-child(1) {

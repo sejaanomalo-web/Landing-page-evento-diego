@@ -141,4 +141,27 @@
     line-height: 1.4;
     max-width: 100%;
   }
+
+  /* Mobile: substitui as animações lentas (chars com delays de
+     1.55s a 2.30s e subtle a 2.4s) por entradas rápidas pra
+     garantir que o texto apareça já nos primeiros segundos da
+     landing page. !important sobrescreve os animation-delay inline
+     setados em cada char no JSX. */
+  .char {
+    animation: charInMobile 0.45s cubic-bezier(0.22, 1, 0.36, 1)
+      0.25s both !important;
+  }
+  @keyframes charInMobile {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .subtle {
+    animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both !important;
+  }
 }

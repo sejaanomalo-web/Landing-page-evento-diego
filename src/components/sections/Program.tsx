@@ -42,20 +42,25 @@ function ProgItem({ n, title, body, lastNoBorder }: Item & { lastNoBorder?: bool
 
 export function Program() {
   return (
-    <section id="programa" data-screen-label="04 Programa">
+    <section
+      id="programa"
+      className={styles.section}
+      data-screen-label="04 Programa"
+    >
+      <div className={styles.fadeMask} aria-hidden />
       <div className="container-lp">
-        <div className="section-header">
-          <ScrollReveal>
-            <h2>
-              Onze territórios, do <em>interno ao coletivo.</em>
-            </h2>
-            <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
-              Cada bloco com fundamento (neurociência aplicada, observação
-              prática) e aplicação direta. A sequência foi pensada para
-              destravar você antes de destravar o seu time.
-            </p>
-          </ScrollReveal>
+        <div className={styles.stickyHeader}>
+          <h2 className={styles.title}>
+            Onze territórios, do <em>interno ao coletivo.</em>
+          </h2>
         </div>
+        <ScrollReveal>
+          <p className={`body-text ${styles.intro}`}>
+            Cada bloco com fundamento (neurociência aplicada, observação
+            prática) e aplicação direta. A sequência foi pensada para
+            destravar você antes de destravar o seu time.
+          </p>
+        </ScrollReveal>
 
         <StaggerGrid className={styles.list}>
           {items.map((it, i) => (

@@ -64,6 +64,10 @@ function Lot({ data, index }: LotProps) {
 
       {isActive && data.fillPct !== undefined && (
         <div className={styles.lotProgress}>
+          <div className={styles.lotProgressTop}>
+            <span className={styles.lotProgressNumber}>{data.fillPct}%</span>
+            <span className={styles.lotProgressLabel}>preenchido</span>
+          </div>
           <div className={styles.lotProgressBar}>
             <motion.div
               className={styles.lotProgressFill}
@@ -71,16 +75,13 @@ function Lot({ data, index }: LotProps) {
               whileInView={{ width: `${data.fillPct}%` }}
               viewport={{ once: true, margin: "0px 0px -15% 0px" }}
               transition={{
-                duration: 1.6,
-                delay: 0.4,
-                ease: [0.32, 0.72, 0, 1],
+                duration: 2,
+                delay: 0.45,
+                ease: [0.22, 0.9, 0.2, 1],
               }}
             />
           </div>
-          <div className={styles.lotProgressLabel}>
-            <span>{data.fillPct}% preenchido</span>
-            <span>fechando</span>
-          </div>
+          <div className={styles.lotProgressFooter}>fechando em breve</div>
         </div>
       )}
 
