@@ -159,6 +159,13 @@
     max-width: 22ch;
   }
   .intro {
+    /* desce o parágrafo introdutório pra fora da zona opaca do
+       fadeMask (que cobre os primeiros ~150px abaixo do topo
+       quando o sticky engaja). */
+    margin-top: 56px;
+    margin-bottom: 32px;
+  }
+  .intro {
     margin-bottom: 24px;
   }
   .item {
