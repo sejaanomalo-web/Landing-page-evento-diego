@@ -30,13 +30,6 @@ export function SocialProof() {
               imersão Líder Magnético compila o método em formato presencial
               coletivo pela primeira vez.
             </p>
-            <p
-              className="body-text"
-              style={{ marginTop: 18, maxWidth: "62ch", color: "var(--ink-mute)" }}
-            >
-              Os depoimentos dos participantes desta primeira edição serão
-              publicados aqui após o evento.
-            </p>
           </ScrollReveal>
         </div>
 
