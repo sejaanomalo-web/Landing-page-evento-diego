@@ -108,71 +108,79 @@
   }
 }
 
+/* Mobile: layout vertical (símbolo em cima, texto centralizado abaixo).
+   Resolve o problema de o texto ser cortado em telas estreitas — o
+   espaço horizontal lado-a-lado do desktop não cabe < 768px. */
 @media (max-width: 768px) {
   .lockup {
-    height: clamp(96px, 26vw, 130px);
-    margin-bottom: clamp(24px, 6vw, 36px);
-    /* puxa o lockup pra 8px além da borda esquerda do container,
-       deixando logo + nome mais "encostados" na lateral em mobile. */
-    margin-left: -8px;
+    height: auto;
+    min-height: 280px;
+    margin-bottom: 40px;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
+
   .symbol {
-    --size: clamp(108px, 30vw, 160px);
+    --size: 140px;
     width: var(--size) !important;
     height: var(--size) !important;
     min-width: var(--size);
     min-height: var(--size);
+    /* Sai do absolute centralizado do desktop e entra no fluxo
+       normal acima do texto. */
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: scale(1) !important;
+    transform-origin: center center;
+    margin-bottom: 16px;
+    /* No mobile o símbolo só faz fade + scale-in (não desliza
+       pra esquerda, não faz sentido nesse layout vertical). */
+    animation: symbolEnterMobile 1s cubic-bezier(0.65, 0, 0.35, 1) 0.2s
+      both !important;
   }
+
   .text {
-    left: clamp(70px, 19vw, 100px);
-    /* o texto pode usar a largura disponível (até a borda direita
-       do lockup, considerando o margin-left negativo). */
-    right: 0;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    overflow: visible !important;
+    width: 100%;
+    text-align: center;
   }
+
   .name {
-    font-size: clamp(22px, 6.4vw, 32px);
-    letter-spacing: 0.02em;
+    font-size: 36px !important;
+    letter-spacing: 0.04em;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  .gap {
-    width: clamp(8px, 2.5vw, 16px);
+
+  .word {
+    flex-wrap: wrap;
+    justify-content: center;
   }
+
   .subtle {
-    font-size: clamp(8.5px, 2.4vw, 11px);
-    letter-spacing: 0.18em;
-    /* Permite quebra de linha pra "MENTOR DE COMUNICAÇÃO &
-       LIDERANÇA" caber em viewports estreitos. */
+    font-size: 10px !important;
+    letter-spacing: 0.24em !important;
     white-space: normal;
     line-height: 1.4;
     max-width: 100%;
   }
+}
 
-  /* Mobile: animação rápida e simples pra o texto aparecer logo.
-     Como o delay desktop vem da custom property --char-delay (e não
-     mais de animation-delay inline), a animação mobile abaixo
-     sobrescreve sem conflito. Definimos animation-delay explícito
-     pra ignorar a custom property (que setaria 1.55-2.30s). */
-  .char {
-    animation-name: charInMobile;
-    animation-duration: 0.45s;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-    animation-delay: 0.25s;
-    animation-fill-mode: both;
+@keyframes symbolEnterMobile {
+  0% {
+    opacity: 0;
+    transform: scale(1.6);
   }
-  @keyframes charInMobile {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .subtle {
-    animation-name: fadeUp;
-    animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-    animation-delay: 0.7s;
-    animation-fill-mode: both;
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
