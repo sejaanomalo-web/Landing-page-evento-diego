@@ -12,12 +12,10 @@ import {
 } from "framer-motion";
 import styles from "./Experience.module.css";
 
-/* Ease aplicado em cada segmento do progress->x. Nos dwells o output
-   é constante (mesma posição), então o ease não tem efeito visual.
-   Nas transições entre cards, suaviza a entrada/saída do movimento
-   horizontal. cubic-bezier(0.4, 0, 0.2, 1) é um ease in-out clássico,
-   mais lento nas pontas e cruzeiro no meio. */
-const dwellEase = cubicBezier(0.4, 0, 0.2, 1);
+/* Ease nas transições entre dwells. Apple-style smooth curve
+   (out-quint similar): segue o scroll do usuário com leve
+   suavização, sem dar a sensação de "lag". */
+const dwellEase = cubicBezier(0.32, 0.72, 0, 1);
 
 /* Geometria dos cards (precisa bater com Experience.module.css). */
 const CARD_WIDTH = 480;
@@ -73,7 +71,7 @@ const cards = [
   {
     n: "▲ 07",
     title: "Encerramento com assinatura emocional",
-    body: "Um último momento conduzido. Fechamento do ciclo com peso e silêncio.",
+    body: "Encerramento sem pressa. O último bloco existe para que o que aconteceu nesses dois dias tenha tempo de virar decisão.",
   },
 ];
 
@@ -171,14 +169,14 @@ export function Experience() {
     offset: ["start end", "end start"],
   });
 
-  /* Spring-smoothed progress: inércia premium pra o lock, a saída e o
-     scroll entre cards. Configuração mais "pesada" (stiffness baixa,
-     mass alta) que adiciona um pequeno lag entre o scroll do usuário
-     e o movimento horizontal dos cards, como uma câmera flutuando. */
+  /* Spring de tracking apertado: stiffness alta + mass baixa fazem
+     os cards seguirem o scroll do usuário quase em tempo real
+     (~30ms de tempo característico). Damping bem acima do crítico
+     elimina oscilação. Smooth + sync, sem lag perceptível. */
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 48,
-    damping: 26,
-    mass: 1.0,
+    stiffness: 260,
+    damping: 35,
+    mass: 0.5,
   });
 
   /* Mapeamento progress -> x com dwells: cada card tem 2 keyframes
@@ -206,10 +204,11 @@ export function Experience() {
   });
 
   /* Entry/exit smoothing: scale sutil dá a sensação de "pousar" no
-     lock quando a seção entra na viewport e "soltar" quando sai. */
+     lock e "soltar" quando sai, agora também synced com a posição
+     do viewport via spring rápida. */
   const stageScale = useSpring(
-    useTransform(viewProgress, [0, 0.18, 0.82, 1], [0.95, 1, 1, 0.95]),
-    { stiffness: 80, damping: 26, mass: 0.8 }
+    useTransform(viewProgress, [0, 0.18, 0.82, 1], [0.96, 1, 1, 0.96]),
+    { stiffness: 200, damping: 30, mass: 0.5 }
   );
 
   return (

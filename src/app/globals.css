@@ -169,47 +169,74 @@ main.lp-main {
 }
 
 /* ---------- BUTTONS ---------- */
+/* Apple-style premium: pill com gradient sutil, shadow em camadas
+   (drop + inset top highlight), micro-interações em ease curve
+   típica do design Apple, e tipografia mais refinada. */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  padding: 18px 28px;
+  gap: 10px;
+  padding: 14px 26px;
   font-family: var(--font-titillium), sans-serif;
   font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  text-transform: none;
   text-decoration: none;
   border: 1px solid transparent;
-  border-radius: 0;
+  border-radius: 999px;
   transition:
-    transform 0.3s ease-out,
-    box-shadow 0.3s ease-out,
-    background 0.3s,
-    color 0.3s;
+    transform 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    background 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.32s cubic-bezier(0.32, 0.72, 0, 1);
   cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+  white-space: nowrap;
 }
 .btn-primary {
-  background: var(--orange);
+  background:
+    linear-gradient(180deg, var(--orange-warm) 0%, var(--orange) 100%);
   color: white;
-  box-shadow: 0 0 0 0 rgba(211, 69, 30, 0);
+  box-shadow:
+    0 4px 14px -4px rgba(211, 69, 30, 0.45),
+    0 1px 2px -1px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
 }
 .btn-primary:hover {
-  transform: translateY(-3px);
-  background: var(--orange-warm);
+  transform: translateY(-1px);
+  background:
+    linear-gradient(180deg, #ec6738 0%, var(--orange-warm) 100%);
   box-shadow:
-    0 14px 36px -12px rgba(211, 69, 30, 0.7),
-    0 0 0 1px rgba(211, 69, 30, 0.3);
+    0 10px 26px -6px rgba(211, 69, 30, 0.55),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.14);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow:
+    0 3px 10px -3px rgba(211, 69, 30, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
 }
 .btn-ghost {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   color: white;
-  border: 1px solid var(--hairline-strong);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
 }
 .btn-ghost:hover {
-  transform: translateY(-3px);
-  border-color: var(--beige);
-  background: rgba(241, 218, 178, 0.04);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(241, 218, 178, 0.45);
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.3);
+}
+.btn-ghost:active {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.06);
 }
 .btn .arrow {
   font-size: 18px;
