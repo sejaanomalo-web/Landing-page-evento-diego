@@ -10,7 +10,7 @@ export function Mentor() {
         <div className="section-header">
           <ScrollReveal>
             <h2>
-              O método tem <em>nome e rosto.</em>
+              Conheça quem vai conduzir <em>esses dois dias.</em>
             </h2>
           </ScrollReveal>
         </div>

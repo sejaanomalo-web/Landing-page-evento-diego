@@ -5,9 +5,11 @@ import styles from "./HeroLogoSequence.module.css";
 
 const FIRST_NAME = "DIEGO";
 const LAST_NAME = "KNEBEL";
-const CHAR_BASE_DELAY = 1.55;
-const CHAR_STAGGER = 0.07;
-const GAP_GAIN = 0.05;
+/* Timeline comprimida pra entrada terminar em ~1s. Ratio ~3.5x mais
+   rápida do que a calibração original (1.55s -> 0.42s, 0.07s -> 0.02s). */
+const CHAR_BASE_DELAY = 0.42;
+const CHAR_STAGGER = 0.02;
+const GAP_GAIN = 0.015;
 
 function renderChars(word: string, startDelay: number) {
   return word.split("").map((c, i) => (
