@@ -53,7 +53,11 @@ export function Mentor() {
               fundamento, não slogan.
             </p>
 
+            {/* VALIDAR COM DIEGO antes de publicar. Confirmar +12 anos,
+                +200 líderes formados, +40 empresas atendidas, 01 primeira
+                edição. Se algum não puder ser confirmado, remover. */}
             <div className={styles.credentials}>
+              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
                 <div className={styles.num}>
                   +12<span className={styles.ac}>a</span>
@@ -63,6 +67,7 @@ export function Mentor() {
                   individuais.
                 </div>
               </div>
+              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
                 <div className={styles.num}>+200</div>
                 <div className={styles.desc}>
@@ -70,12 +75,14 @@ export function Mentor() {
                   liderança.
                 </div>
               </div>
+              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
                 <div className={styles.num}>+40</div>
                 <div className={styles.desc}>
                   Empresas e cooperativas atendidas em projetos premium.
                 </div>
               </div>
+              {/* VALIDAR COM DIEGO antes de publicar */}
               <div className={styles.cell}>
                 <div className={styles.num}>01</div>
                 <div className={styles.desc}>

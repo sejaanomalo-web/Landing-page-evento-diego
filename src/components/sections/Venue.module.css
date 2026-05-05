@@ -97,8 +97,8 @@
 }
 
 .info {
-  /* Sem padding-top: a primeira linha "Av. Aracy Tanaka..."
-     fica alinhada exatamente na linha do topo do player. */
+  /* Sem padding-top: a primeira linha do endereço fica alinhada
+     exatamente na linha do topo do player. */
   padding-top: 0;
 }
 

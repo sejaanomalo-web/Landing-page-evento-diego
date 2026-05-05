@@ -22,6 +22,10 @@ export function Hero() {
               </span>
             </h1>
 
+            <p className={styles.tagline}>
+              Comunique-se para atrair, engajar e melhorar resultados.
+            </p>
+
             <p className={styles.sub}>
               O que separa um líder respeitado de um chefe tolerado{" "}
               <strong>tende a estar em como ele se faz entender</strong>, não em

@@ -12,9 +12,9 @@ const titillium = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: "Líder Magnético · Diego Knebel",
+  title: "Líder Magnético · Comunique-se para atrair, engajar e melhorar resultados · Diego Knebel",
   description:
-    "Imersão presencial de 2 dias em comunicação e liderança. Para quem precisa transmitir o que sabe com mais clareza, presença e impacto.",
+    "Líder Magnético: comunique-se para atrair, engajar e melhorar resultados. Imersão presencial de 2 dias com Diego Knebel em Cascavel. Para líderes, especialistas e empreendedores que precisam transmitir o que sabem com mais clareza, presença e impacto.",
 };
 
 export default function RootLayout({

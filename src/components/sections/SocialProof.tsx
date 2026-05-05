@@ -2,31 +2,16 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerGrid, StaggerItem } from "@/components/motion/StaggerGrid";
 import styles from "./SocialProof.module.css";
 
-const testimonials = [
-  {
-    initials: "RF",
-    body: "A leitura que o Diego faz da nossa comunicação no dia a dia é precisa. Saí com clareza do que mudar e da ordem para mudar.",
-    role: "Diretor de Operações",
-    org: "Cooperativa · Oeste do PR",
-  },
-  {
-    initials: "CM",
-    body: "Nada de fórmula. O método cabe na rotina de quem realmente lidera. Conversas que evitava antes hoje já não me custam o mesmo.",
-    role: "CEO",
-    org: "Indústria · Cascavel",
-  },
-  {
-    initials: "LB",
-    body: "O que o Diego entrega tem fundamento e prática. Em três meses de aplicação, o efeito apareceu na entrega do time, não só na minha postura.",
-    role: "Head de Comercial",
-    org: "Tecnologia · São Paulo",
-  },
-];
-
+/* Números institucionais. VALIDAR COM DIEGO antes de publicar.
+   Caso algum não possa ser confirmado até o lançamento, remover do array. */
 const stats = [
+  // VALIDAR COM DIEGO antes de publicar
   { v: "+200", body: "Líderes formados em programas privados." },
+  // VALIDAR COM DIEGO antes de publicar
   { v: "+40", body: "Empresas, cooperativas e times atendidos." },
+  // VALIDAR COM DIEGO antes de publicar
   { v: "+12", suffix: "a", body: "Anos de método aplicado em campo." },
+  // VALIDAR COM DIEGO antes de publicar
   { v: "01", body: "Primeira edição presencial coletiva." },
 ];
 
@@ -45,25 +30,19 @@ export function SocialProof() {
               imersão Líder Magnético compila o método em formato presencial
               coletivo pela primeira vez.
             </p>
+            <p
+              className="body-text"
+              style={{ marginTop: 18, maxWidth: "62ch", color: "var(--ink-mute)" }}
+            >
+              Os depoimentos dos participantes desta primeira edição serão
+              publicados aqui após o evento.
+            </p>
           </ScrollReveal>
         </div>
 
-        <StaggerGrid className={styles.row}>
-          {testimonials.map((t) => (
-            <StaggerItem key={t.initials} className={styles.card}>
-              <span className={styles.quoteMark}>&ldquo;</span>
-              <div className={styles.testi}>{t.body}</div>
-              <div className={styles.who}>
-                <div className={styles.avatar}>{t.initials}</div>
-                <div>
-                  <div className={styles.nameSmall}>{t.role}</div>
-                  <div className={styles.role}>{t.org}</div>
-                </div>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerGrid>
-
+        {/* VALIDAR COM DIEGO antes de publicar. Confirmar +200 líderes,
+            +40 empresas, +12 anos, 01 primeira edição. Se algum não puder
+            ser confirmado, remover do array `stats` acima. */}
         <StaggerGrid className={styles.stats} staggerDelay={0.1}>
           {stats.map((s, i) => (
             <StaggerItem key={i} className={styles.statsCell}>

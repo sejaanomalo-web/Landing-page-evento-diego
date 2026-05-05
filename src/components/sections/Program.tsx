@@ -9,16 +9,13 @@ interface Item {
   body: string;
 }
 
-const partA: Item[] = [
-  { n: "01", title: "Consciência de liderança", body: "Entenda seu padrão antes de repetir os mesmos erros." },
+const items: Item[] = [
+  { n: "01", title: "Consciência de liderança", body: "Entenda seu padrão ou repita seus erros." },
   { n: "02", title: "Autoridade percebida", body: "Respeito não se exige, se constrói." },
   { n: "03", title: "Ativação interna", body: "Pare de motivar. Comece a despertar." },
   { n: "04", title: "Conexão que gera resultados", body: "Conquiste antes de falar." },
   { n: "05", title: "Clareza que move pessoas", body: "Diga o que precisa ser feito, e faça acontecer." },
   { n: "06", title: "Escuta estratégica", body: "Entenda o que não está sendo dito." },
-];
-
-const partB: Item[] = [
   { n: "07", title: "Conversas que transformam performance", body: "Ajuste rápido, evolução constante." },
   { n: "08", title: "Controle emocional sob pressão", body: "Quem domina a si, lidera qualquer cenário." },
   { n: "09", title: "Conflitos que constroem resultados", body: "Pare de evitar. Comece a usar." },
@@ -61,21 +58,12 @@ export function Program() {
         </div>
 
         <StaggerGrid className={styles.list}>
-          {partA.map((it) => (
-            <ProgItem key={it.n} {...it} />
-          ))}
-
-          <StaggerItem className={styles.spanning}>
-            <div className={styles.lead}>
-              <em>&ldquo;O que tende a falhar primeiro não é a técnica. É a pausa.&rdquo;</em>
-            </div>
-            <div className="label-caps" style={{ color: "var(--orange)" }}>
-              ▲ Diego Knebel
-            </div>
-          </StaggerItem>
-
-          {partB.map((it, i) => (
-            <ProgItem key={it.n} {...it} lastNoBorder={i === partB.length - 1} />
+          {items.map((it, i) => (
+            <ProgItem
+              key={it.n}
+              {...it}
+              lastNoBorder={i === items.length - 1}
+            />
           ))}
         </StaggerGrid>
       </div>

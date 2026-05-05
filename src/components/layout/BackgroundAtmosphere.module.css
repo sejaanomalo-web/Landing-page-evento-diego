@@ -1,4 +1,4 @@
-/* Base atmospheric stage — deep navy with multi-layered radial depth.
+/* Base atmospheric stage. Deep navy with multi-layered radial depth.
    Inspired by the G4 Valley palette adapted to Diego Knebel brand
    (#201747 dominante, #3A2F6B profundidade, #F1DAB2 halo, #D3451E acento). */
 .stage {
@@ -35,7 +35,7 @@
   backface-visibility: hidden;
 }
 
-/* Halo 1 — bege dourado (warm accent of the G4 reference, adapted). */
+/* Halo 1, bege dourado (warm accent of the G4 reference, adapted). */
 .haloBege {
   background:
     radial-gradient(
@@ -47,7 +47,7 @@
   mix-blend-mode: screen;
 }
 
-/* Halo 2 — laranja sinal, drifting through the lower right area. */
+/* Halo 2, laranja sinal, drifting through the lower right area. */
 .haloOrange {
   background:
     radial-gradient(
@@ -59,7 +59,7 @@
   mix-blend-mode: screen;
 }
 
-/* Halo 3 — primary-light púrpura, slow breathing pulse for depth. */
+/* Halo 3, primary-light púrpura, slow breathing pulse for depth. */
 .haloDeep {
   background:
     radial-gradient(
@@ -71,7 +71,7 @@
   mix-blend-mode: screen;
 }
 
-/* Vertical light beam slowly drifting horizontally — adds a subtle
+/* Vertical light beam slowly drifting horizontally. Adds a subtle
    "stage spotlight" cue without becoming theatrical. */
 .beam {
   background:
