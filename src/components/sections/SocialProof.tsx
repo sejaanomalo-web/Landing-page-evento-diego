@@ -1,4 +1,8 @@
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import styles from "./SocialProof.module.css";
+
+const LOGO_COUNT = 24;
+const logoNumbers = Array.from({ length: LOGO_COUNT }, (_, i) => i + 1);
 
 export function SocialProof() {
   return (
@@ -16,6 +20,32 @@ export function SocialProof() {
               coletivo pela primeira vez.
             </p>
           </ScrollReveal>
+        </div>
+      </div>
+
+      <div className={styles.logoStrip} aria-label="Empresas atendidas">
+        <div className={styles.logoTrack}>
+          {logoNumbers.map((n) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={`a-${n}`}
+              src={`/assets/logos/${n}.jpg`}
+              alt=""
+              className={styles.logoImg}
+              loading="lazy"
+            />
+          ))}
+          {logoNumbers.map((n) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={`b-${n}`}
+              src={`/assets/logos/${n}.jpg`}
+              alt=""
+              className={styles.logoImg}
+              loading="lazy"
+              aria-hidden
+            />
+          ))}
         </div>
       </div>
     </section>

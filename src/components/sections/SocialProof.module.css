@@ -1,121 +1,79 @@
-.row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-.card {
-  background: rgba(58, 47, 107, 0.32);
-  border: 1px solid rgba(211, 69, 30, 0.25);
-  padding: 36px 32px;
+/* Faixa de logos das empresas atendidas. Fundo branco em contraste
+   com o navy do resto da página. Logos em altura uniforme dentro de
+   slots fixos com object-fit: contain. Esteira automática e
+   contínua, com fade nas bordas. */
+.logoStrip {
+  margin-top: 64px;
+  width: 100%;
+  background: #ffffff;
+  padding: 36px 0;
+  overflow: hidden;
   position: relative;
-  transition:
-    transform 0.3s ease-out,
-    border-color 0.3s ease-out,
-    background 0.3s ease-out,
-    box-shadow 0.3s ease-out;
-}
-@media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(211, 69, 30, 0.7);
-    background: rgba(63, 51, 114, 0.5);
-    box-shadow: 0 0 24px 0 rgba(211, 69, 30, 0.18);
-  }
-  .card:active {
-    transform: translateY(-2px);
-    transition-duration: 0.1s;
-  }
-}
-.quoteMark {
-  font-size: 56px;
-  line-height: 0.5;
-  color: var(--orange);
-  font-family: Georgia, serif;
-  font-style: italic;
-  margin-bottom: 14px;
-  display: block;
-}
-.testi {
-  font-size: 16px;
-  line-height: 1.55;
-  color: white;
-  margin-bottom: 24px;
-  font-style: italic;
-  font-weight: 400;
-}
-.who {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.avatar {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--navy-light), var(--navy));
-  border: 1px solid var(--hairline-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--beige);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-}
-.nameSmall {
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-}
-.role {
-  font-size: 12px;
-  color: var(--ink-mute);
-  margin-top: 2px;
-  letter-spacing: 0.04em;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 5%,
+    #000 95%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 5%,
+    #000 95%,
+    transparent 100%
+  );
 }
 
-.stats {
-  margin-top: 64px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
+.logoTrack {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  width: max-content;
+  animation: logoSlide 90s linear infinite;
+  will-change: transform;
 }
-.statsCell {
-  padding: 36px 28px 36px 0;
-  border-right: 1px solid var(--hairline);
+
+.logoStrip:hover .logoTrack {
+  animation-play-state: paused;
 }
-.statsCell:last-child {
-  border-right: none;
+
+@keyframes logoSlide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    /* Track contém duas cópias dos 24 logos lado a lado.
+       Translação de -50% reinicia perfeitamente. */
+    transform: translate3d(-50%, 0, 0);
+  }
 }
-.statsCell:not(:first-child) {
-  padding-left: 28px;
+
+.logoImg {
+  flex: 0 0 auto;
+  width: 160px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
 }
-.statsValue {
-  font-size: 56px;
-  font-weight: 900;
-  color: white;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.ac {
-  color: var(--orange);
-}
-.statsKey {
-  font-size: 13px;
-  color: var(--ink-soft);
-  margin-top: 12px;
-  line-height: 1.4;
+
+@media (prefers-reduced-motion: reduce) {
+  .logoTrack {
+    animation: none;
+  }
 }
 
 @media (max-width: 900px) {
-  .row {
-    grid-template-columns: 1fr;
+  .logoStrip {
+    margin-top: 40px;
+    padding: 28px 0;
   }
-  .stats {
-    grid-template-columns: 1fr 1fr;
+  .logoTrack {
+    gap: 40px;
+    animation-duration: 70s;
   }
-  .statsCell {
-    padding: 24px 20px !important;
+  .logoImg {
+    width: 130px;
+    height: 52px;
   }
 }
