@@ -30,6 +30,7 @@ export function FinalCta() {
             <WhatsAppButton
               variant="primary"
               label="Falar com o time no WhatsApp"
+              className="btn-lg"
             />
           </div>
         </ScrollReveal>

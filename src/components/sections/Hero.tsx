@@ -1,5 +1,4 @@
 import { HeroLogoSequence } from "@/components/motion/HeroLogoSequence";
-import { WhatsAppButton } from "@/components/primitives/WhatsAppButton";
 import styles from "./Hero.module.css";
 
 export function Hero() {
@@ -54,12 +53,6 @@ export function Hero() {
               </div>
             </div>
 
-            <div className={styles.ctaRow}>
-              <WhatsAppButton variant="primary" label="Falar com o time" />
-              <a className="btn btn-ghost" href="#programa">
-                Ver programação
-              </a>
-            </div>
           </div>
         </div>
       </div>

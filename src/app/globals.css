@@ -238,6 +238,20 @@ main.lp-main {
   transform: translateY(0);
   background: rgba(255, 255, 255, 0.06);
 }
+
+/* Variante 10% maior, usada nos CTAs principais (FinalCta). */
+.btn-lg {
+  padding: 16px 30px;
+  font-size: 15px;
+  gap: 12px;
+}
+.btn-lg .wa-icon {
+  width: 18px;
+  height: 18px;
+}
+.btn-lg .arrow {
+  font-size: 20px;
+}
 .btn .arrow {
   font-size: 18px;
   line-height: 1;
