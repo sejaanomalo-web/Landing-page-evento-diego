@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useIsMobile } from "@/lib/use-is-mobile";
 import styles from "./Experience.module.css";
 
 /* Geometria dos cards (precisa bater com Experience.module.css). */
@@ -133,7 +134,48 @@ function FocusCard({
   );
 }
 
+/* Mobile: render simples (stack vertical) sem framer-motion, sem
+   useScroll, sem useSpring. Evita travamento causado pelo cascade
+   de re-cálculos por scroll event num dispositivo de menor poder
+   de processamento. */
+function ExperienceMobile() {
+  return (
+    <section
+      className={styles.mobileSection}
+      data-screen-label="03 Experiencia"
+    >
+      <div className="container-lp">
+        <div className={styles.header}>
+          <h2>
+            Cada detalhe pensado para que você <em>saia diferente</em> de
+            como entrou.
+          </h2>
+          <p className="body-text">
+            A imersão é técnica, mas também é sensorial. O ambiente, o ritmo,
+            a luz, o som e o cuidado com cada pausa fazem parte do método.
+          </p>
+        </div>
+        <div className={styles.mobileStack}>
+          {cards.map((card) => (
+            <div key={card.n} className={styles.card}>
+              <div className={styles.num}>{card.n}</div>
+              <h4>{card.title}</h4>
+              <p>{card.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Experience() {
+  const isMobile = useIsMobile();
+  if (isMobile) return <ExperienceMobile />;
+  return <ExperienceDesktop />;
+}
+
+function ExperienceDesktop() {
   const wrapperRef = useRef<HTMLElement>(null);
 
   /* Translação total = distância entre o centro do card 0 e o centro

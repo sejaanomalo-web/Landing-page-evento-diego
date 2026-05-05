@@ -178,3 +178,19 @@
     animation: none;
   }
 }
+
+/* Mobile: desliga as 4 camadas animadas e o noise SVG. mix-blend-mode
+   + animações contínuas + filter de noise são as combinações mais
+   custosas pra GPU mobile. Mantemos só o stage estático e a vinheta. */
+@media (max-width: 900px) {
+  .haloBege,
+  .haloOrange,
+  .haloDeep,
+  .beam {
+    animation: none;
+    display: none;
+  }
+  .noise {
+    display: none;
+  }
+}

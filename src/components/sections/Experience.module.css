@@ -243,13 +243,60 @@
   font-weight: 400;
 }
 
-/* Mobile: scroll-driven horizontal não funciona bem em touch, então
-   caímos para um stack vertical natural. A inline transform da motion
-   fica neutralizada por !important, e o spot marker some. */
+/* ExperienceMobile: layout simples vertical sem framer-motion.
+   Renderizado pelo `Experience` quando `useIsMobile()` retorna true.
+   Evita travamento causado pelo cascade de useScroll/useSpring/
+   useTransform em dispositivos com menor poder de processamento. */
+.mobileSection {
+  /* Override do padding global section { 140px 0 } */
+  padding-top: 0 !important;
+  padding-bottom: 60px !important;
+}
+.mobileStack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+/* Mobile: tudo do desktop fica neutralizado/escondido. ExperienceMobile
+   é o que de fato renderiza nesse breakpoint. */
 @media (max-width: 900px) {
   .snapPoint {
     scroll-snap-align: none;
+    display: none;
   }
+  .header {
+    padding: 60px 0 12px;
+  }
+  .header h2 {
+    font-size: clamp(28px, 6.4vw, 38px);
+    max-width: 24ch;
+  }
+  .header p {
+    font-size: 16px;
+    margin-top: 18px;
+  }
+  .card {
+    width: 100%;
+    height: auto;
+    padding: 26px 22px;
+    border-radius: 12px;
+  }
+  .card h4 {
+    font-size: 21px;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+  .card p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .num {
+    margin-bottom: 16px;
+  }
+  /* defesa: caso ExperienceDesktop seja brevemente renderizado em
+     mobile (entre SSR e hydration), neutralizar transforms da motion. */
   .scrollWrapper {
     height: auto;
   }
@@ -258,17 +305,15 @@
     height: auto;
     overflow: visible;
   }
-  .header {
-    padding: 60px 0 28px;
-  }
   .trackContainer {
     flex-direction: column;
     overflow: visible;
-    padding: 0 0 60px;
+    padding: 0;
+    transform: none !important;
   }
   .track {
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     transform: none !important;
   }
   .ghostCard {
@@ -281,14 +326,6 @@
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-  }
-  .card {
-    width: 100%;
-    height: auto;
-    padding: 32px 28px;
-  }
-  .card h4 {
-    font-size: 24px;
   }
   .spotMarker {
     display: none;
