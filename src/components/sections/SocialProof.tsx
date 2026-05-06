@@ -14,9 +14,9 @@ export function SocialProof() {
               Onde o método foi <em>construído.</em>
             </h2>
             <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
-              Mentorias individuais e treinamentos in company conduzidos com
-              líderes de empresas, cooperativas e times de alto desempenho. A
-              imersão Líder Magnético compila o método em formato presencial
+              Projetos privados de desenvolvimento de liderança conduzidos
+              com líderes de empresas, cooperativas e times de alto desempenho.
+              A imersão Líder Magnético compila o método em formato presencial
               coletivo pela primeira vez.
             </p>
           </ScrollReveal>
