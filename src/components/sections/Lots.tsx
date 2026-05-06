@@ -120,7 +120,7 @@ export function Lots() {
           <ScrollReveal>
             <h2 className={styles.title}>
               <span>Três lotes.</span>
-              <em>Um já está em aberto.</em>
+              <em>As vagas já estão abertas</em>
             </h2>
             <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
               A imersão é dividida em três lotes. À medida que o primeiro se
