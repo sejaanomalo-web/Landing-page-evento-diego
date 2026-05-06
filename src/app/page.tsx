@@ -29,6 +29,7 @@ export default function Home() {
         <div className="section-divider" />
         <SocialProof />
         <Venue />
+        <div className="section-divider" />
         <Lots />
         <FinalCta />
         <Footer />
