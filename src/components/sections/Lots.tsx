@@ -29,7 +29,7 @@ const lots: LotData[] = [
 ];
 
 const statusLabels: Record<LotStatus, string> = {
-  aberto: "ABERTO",
+  aberto: "As vagas já estão abertas",
   proximo: "PRÓXIMO",
   ultimo: "ÚLTIMO",
 };
