@@ -2,7 +2,12 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import styles from "./SocialProof.module.css";
 
 const LOGO_COUNT = 24;
-const logoNumbers = Array.from({ length: LOGO_COUNT }, (_, i) => i + 1);
+/* 15 e 19 removidos a pedido. O CSS distribui o espaçamento via gap
+   uniforme no track, então o ritmo se ajusta automaticamente. */
+const REMOVED = new Set([15, 19]);
+const logoNumbers = Array.from({ length: LOGO_COUNT }, (_, i) => i + 1).filter(
+  (n) => !REMOVED.has(n),
+);
 
 export function SocialProof() {
   return (
