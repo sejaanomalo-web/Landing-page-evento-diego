@@ -24,8 +24,8 @@ interface LotData {
 
 const lots: LotData[] = [
   { number: 1, price: 3997, status: "aberto", fillPct: 90 },
-  { number: 2, price: 4500, status: "proximo" },
-  { number: 3, price: 5500, status: "ultimo" },
+  { number: 2, price: 7497, status: "proximo" },
+  { number: 3, price: 12497, status: "ultimo" },
 ];
 
 const statusLabels: Record<LotStatus, string> = {
