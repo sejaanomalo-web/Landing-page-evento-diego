@@ -13,7 +13,7 @@ export function Venue() {
       <div className="container-lp">
         <div className={styles.stickyHeader}>
           <h2 className={styles.title}>
-            Hotel Deville <em>Cascavel.</em>
+            Hotel Maestro <em>Premium.</em>
           </h2>
         </div>
 
@@ -24,7 +24,7 @@ export function Venue() {
                 <Image
                   className={styles.imgPhoto}
                   src="/assets/hotel-deville.jpg"
-                  alt="Hotel Deville Cascavel, fachada"
+                  alt="Hotel Maestro Premium, fachada"
                   width={1672}
                   height={941}
                   sizes="(max-width: 900px) 100vw, 50vw"
@@ -36,7 +36,7 @@ export function Venue() {
                 <Image
                   className={styles.imgPhoto}
                   src="/assets/hotel-restaurante.jpg"
-                  alt="Hotel Deville, restaurante"
+                  alt="Hotel Maestro Premium, restaurante"
                   width={1672}
                   height={941}
                   sizes="(max-width: 900px) 100vw, 25vw"
@@ -46,7 +46,7 @@ export function Venue() {
                 <Image
                   className={styles.imgPhoto}
                   src="/assets/hotel-quarto.jpg"
-                  alt="Hotel Deville, quarto"
+                  alt="Hotel Maestro Premium, quarto"
                   width={1672}
                   height={941}
                   sizes="(max-width: 900px) 100vw, 25vw"
@@ -57,7 +57,7 @@ export function Venue() {
 
           <ScrollReveal delay={0.1} className={styles.info}>
             {/* VALIDAR COM DIEGO/BRUNO antes de publicar.
-                Confirmar endereço exato (qual unidade Deville em Cascavel),
+                Confirmar endereço exato (qual unidade Maestro Premium em Cascavel),
                 bem como as distâncias até aeroporto e centro. */}
             <p className="body-text">
               Cascavel, Paraná.
@@ -70,7 +70,7 @@ export function Venue() {
 
             {/* VALIDAR COM DIEGO/BRUNO antes de publicar.
                 Confirmar endereço exato, distâncias e condições de
-                estacionamento da unidade Deville em Cascavel. */}
+                estacionamento da unidade Maestro Premium em Cascavel. */}
             <h3 className={styles.subheader}>Acessos</h3>
             <div className={styles.details}>
               <div className={styles.cell}>
@@ -79,7 +79,7 @@ export function Venue() {
               </div>
               <div className={styles.cell}>
                 <div className={styles.k}>Local</div>
-                <div className={styles.v}>Hotel Deville Cascavel</div>
+                <div className={styles.v}>Hotel Maestro Premium</div>
               </div>
               <div className={`${styles.cell} ${styles.full}`}>
                 <div className={styles.k}>Estacionamento</div>

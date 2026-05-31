@@ -6,7 +6,7 @@
 
 /* Gradiente discreto sticky no topo, mesclado com a cor do background.
    Mascara o conteúdo da coluna direita conforme ele sobe, evitando
-   que ele apareça atrás do título "Hotel Deville Cascavel.". */
+   que ele apareça atrás do título "Hotel Maestro Premium.". */
 .fadeMask {
   position: sticky;
   top: 0;
