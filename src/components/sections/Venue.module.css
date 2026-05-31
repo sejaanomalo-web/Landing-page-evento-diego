@@ -103,6 +103,12 @@
     0 0 80px -32px rgba(211, 69, 30, 0.24);
 }
 
+/* Foto principal de baixo (mesma proporção e halo da principal de
+   cima). Apenas adiciona o margin-top simétrico ao do imgGrid. */
+.imgBottom {
+  margin-top: 20px;
+}
+
 .info {
   /* Sem padding-top: a primeira linha do endereço fica alinhada
      exatamente na linha do topo do player. */
@@ -229,6 +235,9 @@
   .imgGrid {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    margin-top: 14px;
+  }
+  .imgBottom {
     margin-top: 14px;
   }
   .img {

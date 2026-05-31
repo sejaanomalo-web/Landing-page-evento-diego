@@ -23,10 +23,10 @@ export function Venue() {
               <div className={`${styles.img} ${styles.imgMain}`}>
                 <Image
                   className={styles.imgPhoto}
-                  src="/assets/hotel-deville.jpg"
+                  src="/assets/maestro-fachada.jpg"
                   alt="Hotel Maestro Premium, fachada"
-                  width={1672}
-                  height={941}
+                  width={1024}
+                  height={768}
                   sizes="(max-width: 900px) 100vw, 50vw"
                 />
               </div>
@@ -35,21 +35,33 @@ export function Venue() {
               <div className={`${styles.img} ${styles.imgPair}`}>
                 <Image
                   className={styles.imgPhoto}
-                  src="/assets/hotel-restaurante.jpg"
-                  alt="Hotel Maestro Premium, restaurante"
-                  width={1672}
-                  height={941}
+                  src="/assets/maestro-lobby.jpg"
+                  alt="Hotel Maestro Premium, lobby"
+                  width={1024}
+                  height={681}
                   sizes="(max-width: 900px) 100vw, 25vw"
                 />
               </div>
               <div className={`${styles.img} ${styles.imgPair}`}>
                 <Image
                   className={styles.imgPhoto}
-                  src="/assets/hotel-quarto.jpg"
-                  alt="Hotel Maestro Premium, quarto"
-                  width={1672}
-                  height={941}
+                  src="/assets/maestro-sala.jpg"
+                  alt="Hotel Maestro Premium, sala de evento"
+                  width={1024}
+                  height={681}
                   sizes="(max-width: 900px) 100vw, 25vw"
+                />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.12} className={styles.imgBottom}>
+              <div className={`${styles.img} ${styles.imgMain}`}>
+                <Image
+                  className={styles.imgPhoto}
+                  src="/assets/maestro-entrada.jpg"
+                  alt="Hotel Maestro Premium, entrada principal"
+                  width={1024}
+                  height={768}
+                  sizes="(max-width: 900px) 100vw, 50vw"
                 />
               </div>
             </ScrollReveal>
