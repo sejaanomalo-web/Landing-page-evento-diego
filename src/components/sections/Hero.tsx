@@ -35,7 +35,10 @@ export function Hero() {
             <div className={styles.meta}>
               <div>
                 <div className={styles.metaKey}>Quando</div>
-                <div className={styles.metaValue}>04 e 05 de julho · 2026</div>
+                <div className={styles.metaValue}>
+                  04 e 05 de julho · 2026
+                  <span className={styles.metaSub}>Das 9h às 18h</span>
+                </div>
               </div>
               <div>
                 <div className={styles.metaKey}>Onde</div>

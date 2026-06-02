@@ -123,6 +123,14 @@
   margin-top: 10px;
   color: white;
 }
+.metaSub {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
 .metaAccent {
   color: var(--orange);
 }

@@ -141,7 +141,10 @@ export function Venue() {
             </div>
 
             <h3 className={styles.subheader}>Datas confirmadas</h3>
-            <div className={styles.dateBlock}>04 e 05 de julho · 2026</div>
+            <div className={styles.dateBlock}>
+              04 e 05 de julho · 2026
+              <span className={styles.dateTime}>Das 9h às 18h</span>
+            </div>
           </ScrollReveal>
         </div>
       </div>
