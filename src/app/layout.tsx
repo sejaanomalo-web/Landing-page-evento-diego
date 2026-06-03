@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import "./globals.css";
 import { MetaPixel } from "@/components/integrations/MetaPixel";
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+} from "@/components/integrations/GoogleTagManager";
 
 const titillium = Titillium_Web({
   subsets: ["latin"],
@@ -24,7 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={titillium.variable}>
+      <head>
+        <GoogleTagManager />
+      </head>
       <body>
+        <GoogleTagManagerNoScript />
         <MetaPixel />
         {children}
       </body>
