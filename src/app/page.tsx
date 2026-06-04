@@ -1,5 +1,6 @@
 import { BackgroundAtmosphere } from "@/components/layout/BackgroundAtmosphere";
 import { Hero } from "@/components/sections/Hero";
+import { HeroCta } from "@/components/sections/HeroCta";
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { Program } from "@/components/sections/Program";
@@ -18,6 +19,7 @@ export default function Home() {
       <WhatsAppFloating />
       <main className="lp-main">
         <Hero />
+        <HeroCta />
         <div className="section-divider" />
         <About />
         <div className="section-divider" />

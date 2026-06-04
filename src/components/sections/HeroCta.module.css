@@ -1,0 +1,17 @@
+/* Sessão curta de transição entre Hero e About: padding vertical
+   reduzido (anula o 140px default do section) pra não competir com
+   as âncoras vizinhas — só o botão respira no meio. */
+.section {
+  padding: 24px 0 56px !important;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 8px 0 40px !important;
+  }
+}
