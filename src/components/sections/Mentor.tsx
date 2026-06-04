@@ -71,7 +71,7 @@ export function Mentor() {
                 </div>
               </div>
               <div className={styles.cell}>
-                <div className={styles.num}>+40 empresas</div>
+                <div className={styles.num}>+60 empresas</div>
                 <div className={styles.desc}>
                   Cooperativas, indústrias e instituições atendidas em
                   projetos privados.
