@@ -33,7 +33,7 @@ const included: IncludedItem[] = [
   {
     title: "Gastronomia inclusa",
     detail:
-      "Coffee break premium em todas as pausas, no Deville Express Cascavel.",
+      "Coffee break premium em todas as pausas, no Hotel Maestro Premium em Cascavel.",
   },
   {
     title: "Kit sensorial de boas-vindas",
@@ -57,7 +57,7 @@ export function Lots() {
       <div className="container-lp">
         <div className={styles.grid}>
           <ScrollReveal className={styles.stack}>
-            <div className={styles.stackLabel}>Tudo o que está incluído</div>
+            <div className={styles.stackLabel}>Tudo o que está incluso</div>
             <div className={styles.list}>
               {included.map((item) => (
                 <div key={item.title} className={styles.item}>
