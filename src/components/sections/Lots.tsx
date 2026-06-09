@@ -55,21 +55,6 @@ export function Lots() {
       data-screen-label="08 Investimento"
     >
       <div className="container-lp">
-        <div className="section-header">
-          <ScrollReveal>
-            <h2 className={styles.title}>
-              <span>Primeiro o que você vive.</span>
-              <em>Depois o quanto custa.</em>
-            </h2>
-            <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
-              A Líder Magnético não é um curso, é uma imersão de alto padrão. Por
-              isso o valor não fica numa página: ele é apresentado pessoalmente
-              pelo time, depois que você entende, por inteiro, tudo o que está
-              incluído na experiência.
-            </p>
-          </ScrollReveal>
-        </div>
-
         <div className={styles.grid}>
           <ScrollReveal className={styles.stack}>
             <div className={styles.stackLabel}>Tudo o que está incluído</div>
@@ -89,12 +74,12 @@ export function Lots() {
           <ScrollReveal className={styles.card} delay={0.12}>
             <div className={styles.cardLabel}>O valor da imersão</div>
             <div className={styles.cardLead}>
-              Apresentado <em>pessoalmente</em> pelo time, no WhatsApp.
+              Fale com o <em>meu time</em> pelo WhatsApp.
             </div>
             <p className={styles.note}>
               A gente faz questão de primeiro garantir que você entenda tudo o
               que vai viver e se a imersão faz sentido pra você nesse momento. Só
-              depois apresentamos as condições — sem pressão, no seu tempo.
+              depois apresentamos as condições, sem pressão, no seu tempo.
             </p>
             <div className={styles.micro}>
               <div>
