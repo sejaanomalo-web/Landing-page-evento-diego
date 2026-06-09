@@ -1,139 +1,119 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { WhatsAppButton } from "@/components/primitives/WhatsAppButton";
 import styles from "./Lots.module.css";
 
-const formatBRL = (n: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(n);
-
-type LotStatus = "aberto" | "proximo" | "ultimo";
-
-interface LotData {
-  number: number;
-  price: number;
-  status: LotStatus;
-  fillPct?: number;
+interface IncludedItem {
+  title: string;
+  detail: string;
 }
 
-const lots: LotData[] = [
-  { number: 1, price: 3997, status: "aberto", fillPct: 90 },
-  { number: 2, price: 7497, status: "proximo" },
-  { number: 3, price: 12497, status: "ultimo" },
+const included: IncludedItem[] = [
+  {
+    title: "Dois dias presenciais inteiros",
+    detail:
+      "Grupo fechado, até 50 líderes. A primeira edição presencial coletiva do método.",
+  },
+  {
+    title: "11 territórios de transformação",
+    detail:
+      "Do interno ao coletivo, cada bloco com fundamento e aplicação direta na sua liderança.",
+  },
+  {
+    title: "Método físico em mãos",
+    detail:
+      "Material do método entregue na imersão, para sustentar a aplicação depois do encontro.",
+  },
+  {
+    title: "Estrutura premium completa",
+    detail:
+      "Som, iluminação cênica, telão e captação audiovisual conduzindo o estado de presença nos dois dias.",
+  },
+  {
+    title: "Gastronomia inclusa",
+    detail:
+      "Coffee break premium em todas as pausas, no Deville Express Cascavel.",
+  },
+  {
+    title: "Kit sensorial de boas-vindas",
+    detail:
+      "Credencial física, brindes sensoriais e check-in com a identidade da imersão.",
+  },
+  {
+    title: "Registro audiovisual e sessão fotográfica",
+    detail:
+      "Material profissional, com tratamento, para uso pessoal e profissional.",
+  },
 ];
-
-const statusLabels: Record<LotStatus, string> = {
-  aberto: "ABERTO",
-  proximo: "PRÓXIMO",
-  ultimo: "ÚLTIMO",
-};
-
-interface LotProps {
-  data: LotData;
-  index: number;
-}
-
-function Lot({ data, index }: LotProps) {
-  const isActive = data.status === "aberto";
-  return (
-    <motion.div
-      className={`${styles.lot} ${isActive ? styles.active : styles.locked}`}
-      initial={{ opacity: 0, y: 24, scale: 0.97 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-      transition={{
-        duration: 0.7,
-        delay: 0.08 + index * 0.12,
-        ease: [0.32, 0.72, 0, 1],
-      }}
-    >
-      <div className={styles.stub} aria-hidden />
-
-      <div className={styles.lotHeader}>
-        <div className={styles.lotNumber}>
-          ▲ Lote {String(data.number).padStart(2, "0")}
-        </div>
-        <div className={styles.lotBadge}>{statusLabels[data.status]}</div>
-      </div>
-
-      {isActive && data.fillPct !== undefined && (
-        <div className={styles.lotProgress}>
-          <div className={styles.lotProgressTop}>
-            <span className={styles.lotProgressNumber}>{data.fillPct}%</span>
-            <span className={styles.lotProgressLabel}>preenchido</span>
-          </div>
-          <div className={styles.lotProgressBar}>
-            <motion.div
-              className={styles.lotProgressFill}
-              initial={{ width: "0%" }}
-              whileInView={{ width: `${data.fillPct}%` }}
-              viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-              transition={{
-                duration: 2,
-                delay: 0.45,
-                ease: [0.22, 0.9, 0.2, 1],
-              }}
-            />
-          </div>
-          <div className={styles.lotProgressFooter}>fechando em breve</div>
-        </div>
-      )}
-
-      <div className={styles.lotPrice}>
-        <div className={styles.lotPriceLabel}>Investimento</div>
-        <div className={styles.lotPriceValue}>{formatBRL(data.price)}</div>
-        {isActive && (
-          <p className={styles.lotPriceNote}>
-            Ao fechar este lote, o próximo abre com menos vagas e ticket maior.
-          </p>
-        )}
-      </div>
-
-      {isActive && (
-        <div className={styles.lotCta}>
-          <WhatsAppButton
-            variant="primary"
-            label="Garantir minha vaga"
-            withArrow
-          />
-        </div>
-      )}
-    </motion.div>
-  );
-}
 
 export function Lots() {
   return (
     <section
-      id="lotes"
+      id="investimento"
       className={styles.section}
-      data-screen-label="08 Lotes"
+      data-screen-label="08 Investimento"
     >
       <div className="container-lp">
         <div className="section-header">
           <ScrollReveal>
             <h2 className={styles.title}>
-              <span>Três lotes.</span>
-              <em>As vagas já estão abertas</em>
+              <span>Primeiro o que você vive.</span>
+              <em>Depois o quanto custa.</em>
             </h2>
             <p className="body-text" style={{ marginTop: 24, maxWidth: "62ch" }}>
-              A imersão é dividida em três lotes. À medida que o primeiro se
-              fecha, o próximo abre, com menos vagas e investimento maior.
-              Quem decide cedo entra com o ticket mais leve.
+              A Líder Magnético não é um curso, é uma imersão de alto padrão. Por
+              isso o valor não fica numa página: ele é apresentado pessoalmente
+              pelo time, depois que você entende, por inteiro, tudo o que está
+              incluído na experiência.
             </p>
           </ScrollReveal>
         </div>
 
-        <div className={styles.lotsGrid}>
-          {lots.map((data, i) => (
-            <Lot key={data.number} data={data} index={i} />
-          ))}
+        <div className={styles.grid}>
+          <ScrollReveal className={styles.stack}>
+            <div className={styles.stackLabel}>Tudo o que está incluído</div>
+            <div className={styles.list}>
+              {included.map((item) => (
+                <div key={item.title} className={styles.item}>
+                  <span className={styles.mk}>▲</span>
+                  <div className={styles.txt}>
+                    {item.title}
+                    <span>{item.detail}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal className={styles.card} delay={0.12}>
+            <div className={styles.cardLabel}>O valor da imersão</div>
+            <div className={styles.cardLead}>
+              Apresentado <em>pessoalmente</em> pelo time, no WhatsApp.
+            </div>
+            <p className={styles.note}>
+              A gente faz questão de primeiro garantir que você entenda tudo o
+              que vai viver e se a imersão faz sentido pra você nesse momento. Só
+              depois apresentamos as condições — sem pressão, no seu tempo.
+            </p>
+            <div className={styles.micro}>
+              <div>
+                <div className={styles.microK}>Vagas</div>
+                <div className={styles.microV}>Grupo fechado · 50 lugares</div>
+              </div>
+              <div>
+                <div className={styles.microK}>Edição</div>
+                <div className={styles.microV}>04 e 05 de julho · 2026</div>
+              </div>
+            </div>
+            <div className={styles.cta}>
+              <WhatsAppButton
+                variant="primary"
+                label="Descobrir as condições"
+                withArrow
+              />
+            </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

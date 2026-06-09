@@ -10,7 +10,7 @@ export function HeroCta() {
           <div className={styles.row}>
             <WhatsAppButton
               variant="primary"
-              label="Garantir vaga ainda no primeiro lote"
+              label="Quero garantir minha vaga"
               className="btn-lg"
             />
           </div>

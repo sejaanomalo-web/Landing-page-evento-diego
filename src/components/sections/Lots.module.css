@@ -2,289 +2,157 @@
   /* mantém o padding global de section { 140px 0 } */
 }
 
-/* Título em duas linhas: "Três lotes." em cima, "Um já está em
-   aberto." (italic accent) embaixo. */
+/* Título em duas linhas: "Primeiro o que você vive." em cima,
+   "Depois o quanto custa." (italic accent) embaixo. */
 .title {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+.title em {
+  color: var(--orange);
+  font-style: italic;
+  font-weight: 700;
+}
 
-.lotsGrid {
+/* Grid de duas colunas: à esquerda o empilhamento de valor (tudo o que
+   está incluído), à direita o card de investimento que, no lugar do
+   preço, conduz ao WhatsApp. */
+.grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  align-items: stretch;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: start;
 }
 
-/* Cada lote em formato de "ticket": card com chanfro de canto, brilho
-   suave laranja e gradiente sutil. Os locked ficam ofuscados pra
-   reforçar a escassez visualmente. */
-.lot {
-  position: relative;
-  padding: 26px 26px 24px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(63, 51, 114, 0.42) 0%,
-      rgba(32, 23, 71, 0.28) 100%
-    );
-  border: 1px solid rgba(211, 69, 30, 0.22);
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  overflow: hidden;
-  transition:
-    transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-    border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-    background 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-    box-shadow 0.4s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-/* Stub: detalhe de "canhoto" no topo do ticket, tracejado discreto
-   que sugere a perfuração de um ingresso. */
-.stub {
-  position: absolute;
-  top: 0;
-  left: 24px;
-  right: 24px;
-  height: 1px;
-  background-image: linear-gradient(
-    90deg,
-    rgba(241, 218, 178, 0) 0%,
-    rgba(241, 218, 178, 0.18) 12%,
-    rgba(241, 218, 178, 0.18) 88%,
-    rgba(241, 218, 178, 0) 100%
-  );
-}
-
-/* Lote ativo: brilho laranja em três camadas + borda mais saturada */
-.active {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(63, 51, 114, 0.55) 0%,
-      rgba(32, 23, 71, 0.42) 100%
-    );
-  border-color: rgba(211, 69, 30, 0.55);
-  box-shadow:
-    0 0 0 1px rgba(211, 69, 30, 0.22),
-    0 0 50px -8px rgba(211, 69, 30, 0.42),
-    0 0 110px -28px rgba(211, 69, 30, 0.32);
-}
-
-/* Lotes locked: opacity reduzida + blur sutil pra sugerir que estão
-   "atrás de uma cortina". Por o preço ser o maior elemento da
-   tipografia do card (32-38px, peso 700), ele permanece o mais
-   legível através do borrão e cria a escassez ("o próximo já vai
-   custar mais"). */
-.locked {
-  opacity: 0.55;
-  filter: blur(3.4px) saturate(0.7);
-  pointer-events: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .active:hover {
-    transform: translateY(-3px);
-    border-color: rgba(211, 69, 30, 0.78);
-    box-shadow:
-      0 0 0 1px rgba(211, 69, 30, 0.28),
-      0 0 70px -8px rgba(211, 69, 30, 0.55),
-      0 0 140px -28px rgba(211, 69, 30, 0.42);
-  }
-}
-
-.lotHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.lotNumber {
-  font-size: 12px;
-  font-weight: 600;
+/* ---------- COLUNA ESQUERDA: value stack ---------- */
+.stackLabel {
+  font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--beige);
+  margin-bottom: 24px;
 }
 
-.lotBadge {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(241, 218, 178, 0.14);
 }
 
-.active .lotBadge {
-  background: var(--orange);
-  color: white;
-  box-shadow: 0 0 16px -2px rgba(211, 69, 30, 0.5);
-}
-
-.locked .lotBadge {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--ink-mute);
-  border: 1px solid rgba(241, 218, 178, 0.2);
-}
-
-.lotProgress {
+.item {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(241, 218, 178, 0.14);
 }
 
-.lotProgressTop {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* Número grande do percentual em destaque, como a estatística
-   principal do card. */
-.lotProgressNumber {
-  font-size: clamp(44px, 4.4vw, 60px);
-  font-weight: 900;
-  font-style: italic;
+.mk {
   color: var(--orange);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  text-shadow: 0 0 24px rgba(211, 69, 30, 0.55);
+  font-size: 12px;
+  line-height: 1.7;
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
-.lotProgressLabel {
-  font-size: 11px;
+.txt {
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.txt span {
+  display: block;
+  color: var(--ink-soft);
+  font-weight: 400;
+  font-size: 13.5px;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* ---------- COLUNA DIREITA: card de investimento ---------- */
+.card {
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(211, 69, 30, 0.16) 0%,
+      transparent 70%
+    ),
+    rgba(58, 47, 107, 0.32);
+  border: 1px solid rgba(241, 218, 178, 0.28);
+  border-radius: 14px;
+  padding: 48px 40px;
+  position: sticky;
+  top: 40px;
+}
+
+.cardLabel {
+  font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  font-weight: 600;
+  margin-bottom: 22px;
 }
 
-/* Barra mais robusta + glow + shimmer rolando continuamente.
-   A largura ainda é animada via motion (0% -> 90% em 2s). */
-.lotProgressBar {
-  position: relative;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 999px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
-}
-
-.lotProgressFill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  height: 100%;
-  background:
-    linear-gradient(90deg, #ff6a3a 0%, var(--orange) 50%, var(--orange-warm) 100%);
-  border-radius: 999px;
-  box-shadow:
-    0 0 18px rgba(211, 69, 30, 0.7),
-    0 0 36px rgba(211, 69, 30, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  will-change: width;
-  overflow: hidden;
-}
-
-/* Shimmer infinito rolando dentro da barra, dá ritmo visual
-   permanente mesmo após o fill terminar. */
-.lotProgressFill::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    transparent 100%
-  );
-  animation: lotShimmer 2.4s linear infinite;
-}
-
-@keyframes lotShimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.lotProgressFooter {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  font-weight: 600;
-  text-align: right;
-}
-
-.lotPrice {
-  border-top: 1px solid rgba(241, 218, 178, 0.16);
-  padding-top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.lotPriceLabel {
-  font-size: 10px;
-  color: var(--ink-mute);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.lotPriceValue {
-  font-size: clamp(32px, 3vw, 38px);
+.cardLead {
+  font-size: 27px;
   font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   color: white;
-  letter-spacing: -0.025em;
-  line-height: 1;
+}
+.cardLead em {
+  color: var(--orange);
+  font-style: italic;
 }
 
-.locked .lotPriceValue {
-  color: rgba(255, 255, 255, 0.85);
+.note {
+  margin: 20px 0 0;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
 }
 
-.lotPriceNote {
-  margin: 0;
-  font-size: 12px;
+.micro {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(241, 218, 178, 0.14);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.microK {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--ink-mute);
-  line-height: 1.45;
-  max-width: 36ch;
+  margin-bottom: 6px;
+}
+.microV {
+  font-size: 14px;
+  color: var(--beige);
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-.lotCta {
-  margin-top: 4px;
+.cta {
+  margin-top: 32px;
   display: flex;
 }
-.lotCta > a {
+.cta > a {
   width: 100%;
   justify-content: center;
 }
 
 @media (max-width: 900px) {
-  .lotsGrid {
+  .grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 40px;
   }
-  .lot {
-    padding: 28px 22px 26px;
-    gap: 22px;
-  }
-  .active {
-    box-shadow:
-      0 0 0 1px rgba(211, 69, 30, 0.22),
-      0 0 28px -8px rgba(211, 69, 30, 0.36);
-  }
-  .locked {
-    opacity: 0.5;
-    filter: blur(2.8px) saturate(0.75);
+  .card {
+    position: static;
+    padding: 36px 28px;
   }
 }
