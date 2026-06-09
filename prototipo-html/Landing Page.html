@@ -1,0 +1,1438 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Líder Magnético · Diego Knebel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root {
+    --navy: #201747;
+    --navy-light: #3A2F6B;
+    --navy-deeper: #14102E;
+    --orange: #D3451E;
+    --orange-warm: #E55A2E;
+    --beige: #F1DAB2;
+    --white: #FFFFFF;
+    --ink-soft: rgba(255,255,255,0.72);
+    --ink-mute: rgba(255,255,255,0.50);
+    --hairline: rgba(241, 218, 178, 0.14);
+    --hairline-strong: rgba(241, 218, 178, 0.28);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Titillium Web', system-ui, sans-serif;
+    background: var(--navy-deeper);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  ::selection { background: var(--orange); color: white; }
+
+  /* ---------- ATMOSPHERIC BACKGROUND ---------- */
+  .bg-stage {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 20%, rgba(58,47,107,0.55) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 60%, rgba(58,47,107,0.35) 0%, transparent 65%),
+      radial-gradient(ellipse 100% 80% at 50% 100%, rgba(20,16,46,0.9) 0%, transparent 70%),
+      linear-gradient(180deg, #14102E 0%, #1A1438 30%, #201747 60%, #14102E 100%);
+  }
+  .bg-glow {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 30% 20% at 50% 25%, rgba(241,218,178,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 25% 15% at 50% 70%, rgba(211,69,30,0.06) 0%, transparent 60%);
+  }
+  .bg-vignette {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 90% 70% at 50% 50%, transparent 40%, rgba(0,0,0,0.55) 100%);
+  }
+  .bg-noise {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.5;
+    mix-blend-mode: overlay;
+  }
+  .bg-rhomb-pattern {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><path d='M30 5 L55 30 L30 55 L5 30 Z' fill='none' stroke='%23F1DAB2' stroke-width='0.5'/></svg>");
+    background-size: 60px 60px;
+  }
+
+  main { position: relative; z-index: 2; }
+  @media (min-width: 901px) {
+    main { zoom: 1.584; }
+  }
+
+  /* ---------- TYPOGRAPHY UTILITIES ---------- */
+  .label-caps {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--beige);
+  }
+  .label-caps .dot {
+    display: inline-block; width: 4px; height: 4px; background: var(--orange);
+    margin: 0 10px 2px; vertical-align: middle; transform: rotate(45deg);
+  }
+  h1, h2, h3, h4 { font-family: 'Titillium Web', sans-serif; margin: 0; line-height: 1.1; }
+  h1 { font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-weight: 700; letter-spacing: -0.005em; }
+  p { margin: 0; }
+  .body-text { color: var(--ink-soft); font-size: 17px; line-height: 1.6; font-weight: 400; }
+  .body-soft { color: var(--ink-mute); }
+
+  .signature-line {
+    display: block; width: 56px; height: 2px; background: var(--orange);
+    margin-top: 18px; margin-bottom: 22px;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+  section { padding: 140px 0; position: relative; }
+  .section-divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hairline-strong) 50%, transparent);
+    position: relative;
+  }
+  .section-divider::after {
+    content: '◆';
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--beige); opacity: 0.45;
+    font-size: 8px;
+    background: var(--navy-deeper); padding: 0 14px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: auto; padding: 60px 0 80px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+  }
+  .hero-nav {
+    position: absolute; top: 32px; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; z-index: 5;
+    opacity: 0; transition: opacity 0.6s ease 2.4s;
+  }
+  .hero-nav.in { opacity: 1; }
+  .hero-nav .brand {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.2em;
+    color: var(--ink-soft); text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-nav .brand-mark {
+    display: inline-block; width: 18px; height: 18px;
+    object-fit: contain;
+  }
+  .hero-nav-links {
+    display: flex; gap: 32px; font-size: 12px; letter-spacing: 0.18em;
+    color: var(--ink-mute); text-transform: uppercase; font-weight: 600;
+  }
+
+  .hero-stage {
+    position: relative; min-height: 420px;
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+
+  /* The animated logo lockup */
+  .lockup {
+    position: relative; height: 180px; margin-bottom: 56px;
+    display: block;
+  }
+  .lockup-symbol {
+    --size: 280px;
+    width: var(--size); height: var(--size);
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    animation: symbolEnter 1.0s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards,
+               symbolMove 0.9s cubic-bezier(0.65, 0, 0.35, 1) 1.4s forwards;
+    transform-origin: left center;
+    filter: drop-shadow(0 0 24px rgba(211,69,30,0.25));
+  }
+  @keyframes symbolEnter {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(1.6); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes symbolMove {
+    0% { left: 50%; top: 50%; transform: translate(-50%, -50%) scale(1); }
+    100% { left: 0%; top: 50%; transform: translate(0%, -50%) scale(0.55); }
+  }
+
+  .lockup-text {
+    position: absolute;
+    left: 180px;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+  }
+  .lockup-text .name {
+    display: flex; gap: 0;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 900;
+    font-size: 64px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: white;
+  }
+  .lockup-text .char {
+    display: inline-block;
+    transform: translateY(60px);
+    opacity: 0;
+    animation: charIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes charIn {
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .lockup-text .name .word { display: flex; }
+  .lockup-text .name .gap { width: 20px; display: inline-block; }
+  .lockup-subtle {
+    margin-top: 8px;
+    font-size: 11px; letter-spacing: 0.32em;
+    color: var(--beige); opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 2.4s forwards;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .hero-content {
+    margin-top: 60px;
+    max-width: 880px;
+  }
+  .hero-eyebrow { opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards; }
+  .hero-headline {
+    font-size: clamp(64px, 9vw, 132px);
+    font-weight: 900;
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+    margin-top: 24px;
+    overflow: hidden;
+  }
+  .hero-headline .line {
+    display: block;
+    transform: translateY(110%);
+    opacity: 0;
+    animation: lineUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero-headline .line:nth-child(1) { animation-delay: 2.7s; }
+  .hero-headline .line:nth-child(2) { animation-delay: 2.85s; color: var(--orange); font-style: italic; font-weight: 700; }
+  @keyframes lineUp { to { transform: translateY(0); opacity: 1; } }
+
+  .hero-sub {
+    margin-top: 36px; max-width: 640px;
+    font-size: 19px; line-height: 1.55;
+    color: var(--ink-soft); font-weight: 400;
+    opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.1s forwards;
+  }
+  .hero-sub strong { color: white; font-weight: 600; }
+
+  .hero-meta {
+    margin-top: 56px;
+    display: grid; grid-template-columns: repeat(4, auto);
+    gap: 0; align-items: stretch;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.3s forwards;
+  }
+  .hero-meta > div {
+    padding: 28px 56px 28px 0;
+    border-right: 1px solid var(--hairline);
+  }
+  .hero-meta > div:first-child { padding-left: 0; }
+  .hero-meta > div:last-child { border-right: none; padding-right: 0; padding-left: 56px; }
+  .hero-meta > div:not(:first-child):not(:last-child) { padding-left: 56px; }
+  .hero-meta .k { font-size: 10px; letter-spacing: 0.2em; color: var(--ink-mute); text-transform: uppercase; }
+  .hero-meta .v { font-size: 18px; font-weight: 600; margin-top: 10px; color: white; }
+  .hero-meta .v.accent { color: var(--orange); }
+
+  .hero-cta-row {
+    margin-top: 48px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.5s forwards;
+  }
+
+  /* CTA buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 600; font-size: 14px; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    border: 1px solid transparent; border-radius: 0;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background 0.3s, color 0.3s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--orange); color: white;
+    box-shadow: 0 0 0 0 rgba(211,69,30,0);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    background: var(--orange-warm);
+    box-shadow: 0 14px 36px -12px rgba(211,69,30,0.7), 0 0 0 1px rgba(211,69,30,0.3);
+  }
+  .btn-ghost {
+    background: transparent; color: white;
+    border: 1px solid var(--hairline-strong);
+  }
+  .btn-ghost:hover {
+    transform: translateY(-3px);
+    border-color: var(--beige);
+    background: rgba(241,218,178,0.04);
+  }
+  .btn .arrow { font-size: 18px; line-height: 1; }
+  .btn:hover .arrow { animation: arrowKick 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  @keyframes arrowKick {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+  }
+  .wa-icon { width: 16px; height: 16px; }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: 0.10s; }
+  .reveal.d2 { transition-delay: 0.20s; }
+  .reveal.d3 { transition-delay: 0.30s; }
+  .reveal.d4 { transition-delay: 0.40s; }
+
+  .stagger > * {
+    opacity: 0; transform: translateY(30px) scale(0.96);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .stagger.in > * { opacity: 1; transform: translateY(0) scale(1); }
+  .stagger.in > *:nth-child(1)  { transition-delay: 0.00s; }
+  .stagger.in > *:nth-child(2)  { transition-delay: 0.12s; }
+  .stagger.in > *:nth-child(3)  { transition-delay: 0.24s; }
+  .stagger.in > *:nth-child(4)  { transition-delay: 0.36s; }
+  .stagger.in > *:nth-child(5)  { transition-delay: 0.48s; }
+  .stagger.in > *:nth-child(6)  { transition-delay: 0.60s; }
+  .stagger.in > *:nth-child(7)  { transition-delay: 0.72s; }
+  .stagger.in > *:nth-child(8)  { transition-delay: 0.84s; }
+  .stagger.in > *:nth-child(9)  { transition-delay: 0.96s; }
+  .stagger.in > *:nth-child(10) { transition-delay: 1.08s; }
+  .stagger.in > *:nth-child(11) { transition-delay: 1.20s; }
+  .stagger.in > *:nth-child(12) { transition-delay: 1.32s; }
+  @media (max-width: 768px) {
+    .stagger > * { transform: translateY(20px) scale(0.96); }
+    .stagger.in > *:nth-child(1)  { transition-delay: 0.00s; }
+    .stagger.in > *:nth-child(2)  { transition-delay: 0.08s; }
+    .stagger.in > *:nth-child(3)  { transition-delay: 0.16s; }
+    .stagger.in > *:nth-child(4)  { transition-delay: 0.24s; }
+    .stagger.in > *:nth-child(5)  { transition-delay: 0.32s; }
+    .stagger.in > *:nth-child(6)  { transition-delay: 0.40s; }
+    .stagger.in > *:nth-child(7)  { transition-delay: 0.48s; }
+    .stagger.in > *:nth-child(8)  { transition-delay: 0.56s; }
+    .stagger.in > *:nth-child(9)  { transition-delay: 0.64s; }
+    .stagger.in > *:nth-child(10) { transition-delay: 0.72s; }
+    .stagger.in > *:nth-child(11) { transition-delay: 0.80s; }
+    .stagger.in > *:nth-child(12) { transition-delay: 0.88s; }
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-header {
+    display: block;
+    margin-bottom: 80px;
+    max-width: 1100px;
+  }
+  .section-header .left { display: none; }
+  .section-header h2 {
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    max-width: 22ch;
+  }
+  .section-header h2 em {
+    color: var(--orange); font-style: italic; font-weight: 700;
+  }
+  .section-header .body-text { margin-top: 28px; max-width: 64ch; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+  .about-grid .body-text { font-size: 18px; }
+  .about-tenets {
+    margin-top: 60px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .tenet {
+    padding: 32px 28px 32px 0;
+    border-right: 1px solid var(--hairline);
+  }
+  .tenet:last-child { border-right: none; padding-right: 0; }
+  .tenet:not(:first-child) { padding-left: 28px; }
+  .tenet .roman {
+    font-style: italic; color: var(--beige); font-size: 13px;
+    letter-spacing: 0.18em; margin-bottom: 14px;
+    font-variant: small-caps;
+  }
+  .tenet h4 { font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+  .tenet p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; }
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 16px;
+  }
+  .exp-card {
+    background: rgba(58, 47, 107, 0.32);
+    border: 1px solid rgba(211, 69, 30, 0.25);
+    padding: 32px 28px;
+    position: relative;
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
+    overflow: hidden;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .exp-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(211, 69, 30, 0.7);
+      background: rgba(63, 51, 114, 0.5);
+      box-shadow: 0 0 24px 0 rgba(211, 69, 30, 0.18);
+    }
+    .exp-card:active { transform: translateY(-2px); transition-duration: 0.1s; }
+  }
+  .exp-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 0; height: 1px;
+    background: var(--orange); transition: width 0.5s ease-out;
+  }
+  .exp-card:hover::before { width: 100%; }
+  .exp-card .num {
+    font-size: 11px; color: var(--orange);
+    font-weight: 600; letter-spacing: 0.2em; margin-bottom: 12px;
+  }
+  .exp-card h4 { font-size: 19px; font-weight: 600; margin-bottom: 10px; line-height: 1.25; }
+  .exp-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+  .exp-img-placeholder {
+    grid-column: span 12;
+    height: 380px;
+    background:
+      linear-gradient(120deg, rgba(58,47,107,0.5), rgba(20,16,46,0.5)),
+      repeating-linear-gradient(45deg, transparent 0 14px, rgba(241,218,178,0.06) 14px 15px);
+    border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); font-family: 'Courier New', monospace;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .exp-c-1 { grid-column: span 5; }
+  .exp-c-2 { grid-column: span 7; }
+  .exp-c-3 { grid-column: span 4; }
+  .exp-c-4 { grid-column: span 4; }
+  .exp-c-5 { grid-column: span 4; }
+  .exp-c-6 { grid-column: span 7; }
+  .exp-c-7 { grid-column: span 5; }
+
+  /* ---------- PROGRAMA (11 transformations) ---------- */
+  .prog-list {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .prog-item {
+    grid-column: span 1;
+    padding: 36px 28px;
+    border-bottom: 1px solid var(--hairline);
+    border-right: 1px solid var(--hairline);
+    position: relative;
+    transition: background 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+  .prog-item:nth-child(2n) { border-right: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .prog-item:hover {
+      background: rgba(63, 51, 114, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 0 24px 0 rgba(211, 69, 30, 0.18);
+    }
+    .prog-item:hover .prog-marker { color: var(--orange); filter: brightness(1.1); }
+    .prog-item:active { transform: translateY(-2px); transition-duration: 0.1s; }
+  }
+  .prog-item .row { display: flex; gap: 28px; align-items: flex-start; }
+  .prog-marker {
+    font-size: 36px; font-weight: 900; line-height: 1;
+    color: var(--ink-mute);
+    transition: color 0.3s; min-width: 60px;
+    font-style: italic;
+    letter-spacing: -0.02em;
+  }
+  .prog-item h4 {
+    font-size: 22px; font-weight: 700; margin-bottom: 10px;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+  }
+  .prog-item p { color: var(--ink-soft); font-size: 15px; line-height: 1.5; }
+  .prog-spanning {
+    grid-column: span 2;
+    padding: 36px 28px;
+    border-bottom: 1px solid var(--hairline);
+    background:
+      linear-gradient(135deg, rgba(58,47,107,0.4) 0%, rgba(32,23,71,0.2) 100%);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .prog-spanning .lead { font-size: 18px; max-width: 60ch; }
+  .prog-spanning .lead em { color: var(--beige); font-style: italic; }
+
+  /* ---------- DIEGO MENTOR ---------- */
+  .mentor-grid {
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 80px; align-items: stretch;
+  }
+  .mentor-photo {
+    aspect-ratio: 4/5;
+    background:
+      linear-gradient(180deg, rgba(20,16,46,0.0) 50%, rgba(20,16,46,0.85) 100%),
+      repeating-linear-gradient(45deg, #2A2055 0 18px, #1F1840 18px 19px);
+    position: relative;
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+  }
+  .mentor-photo::after {
+    content: 'FOTO DIEGO · 4:5 · 800×1000'; position: absolute; top: 24px; left: 24px;
+    font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.2em;
+    color: var(--ink-mute);
+  }
+  .mentor-photo .strap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(32, 23, 71, 0.85);
+    padding: 24px 28px;
+    backdrop-filter: blur(6px);
+    border-top: 1px solid rgba(241,218,178,0.18);
+  }
+  .mentor-photo .strap .label {
+    font-size: 10px; letter-spacing: 0.22em; color: var(--beige);
+    margin-bottom: 8px; text-transform: uppercase;
+  }
+  .mentor-photo .strap .quote {
+    font-size: 17px; font-weight: 600; line-height: 1.3; color: white;
+  }
+  .mentor-photo .strap .quote em {
+    color: var(--orange); font-style: italic;
+  }
+  .mentor-content h3 {
+    font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+  }
+  .mentor-content h3 .last { color: var(--beige); font-style: italic; font-weight: 700; }
+  .mentor-credentials {
+    margin-top: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .mentor-credentials .cell {
+    padding: 22px 24px 22px 0;
+    border-bottom: 1px solid var(--hairline);
+    border-right: 1px solid var(--hairline);
+  }
+  .mentor-credentials .cell:nth-child(2n) { border-right: none; padding-right: 0; padding-left: 24px; }
+  .mentor-credentials .cell:nth-child(2n+1) { padding-left: 0; }
+  .mentor-credentials .num {
+    font-size: 36px; font-weight: 900; color: var(--orange);
+    font-style: italic; letter-spacing: -0.03em; line-height: 1;
+  }
+  .mentor-credentials .desc {
+    font-size: 13px; color: var(--ink-soft); margin-top: 10px;
+    line-height: 1.4;
+  }
+
+  /* ---------- PROOF ---------- */
+  .proof-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .proof-card {
+    background: rgba(58, 47, 107, 0.32);
+    border: 1px solid rgba(211, 69, 30, 0.25);
+    padding: 36px 32px;
+    position: relative;
+    transition: transform 0.3s ease-out, border-color 0.3s ease-out, background 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .proof-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(211, 69, 30, 0.7);
+      background: rgba(63, 51, 114, 0.5);
+      box-shadow: 0 0 24px 0 rgba(211, 69, 30, 0.18);
+    }
+    .proof-card:active { transform: translateY(-2px); transition-duration: 0.1s; }
+  }
+  .proof-card .quote-mark {
+    font-size: 56px; line-height: 0.5; color: var(--orange);
+    font-family: Georgia, serif; font-style: italic;
+    margin-bottom: 14px; display: block;
+  }
+  .proof-card .testi {
+    font-size: 16px; line-height: 1.55; color: white;
+    margin-bottom: 24px; font-style: italic; font-weight: 400;
+  }
+  .proof-card .who { display: flex; align-items: center; gap: 14px; }
+  .proof-card .avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--navy-light), var(--navy));
+    border: 1px solid var(--hairline-strong);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--beige); font-weight: 700; font-size: 14px;
+    letter-spacing: 0.05em;
+  }
+  .proof-card .name-small {
+    font-size: 14px; font-weight: 600; color: white;
+  }
+  .proof-card .role {
+    font-size: 12px; color: var(--ink-mute); margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .proof-stats {
+    margin-top: 64px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .proof-stats .cell {
+    padding: 36px 28px 36px 0;
+    border-right: 1px solid var(--hairline);
+  }
+  .proof-stats .cell:last-child { border-right: none; }
+  .proof-stats .cell:not(:first-child) { padding-left: 28px; }
+  .proof-stats .v {
+    font-size: 56px; font-weight: 900; color: white;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .proof-stats .v .ac { color: var(--orange); }
+  .proof-stats .k {
+    font-size: 13px; color: var(--ink-soft); margin-top: 12px;
+    line-height: 1.4;
+  }
+
+  /* ---------- LOCAL ---------- */
+  .local-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+  .local-img {
+    aspect-ratio: 16/10;
+    background:
+      linear-gradient(135deg, rgba(58,47,107,0.45), rgba(32,23,71,0.55)),
+      repeating-linear-gradient(45deg, #251A4D 0 16px, #1F1640 16px 17px);
+    position: relative;
+    border: 1px solid var(--hairline);
+  }
+  .local-img::after {
+    content: 'AMBIENTE · DEVILLE EXPRESS · 16:9'; position: absolute; top: 20px; left: 20px;
+    font-family: 'Courier New', monospace; font-size: 10px; letter-spacing: 0.2em;
+    color: var(--ink-mute);
+  }
+  .local-img .center-mark {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    background: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 20px; color: white;
+  }
+  .local-info h3 {
+    font-size: 48px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.05;
+  }
+  .local-info h3 em { color: var(--orange); font-style: italic; }
+  .local-details {
+    margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .local-details .cell {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .local-details .cell .k {
+    font-size: 10px; color: var(--ink-mute); letter-spacing: 0.22em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .local-details .cell .v {
+    font-size: 16px; color: white; font-weight: 600;
+  }
+  .local-details .cell.full { grid-column: span 2; }
+
+  /* ---------- INVESTIMENTO / VALUE STACK ---------- */
+  .invest-grid {
+    display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: start;
+  }
+  .invest-stack .stack-label {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--beige); margin-bottom: 24px;
+  }
+  .invest-list {
+    display: grid; grid-template-columns: 1fr; gap: 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .invest-list .item {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .invest-list .item .mk {
+    color: var(--orange); font-size: 12px; line-height: 1.7; flex-shrink: 0;
+    font-weight: 700;
+  }
+  .invest-list .item .txt { font-size: 16px; color: white; font-weight: 600; line-height: 1.4; }
+  .invest-list .item .txt span {
+    display: block; color: var(--ink-soft); font-weight: 400;
+    font-size: 13.5px; margin-top: 5px; line-height: 1.5;
+  }
+
+  .invest-card {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(211,69,30,0.16) 0%, transparent 70%),
+      rgba(58, 47, 107, 0.32);
+    border: 1px solid var(--hairline-strong);
+    padding: 48px 40px;
+    position: sticky; top: 40px;
+  }
+  .invest-card .label-caps { margin-bottom: 22px; }
+  .invest-card .lead {
+    font-size: 27px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em;
+    color: white;
+  }
+  .invest-card .lead em { color: var(--orange); font-style: italic; }
+  .invest-card .note {
+    margin-top: 20px; font-size: 14.5px; color: var(--ink-soft); line-height: 1.6;
+  }
+  .invest-card .micro {
+    margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--hairline);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .invest-card .micro .k { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }
+  .invest-card .micro .v { font-size: 14px; color: var(--beige); font-weight: 600; line-height: 1.3; }
+  .invest-card .btn { margin-top: 32px; width: 100%; justify-content: center; }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 50%, rgba(211,69,30,0.12) 0%, transparent 70%),
+      linear-gradient(180deg, transparent 0%, rgba(58,47,107,0.25) 100%);
+    border-top: 1px solid var(--hairline-strong);
+    border-bottom: 1px solid var(--hairline-strong);
+    text-align: center;
+    padding: 160px 0;
+  }
+  .cta-final .symbol-large {
+    width: 80px; height: 80px; margin: 0 auto 36px; display: block;
+  }
+  .cta-final h2 {
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.02; max-width: 18ch; margin: 0 auto;
+  }
+  .cta-final h2 em { color: var(--orange); font-style: italic; }
+  .cta-final p {
+    margin-top: 36px; font-size: 19px; color: var(--ink-soft);
+    max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.55;
+  }
+  .cta-final .cta-row {
+    margin-top: 56px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--hairline);
+    color: var(--ink-mute); font-size: 13px;
+  }
+  .footer-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .footer-mark { display: flex; align-items: center; gap: 12px; }
+  .footer-mark img { width: 22px; height: 22px; object-fit: contain; }
+  .footer-mark span { color: white; font-weight: 600; letter-spacing: 0.12em; font-size: 12px; text-transform: uppercase; }
+
+  /* WhatsApp floating */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 100;
+    width: 56px; height: 56px; background: #25D366; color: white;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 28px -8px rgba(37,211,102,0.6);
+    text-decoration: none;
+    transition: transform 0.3s;
+    border-radius: 50%;
+    opacity: 0; animation: fadeUp 0.6s 4s forwards;
+  }
+  .wa-float:hover { transform: translateY(-3px) scale(1.05); }
+  .wa-float svg { width: 28px; height: 28px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    section { padding: 90px 0; }
+    .section-header { margin-bottom: 48px; }
+    .about-grid, .mentor-grid, .local-grid, .invest-grid { grid-template-columns: 1fr; gap: 40px; }
+    .invest-card { position: static; padding: 36px 28px; }
+    .about-tenets { grid-template-columns: 1fr; }
+    .tenet { border-right: none; border-bottom: 1px solid var(--hairline); padding: 24px 0 !important; }
+    .prog-list { grid-template-columns: 1fr; }
+    .prog-item { border-right: none; }
+    .proof-row { grid-template-columns: 1fr; }
+    .proof-stats { grid-template-columns: 1fr 1fr; }
+    .proof-stats .cell { padding: 24px 20px !important; }
+    .exp-grid > div { grid-column: span 12 !important; }
+    .hero-meta { grid-template-columns: 1fr 1fr; }
+    .hero-meta > div { padding: 16px 0 !important; border-right: none !important; border-bottom: 1px solid var(--hairline); }
+    .lockup-text .name { font-size: 36px; }
+    .hero-headline { font-size: 56px; }
+    .mentor-credentials { grid-template-columns: 1fr; }
+    .mentor-credentials .cell { padding: 18px 0 !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Atmospheric layered background -->
+<div class="bg-stage"></div>
+<div class="bg-glow"></div>
+<svg class="bg-noise" xmlns="http://www.w3.org/2000/svg">
+  <filter id="noise">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+    <feColorMatrix values="0 0 0 0 0.95  0 0 0 0 0.85  0 0 0 0 0.7  0 0 0 0.45 0"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#noise)" />
+</svg>
+
+<a class="wa-float" id="wa-float" href="#" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26L4.5 19.07l1.154-.877zM17.39 14.347c-.075-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01a1.1 1.1 0 0 0-.793.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413z"/></svg>
+</a>
+
+<main>
+  <!-- ============= HERO ============= -->
+  <section class="hero" data-screen-label="01 Hero">
+    <div class="container">
+      <div class="hero-stage">
+
+        <!-- Animated lockup: symbol enters center then moves to top-left of name -->
+        <div class="lockup">
+          <img class="lockup-symbol" src="assets/logo-symbol.png" alt="" />
+          <div class="lockup-text">
+            <div class="name" aria-label="Diego Knebel">
+              <span class="word">
+                <span class="char" style="animation-delay:1.55s">D</span>
+                <span class="char" style="animation-delay:1.62s">I</span>
+                <span class="char" style="animation-delay:1.69s">E</span>
+                <span class="char" style="animation-delay:1.76s">G</span>
+                <span class="char" style="animation-delay:1.83s">O</span>
+              </span>
+              <span class="gap"></span>
+              <span class="word">
+                <span class="char" style="animation-delay:1.95s">K</span>
+                <span class="char" style="animation-delay:2.02s">N</span>
+                <span class="char" style="animation-delay:2.09s">E</span>
+                <span class="char" style="animation-delay:2.16s">B</span>
+                <span class="char" style="animation-delay:2.23s">E</span>
+                <span class="char" style="animation-delay:2.30s">L</span>
+              </span>
+            </div>
+            <div class="lockup-subtle">MENTOR DE COMUNICAÇÃO &amp; LIDERANÇA</div>
+          </div>
+        </div>
+
+        <div class="hero-content">
+          <div class="hero-eyebrow label-caps">IMERSÃO PRESENCIAL <span class="dot"></span> 2 DIAS <span class="dot"></span> 50 VAGAS</div>
+          <h1 class="hero-headline">
+            <span class="line">LÍDER</span>
+            <span class="line">MAGNÉTICO.</span>
+          </h1>
+          <p class="hero-sub">
+            O que separa um líder respeitado de um chefe tolerado <strong>tende a estar em como ele se faz entender</strong>, não em quanto ele sabe. Dois dias presenciais para reorganizar sua presença, sua escuta e sua palavra.
+          </p>
+
+          <div class="hero-meta">
+            <div>
+              <div class="k">Quando</div>
+              <div class="v">04 e 05 de julho · 2026</div>
+            </div>
+            <div>
+              <div class="k">Onde</div>
+              <div class="v">Cascavel · PR</div>
+            </div>
+            <div>
+              <div class="k">Formato</div>
+              <div class="v">Presencial · 2 dias</div>
+            </div>
+            <div>
+              <div class="k">Vagas</div>
+              <div class="v accent">50 lugares</div>
+            </div>
+          </div>
+
+          <div class="hero-cta-row">
+            <a class="btn btn-primary" href="#" data-wa>
+              <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26L4.5 19.07l1.154-.877z"/></svg>
+              Falar com o time
+              <span class="arrow">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#programa">Ver programação</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= SOBRE A IMERSÃO ============= -->
+  <section id="sobre" data-screen-label="02 Sobre">
+    <div class="container">
+      <div class="section-header">
+        <div class="reveal d1">
+          <h2>Quando a comunicação <em>vira método.</em></h2>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <p class="body-text reveal d1">
+          Liderança costuma falhar onde a técnica ainda funciona. Falha quando a mensagem chega torta, quando a postura entrega o oposto da palavra, quando o time sente, mas não escuta.
+        </p>
+        <p class="body-text reveal d2">
+          <strong style="color:white">Líder Magnético é um trabalho de reconstrução:</strong> como você se posiciona, como você conduz, como você corrige sem ferir. Dois dias inteiros, em grupo fechado, com troca real, exercícios práticos e o método que o Diego aplica em mentorias individuais e treinamentos in company de alto nível.
+        </p>
+      </div>
+
+      <div class="about-tenets stagger">
+        <div class="tenet">
+          <div class="roman">i. Presença</div>
+          <h4>Postura antes da palavra.</h4>
+          <p>O corpo fala primeiro. Aprenda a sustentar uma sala antes de abrir a boca.</p>
+        </div>
+        <div class="tenet">
+          <div class="roman">ii. Clareza</div>
+          <h4>Mensagem que chega inteira.</h4>
+          <p>Reorganize ideia, ritmo e ênfase para que o que você diz seja o que o outro escuta.</p>
+        </div>
+        <div class="tenet">
+          <div class="roman">iii. Condução</div>
+          <h4>Liderar sem decretar.</h4>
+          <p>Conversa que ajusta, escuta que move, decisão que sustenta. Sem fórmula motivacional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= EXPERIÊNCIA ============= -->
+  <section data-screen-label="03 Experiencia">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 02 / A EXPERIÊNCIA</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">A Experiência</div>
+        </div>
+        <div class="reveal d1">
+          <h2>Cada detalhe pensado para que você <em>saia diferente</em> de como entrou.</h2>
+          <p class="body-text" style="margin-top:24px;max-width:62ch;">A imersão é técnica, mas também é sensorial. O ambiente, o ritmo, a luz, o som e o cuidado com cada pausa fazem parte do método.</p>
+        </div>
+      </div>
+
+      <div class="exp-grid stagger">
+        <div class="exp-card exp-c-1">
+          <div class="num">▲ 01</div>
+          <h4>Check-in com credencial física</h4>
+          <p>Kit sensorial de boas-vindas entregue à chegada. Primeiro contato físico com a marca da imersão.</p>
+        </div>
+        <div class="exp-card exp-c-2">
+          <div class="num">▲ 02</div>
+          <h4>Ambientação sonora e iluminação cênica</h4>
+          <p>Trilha sonora curada e luz cênica em todos os blocos. O ambiente foi pensado para conduzir o estado de presença que o método exige nos dois dias inteiros.</p>
+        </div>
+        <div class="exp-card exp-c-3">
+          <div class="num">▲ 03</div>
+          <h4>Captação audiovisual completa</h4>
+          <p>Registro do que você viver para revisão posterior.</p>
+        </div>
+        <div class="exp-card exp-c-4">
+          <div class="num">▲ 04</div>
+          <h4>Coffee break premium</h4>
+          <p>Em todas as pausas. Gastronomia incluída no plano da imersão.</p>
+        </div>
+        <div class="exp-card exp-c-5">
+          <div class="num">▲ 05</div>
+          <h4>Material físico do método</h4>
+          <p>Entrega no fim do primeiro dia. Para sustentar a aplicação depois do encontro.</p>
+        </div>
+        <div class="exp-card exp-c-6">
+          <div class="num">▲ 06</div>
+          <h4>Espaço dedicado a registro fotográfico</h4>
+          <p>Cenário com identidade da imersão para fotos individuais e em grupo, com tratamento profissional. Material para uso pessoal e profissional.</p>
+        </div>
+        <div class="exp-card exp-c-7">
+          <div class="num">▲ 07</div>
+          <h4>Encerramento com assinatura emocional</h4>
+          <p>Um último momento conduzido. Fechamento do ciclo com peso e silêncio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= PROGRAMA ============= -->
+  <section id="programa" data-screen-label="04 Programa">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 03 / PROGRAMAÇÃO</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">Programação</div>
+        </div>
+        <div class="reveal d1">
+          <h2>Onze territórios, do <em>interno ao coletivo.</em></h2>
+          <p class="body-text" style="margin-top:24px;max-width:62ch;">Cada bloco com fundamento (neurociência aplicada, observação prática) e aplicação direta. A sequência foi pensada para destravar você antes de destravar o seu time.</p>
+        </div>
+      </div>
+
+      <div class="prog-list stagger">
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">01</div>
+            <div>
+              <h4>Consciência de liderança</h4>
+              <p>Entenda seu padrão antes de repetir os mesmos erros.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">02</div>
+            <div>
+              <h4>Autoridade percebida</h4>
+              <p>Respeito não se exige, se constrói.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">03</div>
+            <div>
+              <h4>Ativação interna</h4>
+              <p>Pare de motivar. Comece a despertar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">04</div>
+            <div>
+              <h4>Conexão que gera resultados</h4>
+              <p>Conquiste antes de falar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">05</div>
+            <div>
+              <h4>Clareza que move pessoas</h4>
+              <p>Diga o que precisa ser feito, e faça acontecer.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">06</div>
+            <div>
+              <h4>Escuta estratégica</h4>
+              <p>Entenda o que não está sendo dito.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-spanning">
+          <div class="lead body-text"><em>"O que tende a falhar primeiro não é a técnica. É a pausa."</em></div>
+          <div class="label-caps" style="color:var(--orange)">▲ Diego Knebel</div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">07</div>
+            <div>
+              <h4>Conversas que transformam performance</h4>
+              <p>Ajuste rápido, evolução constante.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">08</div>
+            <div>
+              <h4>Controle emocional sob pressão</h4>
+              <p>Quem domina a si, lidera qualquer cenário.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">09</div>
+            <div>
+              <h4>Conflitos que constroem resultados</h4>
+              <p>Pare de evitar. Comece a usar.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item">
+          <div class="row">
+            <div class="prog-marker">10</div>
+            <div>
+              <h4>Delegar sem perder o controle</h4>
+              <p>Confiança com responsabilidade.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog-item" style="border-right:none">
+          <div class="row">
+            <div class="prog-marker">11</div>
+            <div>
+              <h4>Engajamento real</h4>
+              <p>Pessoas comprometidas entregam mais sem cobrança.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= MENTOR ============= -->
+  <section id="mentor" data-screen-label="05 Mentor">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 04 / QUEM CONDUZ</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">Quem conduz</div>
+        </div>
+        <div class="reveal d1">
+          <h2>O método tem <em>nome e rosto.</em></h2>
+        </div>
+      </div>
+
+      <div class="mentor-grid">
+        <div class="mentor-photo reveal">
+          <div class="strap">
+            <div class="label">▲ DIEGO KNEBEL</div>
+            <div class="quote">"Presença não precisa de <em>barulho</em>."</div>
+          </div>
+        </div>
+        <div class="mentor-content reveal d1">
+          <h3>Diego <span class="last">Knebel.</span></h3>
+          <span class="signature-line"></span>
+          <p class="body-text">
+            Mentor de comunicação e liderança. Trabalha com líderes, especialistas e empreendedores que precisam transmitir o que sabem com mais clareza, presença e impacto.
+          </p>
+          <p class="body-text" style="margin-top:18px">
+            A abordagem do Diego costuma combinar <strong style="color:white">neurociência aplicada, observação prática e estudo continuado</strong>, sem cair em fórmula motivacional. O que ele entrega tem fundamento, não slogan.
+          </p>
+
+          <div class="mentor-credentials">
+            <div class="cell">
+              <div class="num">+12<span class="ac">a</span></div>
+              <div class="desc">Anos conduzindo treinamentos in company e mentorias individuais.</div>
+            </div>
+            <div class="cell">
+              <div class="num">+200</div>
+              <div class="desc">Líderes formados em programas privados de comunicação e liderança.</div>
+            </div>
+            <div class="cell">
+              <div class="num">+40</div>
+              <div class="desc">Empresas e cooperativas atendidas em projetos premium.</div>
+            </div>
+            <div class="cell">
+              <div class="num">01</div>
+              <div class="desc">Primeira edição do método no formato presencial coletivo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= PROVA SOCIAL ============= -->
+  <section data-screen-label="06 Prova Social">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 05 / PROVA SOCIAL</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">Quem já passou</div>
+        </div>
+        <div class="reveal d1">
+          <h2>Quem já passou <em>pelo método.</em></h2>
+          <p class="body-text" style="margin-top:24px;max-width:62ch;">Mentorias individuais e treinamentos in company conduzidos com líderes de empresas, cooperativas e times de alto desempenho. A imersão Líder Magnético compila o método em formato presencial coletivo pela primeira vez.</p>
+        </div>
+      </div>
+
+      <div class="proof-row stagger">
+        <div class="proof-card">
+          <span class="quote-mark">"</span>
+          <div class="testi">A leitura que o Diego faz da nossa comunicação no dia a dia é precisa. Saí com clareza do que mudar e da ordem para mudar.</div>
+          <div class="who">
+            <div class="avatar">RF</div>
+            <div>
+              <div class="name-small">Diretor de Operações</div>
+              <div class="role">Cooperativa · Oeste do PR</div>
+            </div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <span class="quote-mark">"</span>
+          <div class="testi">Nada de fórmula. O método cabe na rotina de quem realmente lidera. Conversas que evitava antes hoje já não me custam o mesmo.</div>
+          <div class="who">
+            <div class="avatar">CM</div>
+            <div>
+              <div class="name-small">CEO</div>
+              <div class="role">Indústria · Cascavel</div>
+            </div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <span class="quote-mark">"</span>
+          <div class="testi">O que o Diego entrega tem fundamento e prática. Em três meses de aplicação, o efeito apareceu na entrega do time, não só na minha postura.</div>
+          <div class="who">
+            <div class="avatar">LB</div>
+            <div>
+              <div class="name-small">Head de Comercial</div>
+              <div class="role">Tecnologia · São Paulo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-stats stagger">
+        <div class="cell">
+          <div class="v">+200<span class="ac">.</span></div>
+          <div class="k">Líderes formados em programas privados.</div>
+        </div>
+        <div class="cell">
+          <div class="v">+40<span class="ac">.</span></div>
+          <div class="k">Empresas, cooperativas e times atendidos.</div>
+        </div>
+        <div class="cell">
+          <div class="v">+12<span class="ac">a</span></div>
+          <div class="k">Anos de método aplicado em campo.</div>
+        </div>
+        <div class="cell">
+          <div class="v">01<span class="ac">.</span></div>
+          <div class="k">Primeira edição presencial coletiva.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= LOCAL ============= -->
+  <section id="local" data-screen-label="07 Local">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 06 / ONDE ACONTECE</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">Onde acontece</div>
+        </div>
+        <div class="reveal d1">
+          <h2>Deville Express <em>Cascavel.</em></h2>
+        </div>
+      </div>
+
+      <div class="local-grid">
+        <div class="local-img reveal">
+          <div class="center-mark">▲</div>
+        </div>
+        <div class="local-info reveal d1">
+          <p class="body-text">
+            Av. Aracy Tanaka Biazetto, 6128. Região do Lago, Cascavel, Paraná.
+          </p>
+          <p class="body-text" style="margin-top:16px">
+            Estrutura completa para imersão de alto padrão, com infraestrutura audiovisual, sala de evento dedicada e gastronomia incluída no plano da imersão. Localização estratégica em Cascavel, a 13 km do Aeroporto Municipal e a 5 km do centro.
+          </p>
+
+          <div class="local-details">
+            <div class="cell">
+              <div class="k">Formato</div>
+              <div class="v">2 dias presenciais inteiros</div>
+            </div>
+            <div class="cell">
+              <div class="k">Grupo</div>
+              <div class="v">Fechado · até 50 pessoas</div>
+            </div>
+            <div class="cell">
+              <div class="k">Estrutura</div>
+              <div class="v">Som · luz cênica · captação</div>
+            </div>
+            <div class="cell">
+              <div class="k">Datas</div>
+              <div class="v" style="color:var(--beige)">04 e 05 de julho · 2026</div>
+            </div>
+            <div class="cell full">
+              <div class="k">Inclui</div>
+              <div class="v">Coffee break premium · material físico do método · brindes sensoriais · registro audiovisual</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============= INVESTIMENTO ============= -->
+  <section id="investimento" data-screen-label="08 Investimento">
+    <div class="container">
+      <div class="section-header">
+        <div class="left reveal">
+          <div class="num">— 07 / O INVESTIMENTO</div>
+          <span class="signature-line"></span>
+          <div class="label-caps">O investimento</div>
+        </div>
+        <div class="reveal d1">
+          <h2>Primeiro o que você vive. <em>Depois o quanto custa.</em></h2>
+          <p class="body-text" style="margin-top:24px;max-width:62ch;">A Líder Magnético não é um curso, é uma imersão de alto padrão. Por isso o valor não fica numa página: ele é apresentado pessoalmente pelo time, depois que você entende, por inteiro, tudo o que está incluído na experiência.</p>
+        </div>
+      </div>
+
+      <div class="invest-grid">
+        <div class="invest-stack reveal">
+          <div class="stack-label">Tudo o que está incluído</div>
+          <div class="invest-list">
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Dois dias presenciais inteiros<span>Grupo fechado, até 50 líderes. A primeira edição presencial coletiva do método.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">11 territórios de transformação<span>Do interno ao coletivo, cada bloco com fundamento e aplicação direta na sua liderança.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Método físico em mãos<span>Material do método entregue na imersão, para sustentar a aplicação depois do encontro.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Estrutura premium completa<span>Som, iluminação cênica, telão e captação audiovisual conduzindo o estado de presença nos dois dias.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Gastronomia inclusa<span>Coffee break premium em todas as pausas, no Deville Express Cascavel.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Kit sensorial de boas-vindas<span>Credencial física, brindes sensoriais e check-in com a identidade da imersão.</span></div>
+            </div>
+            <div class="item">
+              <div class="mk">▲</div>
+              <div class="txt">Registro audiovisual e sessão fotográfica<span>Material profissional, com tratamento, para uso pessoal e profissional.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="invest-card reveal d1">
+          <div class="label-caps">O valor da imersão</div>
+          <div class="lead">Apresentado <em>pessoalmente</em> pelo time, no WhatsApp.</div>
+          <p class="note">A gente faz questão de primeiro garantir que você entenda tudo o que vai viver e se a imersão faz sentido pra você nesse momento. Só depois apresentamos as condições — sem pressão, no seu tempo.</p>
+          <div class="micro">
+            <div>
+              <div class="k">Vagas</div>
+              <div class="v">Grupo fechado · 50 lugares</div>
+            </div>
+            <div>
+              <div class="k">Edição</div>
+              <div class="v">04 e 05 de julho · 2026</div>
+            </div>
+          </div>
+          <a class="btn btn-primary" href="#" data-wa>
+            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26L4.5 19.07l1.154-.877z"/></svg>
+            Descobrir as condições
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============= CTA FINAL ============= -->
+  <section class="cta-final" data-screen-label="09 CTA Final">
+    <div class="container">
+      <div class="reveal">
+        <img class="symbol-large" src="assets/logo-symbol.png" alt="" />
+        <div class="label-caps" style="margin-bottom:24px">PRÓXIMO PASSO</div>
+        <h2>Faz sentido pra você <em>nesse momento?</em></h2>
+        <p>Antes de qualquer decisão, vale uma conversa. O time do Diego responde por WhatsApp e ajuda a entender se essa imersão é o próximo passo certo pra você.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#" data-wa>
+            <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26L4.5 19.07l1.154-.877z"/></svg>
+            Falar com o time no WhatsApp
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-mark">
+          <img src="assets/logo-symbol.png" alt="" />
+          <span>Diego Knebel · 2026</span>
+        </div>
+        <div>Líder Magnético · Imersão Presencial · Cascavel, PR</div>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<!-- Tweaks -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks.jsx"></script>
+
+<script>
+  // ---- Reveal on scroll (intersection observer) ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -15% 0px' });
+
+  document.querySelectorAll('.reveal, .stagger, .prog-list').forEach(el => {
+    if (!el.classList.contains('stagger') && el.classList.contains('prog-list')) {
+      el.classList.add('stagger');
+    }
+    io.observe(el);
+  });
+
+  // Show nav after hero animation
+  setTimeout(() => document.getElementById('hero-nav')?.classList.add('in'), 100);
+
+  // ---- WhatsApp CTA placeholder ----
+  const WA_NUMBER = ''; // to be filled
+  const WA_MSG = encodeURIComponent('Olá, vim pela página do Líder Magnético e gostaria de conversar sobre a imersão.');
+  document.querySelectorAll('[data-wa], #wa-float').forEach(a => {
+    a.href = WA_NUMBER ? `https://wa.me/${WA_NUMBER}?text=${WA_MSG}` : '#';
+  });
+</script>
+
+</body>
+</html>
