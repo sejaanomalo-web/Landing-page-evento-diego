@@ -379,6 +379,77 @@ main.lp-main {
   font-size: 12px;
   text-transform: uppercase;
 }
+.footer-policy-link {
+  color: var(--ink-mute);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-strong);
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.footer-policy-link:hover {
+  color: var(--ink-soft);
+}
+
+/* ---------- POLICY PAGE ---------- */
+.policy-page {
+  padding: 100px 0 80px;
+}
+.policy-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.policy-back {
+  align-self: flex-start;
+  color: var(--ink-mute);
+  font-size: 13px;
+  text-decoration: none;
+  margin-bottom: 40px;
+  transition: color 0.2s ease;
+}
+.policy-back:hover {
+  color: var(--beige);
+}
+.policy-title {
+  font-size: clamp(32px, 5vw, 44px);
+  margin-top: 18px;
+}
+.policy-updated {
+  color: var(--ink-mute);
+  font-size: 13px;
+  margin: 14px 0 36px;
+}
+.policy-heading {
+  font-size: 20px;
+  margin: 40px 0 14px;
+  color: var(--beige);
+}
+.policy-page .body-text + .body-text {
+  margin-top: 14px;
+}
+.policy-list {
+  color: var(--ink-soft);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 14px 0 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.policy-list li::marker {
+  color: var(--orange);
+}
+.policy-link {
+  color: var(--beige);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-strong);
+  text-underline-offset: 3px;
+}
+.policy-link:hover {
+  color: var(--orange-warm);
+}
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {

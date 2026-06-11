@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -14,7 +15,12 @@ export function Footer() {
             />
             <span>Diego Knebel · 2026</span>
           </div>
-          <div>Líder Magnético · Imersão Presencial · Cascavel, PR</div>
+          <div>
+            Líder Magnético · Imersão Presencial · Cascavel, PR ·{" "}
+            <Link href="/politica-de-privacidade" className="footer-policy-link">
+              Política de Privacidade
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
